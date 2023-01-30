@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class Main {
+
   public static void main(String[] args) {
     SpringApplication.run(Main.class, args);
   }
@@ -17,6 +18,5 @@ public class Main {
     return new HelloResponse("Hello");
   }
 
-  record HelloResponse(String message) {
-  }
+  record HelloResponse(String message) {}
 }
