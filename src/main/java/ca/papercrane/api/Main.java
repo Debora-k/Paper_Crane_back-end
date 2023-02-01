@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Main {
 
-  public static void main(String[] args) {
-    SpringApplication.run(Main.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 
-  @GetMapping("/")
-  public HelloResponse greet() {
-    return new HelloResponse("Hello");
-  }
+    @GetMapping("/")
+    public HelloResponse greet() {
+        return new HelloResponse("Hello");
+    }
 
-  record HelloResponse(String message) {}
+    record HelloResponse(String message) {
+    }
 }
