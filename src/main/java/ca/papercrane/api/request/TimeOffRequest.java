@@ -1,4 +1,4 @@
-package timeOffRequest;
+package ca.papercrane.api.request;
 
 public class TimeOffRequest {
 

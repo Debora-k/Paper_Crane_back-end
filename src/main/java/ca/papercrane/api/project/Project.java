@@ -1,7 +1,7 @@
 package project;
 
-public class project {
-    project project1 = new project();
+public class Project {
+    project.Project project1 = new Project.Project();
     private String projName;
     private String clientName;
     private String clientEmail;
@@ -9,7 +9,7 @@ public class project {
     private String task;
     private String projReportName;
 
-    public project() {
+    public Project() {
         // TODO Auto-generated constructor stub
     }
 
@@ -18,7 +18,7 @@ public class project {
 
     }
 
-    private project manage_project(project x) {
+    private project.Project manage_project(project.Project x) {
         //take project as an input
         //do some stuff to the project
         //return the updated project

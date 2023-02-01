@@ -1,4 +1,4 @@
-package service;
+package ca.papercrane.api.service;
 
 public class Service {
 

@@ -1,4 +1,4 @@
-package security;
+package ca.papercrane.api.security;
 
 public class Security {
 

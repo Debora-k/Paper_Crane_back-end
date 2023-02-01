@@ -1,4 +1,4 @@
-package repository;
+package ca.papercrane.api.repository;
 
 public class Repository {
 
