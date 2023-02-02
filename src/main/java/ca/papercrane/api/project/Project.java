@@ -1,7 +1,8 @@
-package project;
+package ca.papercrane.api.project;
 
 public class Project {
-    project.Project project1 = new Project.Project();
+
+    Project project1 = new Project();
     private String projName;
     private String clientName;
     private String clientEmail;
@@ -18,7 +19,7 @@ public class Project {
 
     }
 
-    private project.Project manage_project(project.Project x) {
+    private Project manage_project(Project x) {
         //take project as an input
         //do some stuff to the project
         //return the updated project
