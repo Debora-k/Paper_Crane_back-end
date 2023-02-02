@@ -1,4 +1,4 @@
-package ca.papercrane.api.task;
+package ca.papercrane.api.project.task;
 
 import jakarta.persistence.*;
 
@@ -33,6 +33,13 @@ public final class Task {
 
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
     private Double progressInWorkHours;
+
+    /**
+     * TODO: These variables below do not exist in the database yet, but should probably be added.
+     */
+    private String taskName;
+    private Date dateCompleted;
+    private boolean isComplete;
 
     public Task() {
         // default no-args constructor.
@@ -128,7 +135,7 @@ public final class Task {
     }
 
     /**
-     * Gets the guessed-amount of hours that this task will task to reach completion.
+     * Gets the guessed-amount of hours that this task will take to reach completion.
      *
      * @return The hour amount.
      */
@@ -171,15 +178,6 @@ public final class Task {
     public void addProgressHours(Double amount) {
         progressInWorkHours += amount;
     }
-
-    //
-
-    /**
-     * TODO: These variables below do not exist in the database yet, but should probably be added.
-     */
-    private String taskName;
-    private Date dateCompleted;
-    private boolean isComplete;
 
     /**
      * Sets the name of this task.
