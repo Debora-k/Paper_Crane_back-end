@@ -67,7 +67,7 @@ public final class Task {
      *
      * @return The id of this task.
      */
-    public int getTaskId() {
+    public Integer getTaskId() {
         return taskId;
     }
 
@@ -76,7 +76,7 @@ public final class Task {
      *
      * @return The project id.
      */
-    public int getProjectId() {
+    public Integer getProjectId() {
         return projectId;
     }
 
