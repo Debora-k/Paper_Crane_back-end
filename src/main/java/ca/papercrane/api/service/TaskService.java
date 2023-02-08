@@ -38,4 +38,25 @@ public record TaskService(TaskRepository taskRepository) {
         return taskRepository.findByProjectId(projectId);
     }
 
+    /**
+     * Persists a Task into the database.
+     *
+     * @param task The task being inserted into the database.
+     * @return the Task object.
+     */
+    public Task persistTask(Task task) {
+
+        //TODO: Check for the following before saving a task to the database.
+
+        //TODO: projectId must not be null, a project with the projectId must exist.
+
+        //TODO: description must not be null, description must follow required length or other requirements.
+
+        //TODO: start and deadline dates must not be null, deadline must be set for a time after the start date not before.
+
+        //TODO: expected work hours and progress work hours must not be null, by default 0 and must be positive values.
+
+        return taskRepository.save(task);
+    }
+
 }

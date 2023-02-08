@@ -38,4 +38,23 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
         return timeOffRepository.findByEmployeeId(employeeId);
     }
 
+    /**
+     * Persists a TimeOffRequest into the database.
+     *
+     * @param timeOffRequest The TimeOffRequest being inserted into the database.
+     * @return the TimeOffRequest object.
+     */
+    public TimeOffRequest persistTask(TimeOffRequest timeOffRequest) {
+
+        //TODO: Check for the following before adding a TimeOffRequest to the database.
+
+        //TODO: EmployeeId must not be null, EmployeeId must point to a valid employee saved within the database.
+
+        //TODO: Start/End Dates must not be null, Dates must use correct format.
+
+        //TODO: Reason must not be null, Reason must meet length or character requirements if any etc.
+
+        return timeOffRepository.save(timeOffRequest);
+    }
+
 }

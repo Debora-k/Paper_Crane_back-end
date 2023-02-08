@@ -38,4 +38,23 @@ public record ProjectService(ProjectRepository projectRepository) {
         return projectRepository.findByClientId(clientId);
     }
 
+    /**
+     * Persists a Project into the database.
+     *
+     * @param project The project being inserted into the database.
+     * @return the Project object.
+     */
+    public Project persistProject(Project project) {
+
+        //TODO: Check for the following before adding a project to the database.
+
+        //TODO: Validate the project was created correctly.
+
+        //TODO: clientId must not be null, clientId must point to a valid client saved within the database.
+
+        //TODO: projectLeadId must not be null, projectLeadId must point to a valid employee within the database.
+
+        return projectRepository.save(project);
+    }
+
 }
