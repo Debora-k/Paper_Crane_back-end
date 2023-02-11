@@ -7,6 +7,7 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -14,13 +15,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", length = 20, nullable = false)
     private String type;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
     public User() {
@@ -30,7 +31,7 @@ public class User {
     /**
      * Constructs a new User object.
      *
-     * @param type     TODO: Find out what the string type represents.
+     * @param type     The type of user.
      * @param email    The email tied into the user account.
      * @param password The password used for logging into the user account.
      */
@@ -74,6 +75,34 @@ public class User {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Sets the type of user.
+     *
+     * @param type The type to set for this user.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Sets the email address.
+     *
+     * @param email The email address to set for this user.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    /**
+     * Sets the password for this user.
+     *
+     * @param password The password to set for this user.
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
