@@ -57,24 +57,4 @@ public record ProjectService(ProjectRepository projectRepository) {
         return projectRepository.save(project);
     }
 
-    /**
-     * Deletes a project from the database.
-     *
-     * @param project the project being deleted.
-     */
-    public void delete(Project project) {
-        //TODO: Any checks or validation that should be done before deleting.
-        projectRepository.delete(project);
-    }
-
-    /**
-     * Deletes a project by its project id.
-     *
-     * @param projectId the id of the project being deleted.
-     */
-    public void deleteById(Integer projectId) {
-        //TODO: Any checks or validation that should be done before deleting.
-        projectRepository.deleteById(projectId);
-    }
-
 }
