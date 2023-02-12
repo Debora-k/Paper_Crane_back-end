@@ -2,6 +2,7 @@ package ca.papercrane.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 /**
@@ -15,12 +16,13 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "employee")
-public final class Employee extends Client {
+@PrimaryKeyJoinColumn(name = "user_id")
+public final class Employee extends User {
 
-    @Column(name = "employee_name", nullable = false)
+    @Column(name = "employee_name", length = 50, nullable = false)
     private String employeeName;
 
-    @Column(name = "employee_role", nullable = false)
+    @Column(name = "employee_role", length = 1, nullable = false)
     private String employeeRole;
 
     public Employee() {
@@ -30,17 +32,14 @@ public final class Employee extends Client {
     /**
      * Constructs a new Employee object with the given employee name and role.
      *
-     * @param type         TODO: Find out what the type represents.
      * @param email        The email tied to this Employee user account.
      * @param password     The password tied to this Employee user account.
-     * @param clientName   The client name of the Client
-     * @param website      The website of the Client
-     * @param employeeName The employee name of the Employee
-     * @param employeeRole The employee role of the Employee
+     * @param employeeName The employee name of the Employee.
+     * @param employeeRole The employee role of the Employee.
      */
-    public Employee(String type, String email, String password, String clientName, String website,
+    public Employee(String email, String password,
                     String employeeName, String employeeRole) {
-        super(type, email, password, clientName, website);
+        super("Employee", email, password);
         this.employeeName = employeeName;
         this.employeeRole = employeeRole;
     }
@@ -48,6 +47,16 @@ public final class Employee extends Client {
     //Get the name of the employee.
     public String getName() {
         return employeeName;
+    }
+
+    //Set the name of the employee.
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    //Get the employee role.
+    public String getEmployeeRole() {
+        return employeeRole;
     }
 
     //Set the new role for this employee.

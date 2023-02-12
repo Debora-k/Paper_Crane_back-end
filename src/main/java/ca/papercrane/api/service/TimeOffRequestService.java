@@ -57,4 +57,33 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
         return timeOffRepository.save(timeOffRequest);
     }
 
+    /**
+     * Deletes a TimeOffRequest from the database.
+     *
+     * @param timeOffRequest the request being deleted.
+     */
+    public void delete(TimeOffRequest timeOffRequest) {
+        //TODO: Checks or validation before deleting.
+        timeOffRepository.delete(timeOffRequest);
+    }
+
+    /**
+     * Deletes a TimeOffRequest request by the specified requestId.
+     *
+     * @param timeOffId the id of the request being deleted.
+     */
+    public void deleteById(Integer timeOffId) {
+        //TODO: Checks or validation before deleting.
+        timeOffRepository.deleteById(timeOffId);
+    }
+
+    /**
+     * Returns the total amount of time-off requests stored within the repository.
+     *
+     * @return the count.
+     */
+    public Long totalTimeOffRequestCount() {
+        return timeOffRepository.count();
+    }
+
 }

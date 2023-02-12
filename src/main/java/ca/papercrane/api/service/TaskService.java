@@ -59,4 +59,33 @@ public record TaskService(TaskRepository taskRepository) {
         return taskRepository.save(task);
     }
 
+    /**
+     * Deletes a task from the database.
+     *
+     * @param task the task being deleted.
+     */
+    public void delete(Task task) {
+        //TODO: Checks or validation before deleting.
+        taskRepository.delete(task);
+    }
+
+    /**
+     * Deletes a task by the specified taskId.
+     *
+     * @param taskId the id of the task being deleted.
+     */
+    public void deleteById(Integer taskId) {
+        //TODO: Checks or validation before deleting.
+        taskRepository.deleteById(taskId);
+    }
+
+    /**
+     * Returns the total amount of tasks stored within the repository.
+     *
+     * @return the count.
+     */
+    public Long totalTaskCount() {
+        return taskRepository.count();
+    }
+
 }

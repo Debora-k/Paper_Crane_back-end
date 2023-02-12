@@ -57,4 +57,33 @@ public record ProjectService(ProjectRepository projectRepository) {
         return projectRepository.save(project);
     }
 
+    /**
+     * Deletes a project from the database.
+     *
+     * @param project the project being deleted.
+     */
+    public void delete(Project project) {
+        //TODO: Checks or validation before deleting.
+        projectRepository.delete(project);
+    }
+
+    /**
+     * Deletes a project by the specified projectId.
+     *
+     * @param projectId the id of the project being deleted.
+     */
+    public void deleteById(Integer projectId) {
+        //TODO: Checks or validation before deleting.
+        projectRepository.deleteById(projectId);
+    }
+
+    /**
+     * Returns the total amount of projects stored within the repository.
+     *
+     * @return the count.
+     */
+    public Long totalProjectCount() {
+        return projectRepository.count();
+    }
+
 }
