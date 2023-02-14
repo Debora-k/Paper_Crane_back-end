@@ -4,6 +4,7 @@ import ca.papercrane.api.repository.TimeOffRequestRepository;
 import ca.papercrane.api.request.TimeOffRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * A Service class for retrieving and altering data in the {@link TimeOffRequestRepository}
  */
 @Service
+@Transactional
 public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) {
 
     @Autowired
