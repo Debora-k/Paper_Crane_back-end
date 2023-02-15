@@ -4,6 +4,7 @@ import ca.papercrane.api.project.Project;
 import ca.papercrane.api.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * A Service class for retrieving data from the {@link ProjectRepository}
  */
 @Service
+@Transactional
 public record ProjectService(ProjectRepository projectRepository) {
 
     @Autowired
