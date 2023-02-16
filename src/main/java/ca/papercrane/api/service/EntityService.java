@@ -58,6 +58,7 @@ public class EntityService {
             return null; // needs to add Exception package to handle these staff
         }
     }
+    
 
     // User methods
     public Optional<User> getUserById(Integer userId) {
@@ -128,3 +129,5 @@ public class EntityService {
         }
     }
 }
+
+
