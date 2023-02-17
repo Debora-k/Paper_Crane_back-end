@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,78 +15,114 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) {
+public class TimeOffRequestService {
 
     @Autowired
-    public TimeOffRequestService {
-    }
+    private final TimeOffRequestRepository timeOffRequestRepository;
 
     /**
-     * Returns an Optional containing the TimeOffRequest that exists with the specified timeOffId.
+     * Creates a new TimeOffRequestService.
      *
-     * @param timeOffId The integer timeOffId being searched for.
-     * @return An Optional containing the found TimeOffRequest, or an empty Optional if no TimeOffRequest is found with the specified timeOffId.
+     * @param timeOffRequestRepository The request repository.
      */
-    public Optional<TimeOffRequest> getByTimeOffId(Integer timeOffId) {
-        return timeOffRepository.findByTimeOffId(timeOffId);
+    public TimeOffRequestService(TimeOffRequestRepository timeOffRequestRepository) {
+        this.timeOffRequestRepository = timeOffRequestRepository;
     }
 
     /**
-     * Returns a List of TimeOffRequest objects that belong to the specified employeeId.
+     * Crates a new TimeOffRequest.
      *
-     * @param employeeId The employeeId that the list of TimeOffRequest belong to.
-     * @return The List of TimeOffRequest objects for the employee.
+     * @param employeeId The id of the employee making the request.
+     * @param startDate  The date the time-off will start on.
+     * @param endDate    The date the time-off will end on.
+     * @param reason     The reason for the time-off request.
+     * @return The newly created and saved request.
      */
-    public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) {
-        return timeOffRepository.findByEmployeeId(employeeId);
+    public TimeOffRequest createRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
+        final TimeOffRequest timeOffRequest = new TimeOffRequest(employeeId, startDate, endDate, reason);
+        //TODO: Checks/Validation before saving.
+        return saveRequest(timeOffRequest);
     }
 
     /**
-     * Persists a TimeOffRequest into the database.
+     * Saves a request into the database.
      *
-     * @param timeOffRequest The TimeOffRequest being inserted into the database.
-     * @return the TimeOffRequest object.
+     * @param timeOffRequest The request being saved into the database.
+     * @return the request object.
      */
-    public TimeOffRequest persistTask(TimeOffRequest timeOffRequest) {
-
-        //TODO: Check for the following before adding a TimeOffRequest to the database.
-
-        //TODO: EmployeeId must not be null, EmployeeId must point to a valid employee saved within the database.
-
-        //TODO: Start/End Dates must not be null, Dates must use correct format.
-
-        //TODO: Reason must not be null, Reason must meet length or character requirements if any etc.
-
-        return timeOffRepository.save(timeOffRequest);
+    public TimeOffRequest saveRequest(TimeOffRequest timeOffRequest) {
+        //TODO: Checks/Validation before saving.
+        return timeOffRequestRepository.save(timeOffRequest);
     }
 
     /**
-     * Deletes a TimeOffRequest from the database.
+     * Updates a request.
+     *
+     * @param timeOffRequest The request being updated.
+     */
+    public void updateRequest(TimeOffRequest timeOffRequest) {
+        final Optional<TimeOffRequest> existingRequestOptional = timeOffRequestRepository.findByTimeOffId(timeOffRequest.getTimeOffId());
+        if (existingRequestOptional.isPresent()) {
+            final TimeOffRequest existingRequest = existingRequestOptional.get();
+            existingRequest.setEmployeeId(timeOffRequest.getEmployeeId());
+            existingRequest.setStartDate(timeOffRequest.getStartDate());
+            existingRequest.setEndDate(timeOffRequest.getEndDate());
+            existingRequest.setReason(timeOffRequest.getReason());
+            existingRequest.setStatus(timeOffRequest.getStatus());
+            saveRequest(timeOffRequest);
+        } else {
+            //TODO: Exception.
+        }
+    }
+
+    /**
+     * Deletes a request from the database.
      *
      * @param timeOffRequest the request being deleted.
      */
     public void delete(TimeOffRequest timeOffRequest) {
         //TODO: Checks or validation before deleting.
-        timeOffRepository.delete(timeOffRequest);
+        timeOffRequestRepository.delete(timeOffRequest);
     }
 
     /**
-     * Deletes a TimeOffRequest request by the specified requestId.
+     * Deletes a request by the specified requestId.
      *
      * @param timeOffId the id of the request being deleted.
      */
     public void deleteById(Integer timeOffId) {
         //TODO: Checks or validation before deleting.
-        timeOffRepository.deleteById(timeOffId);
+        timeOffRequestRepository.deleteById(timeOffId);
     }
 
     /**
-     * Returns the total amount of time-off requests stored within the repository.
+     * Returns an optional containing the request that exists with the specified timeOffId.
+     *
+     * @param timeOffId The timeOffId being searched for.
+     * @return An optional containing the found request.
+     */
+    public Optional<TimeOffRequest> getByTimeOffId(Integer timeOffId) {
+        return timeOffRequestRepository.findByTimeOffId(timeOffId);
+    }
+
+    /**
+     * Returns a list of request objects that belong to the specified employeeId.
+     *
+     * @param employeeId The employeeId that the list of requests belong to.
+     * @return The list of request objects for the employee.
+     */
+    public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) {
+        //TODO: Check the employeeId is valid.
+        return timeOffRequestRepository.findByEmployeeId(employeeId);
+    }
+
+    /**
+     * Returns the total amount of requests stored within the repository.
      *
      * @return the count.
      */
-    public Long totalTimeOffRequestCount() {
-        return timeOffRepository.count();
+    public Long totalRequestCount() {
+        return timeOffRequestRepository.count();
     }
 
 }

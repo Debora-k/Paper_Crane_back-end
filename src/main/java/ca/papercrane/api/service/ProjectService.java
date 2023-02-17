@@ -2,6 +2,7 @@ package ca.papercrane.api.service;
 
 import ca.papercrane.api.project.Project;
 import ca.papercrane.api.repository.ProjectRepository;
+import ca.papercrane.api.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +15,68 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public record ProjectService(ProjectRepository projectRepository) {
+public class ProjectService {
 
     @Autowired
-    public ProjectService {
+    private final ProjectRepository projectRepository;
+
+    @Autowired
+    private final TaskRepository taskRepository;
+
+    /**
+     * Creates a new ProjectService.
+     *
+     * @param projectRepository The project repository.
+     * @param taskRepository    The task repository.
+     */
+    public ProjectService(ProjectRepository projectRepository, TaskRepository taskRepository) {
+        this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
+    }
+
+    /**
+     * Creates a new Project and saves it into the database.
+     *
+     * @param clientId      The id of the client the project is for.
+     * @param projectLeadId The id of the project leader employee.
+     * @return the newly created project object.
+     */
+    public Project createProject(Integer clientId, Integer projectLeadId) {
+        //TODO: Validate clientId and projectLeadId
+        return saveProject(new Project(clientId, projectLeadId));
+    }
+
+    /**
+     * Updates a Project.
+     *
+     * @param project The project being updated.
+     */
+    public void updateProject(Project project) {
+        final Optional<Project> existingProjectOptional = projectRepository.findById(project.getProjectId());
+        if (existingProjectOptional.isPresent()) {
+            final Project existingProject = existingProjectOptional.get();
+            existingProject.setClientId(project.getClientId());
+            existingProject.setProjectLeadId(project.getProjectLeadId());
+            projectRepository.save(existingProject);
+        } else {
+            //TODO: Exception.
+        }
+    }
+
+    /**
+     * Deletes a Project from the database.
+     *
+     * @param project The project being deleted.
+     */
+    public void deleteProject(Project project) {
+        final Optional<Project> optionalProject = projectRepository.findByProjectId(project.getProjectId());
+        if (optionalProject.isPresent()) {
+            final Project existingProject = optionalProject.get();
+            // Delete all tasks associated with the project.
+            taskRepository.deleteAllByProjectId(existingProject.getProjectId());
+            // Delete the project.
+            projectRepository.delete(existingProject);
+        }
     }
 
     /**
@@ -41,21 +100,16 @@ public record ProjectService(ProjectRepository projectRepository) {
     }
 
     /**
-     * Persists a Project into the database.
+     * Saves a Project to the database.
      *
-     * @param project The project being inserted into the database.
-     * @return the Project object.
+     * @param project The project being saved into the database.
+     * @return the project.
      */
-    public Project persistProject(Project project) {
-
+    public Project saveProject(Project project) {
         //TODO: Check for the following before adding a project to the database.
-
         //TODO: Validate the project was created correctly.
-
         //TODO: clientId must not be null, clientId must point to a valid client saved within the database.
-
         //TODO: projectLeadId must not be null, projectLeadId must point to a valid employee within the database.
-
         return projectRepository.save(project);
     }
 

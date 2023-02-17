@@ -3,10 +3,6 @@ package ca.papercrane.api.project.task;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
-
-import ca.papercrane.api.entity.Employee;
-import ca.papercrane.api.project.Project;
 
 /**
  * Represents a task in which is to completed within a Project.
@@ -37,9 +33,6 @@ public final class Task {
 
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
     private Double progressInWorkHours;
-    
-    @OneToMany
-    private List<Employee> employees;
 
     /**
      * TODO: These variables below do not exist in the database yet, but should probably be added.
@@ -57,15 +50,15 @@ public final class Task {
      *
      * @param projectId         The project identifier this task will be listed under.
      * @param description       The description of what this task will require to be completed.
-     * @param deadline          The provided date in which this task should be completed by.
      * @param startDate         The date that this task was started.
+     * @param deadline          The provided date in which this task should be completed by.
      * @param expectedWorkHours The guessed amount of hours that this task will task to finish.
      */
-    public Task(Integer projectId, String description, Date deadline, Date startDate, Double expectedWorkHours) {
+    public Task(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
         this.projectId = projectId;
         this.description = description;
-        this.deadline = deadline;
         this.startDate = startDate;
+        this.deadline = deadline;
         this.expectedWorkHours = expectedWorkHours;
     }
 
@@ -195,52 +188,45 @@ public final class Task {
         this.taskName = newName;
     }
 
-    //check to see if task is complete
+    /**
+     * Checks if a task has been completed.
+     *
+     * @return The result.
+     */
     public boolean isComplete() {
         return isComplete;
     }
 
-    //sets the Task to a completed state.
+    /**
+     * Sets the task to a completed state.
+     */
     public void setCompleted() {
         this.isComplete = true;
     }
 
-    //sets the Task to an uncompleted state.
+    /**
+     * Sets the task to an uncompleted state.
+     */
     public void setUncompleted() {
         this.isComplete = false;
     }
 
-    //get the date the task was completed
+    /**
+     * Gets the date the task was completed on.
+     *
+     * @return The date.
+     */
     public Date getCompletedDate() {
         return dateCompleted;
     }
 
-    //set the date that the task was completed
+    /**
+     * Sets the date the task was completed on.
+     *
+     * @param newDateCompleted The date the task was completed on.
+     */
     public void setCompletedDate(Date newDateCompleted) {
         this.dateCompleted = newDateCompleted;
-    }
-    
-
-	public List<Employee> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(List<Employee> employees) {
-		this.employees = employees;
-	}
-
-	public void setProject(Project newProject) {
-		// TODO Auto-generated method stub
-		
-	}
-	 // Method to add an employee to the task
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
-    }
-    
-    // Method to remove an employee from the task
-    public void removeEmployee(Employee employee) {
-        employees.remove(employee);
     }
 
 }

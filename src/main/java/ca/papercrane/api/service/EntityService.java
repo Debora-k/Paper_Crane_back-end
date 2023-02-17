@@ -9,48 +9,54 @@ import ca.papercrane.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
-import java.lang.*;
 
 @Service
 @Transactional
 public class EntityService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+
+    public EntityService(EmployeeRepository employeeRepository, UserRepository userRepository, ClientRepository clientRepository) {
+        this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
+    }
 
     // Employees methods
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
-    
+
     public Optional<Employee> getEmployeeById(Integer userId) {
         return employeeRepository.findById(userId);
     }
-    
+
     public List<Employee> getByEmployeeName(String employeeName) {
         return employeeRepository.findByName(employeeName);
     }
-    
+
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
-    
+
     public void deleteEmployee(Employee employee) {
         employeeRepository.delete(employee);
     }
-    
+
     public Employee updateEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
-    
+
 
     // User methods
     public Optional<User> getUserById(Integer userId) {
@@ -60,7 +66,7 @@ public class EntityService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    
+
     public List<User> getUserByType(String type) {
         return userRepository.findByType(type);
     }
@@ -68,14 +74,13 @@ public class EntityService {
     public User createUser(User user) {
         return userRepository.save(user);
     }
-    
+
     public void deleteUserById(Integer userId) {
         userRepository.deleteById(userId);
     }
-    
+
     public User updateUserById(Integer userId, User user) {
         Optional<User> optionalUser = userRepository.findById(userId);
-
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             existingUser.setType(user.getType());
@@ -95,22 +100,21 @@ public class EntityService {
     public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
-    
+
     public List<Client> getByClientName(String clientName) {
         return clientRepository.findByName(clientName);
     }
-    
+
     public Client createClient(Client client) {
         return clientRepository.save(client);
     }
-    
+
     public void deleteClient(Client client) {
         clientRepository.delete(client);
     }
-    
+
     public Client updateClient(Client client) {
         return clientRepository.save(client);
     }
+
 }
-
-

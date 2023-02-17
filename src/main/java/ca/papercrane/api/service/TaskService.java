@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,50 +15,88 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public record TaskService(TaskRepository taskRepository) {
+public class TaskService {
 
     @Autowired
-    public TaskService {
+    private final TaskRepository taskRepository;
+
+    /**
+     * Crates a new TaskService.
+     *
+     * @param taskRepository The task repository.
+     */
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     /**
-     * Returns an Optional containing the Task that exists with the specified taskId.
+     * Creates a new Task.
+     *
+     * @param projectId         The projectId the task will be associated with.
+     * @param description       The description of the task.
+     * @param startDate         The date the task was created.
+     * @param deadline          The date the task must be completed by.
+     * @param expectedWorkHours The amount of work hours this task should take to complete.
+     * @return The newly created task object.
+     */
+    public Task createTask(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
+        final Task newTask = new Task(projectId, description, startDate, deadline, expectedWorkHours);
+        //TODO: Checks/Validation before saving.
+        return saveTask(newTask);
+    }
+
+    /**
+     * Updates a Task within the database.
+     *
+     * @param task The task object with the updated task data.
+     * @return The updated and saved task.
+     */
+    public void updateTask(Task task) {
+        final Optional<Task> existingTaskOptional = taskRepository.findByTaskId(task.getTaskId());
+        if (existingTaskOptional.isPresent()) {
+            final Task existingTask = existingTaskOptional.get();
+            existingTask.setDescription(task.getDescription());
+            existingTask.setStartDate(task.getStartDate());
+            existingTask.setDeadline(task.getDeadline());
+            existingTask.setExpectedWorkHours(task.getExpectedWorkHours());
+            saveTask(task);
+        } else {
+            //TODO: Exception.
+        }
+    }
+
+    /**
+     * Returns an optional of the task that exists with the specified taskId.
      *
      * @param taskId The integer taskId being searched for.
-     * @return An Optional containing the found Task, or an empty Optional if no Task is found with the specified taskId.
+     * @return The found task.
      */
     public Optional<Task> getTaskById(Integer taskId) {
         return taskRepository.findByTaskId(taskId);
     }
 
     /**
-     * Returns a List of Task objects that belong to the specified projectId.
+     * Returns a list of tasks that belong to a specified projectId.
      *
      * @param projectId The projectId that the list of tasks belong to.
-     * @return The List of Task objects.
+     * @return The list of tasks.
      */
     public List<Task> getAllByProjectId(Integer projectId) {
-        return taskRepository.findByProjectId(projectId);
+        return taskRepository.findAllByProjectId(projectId);
     }
 
     /**
-     * Persists a Task into the database.
+     * Saves a task into the database.
      *
-     * @param task The task being inserted into the database.
-     * @return the Task object.
+     * @param task The task being saved into the database.
+     * @return the saved task.
      */
-    public Task persistTask(Task task) {
-
+    public Task saveTask(Task task) {
         //TODO: Check for the following before saving a task to the database.
-
         //TODO: projectId must not be null, a project with the projectId must exist.
-
         //TODO: description must not be null, description must follow required length or other requirements.
-
         //TODO: start and deadline dates must not be null, deadline must be set for a time after the start date not before.
-
         //TODO: expected work hours and progress work hours must not be null, by default 0 and must be positive values.
-
         return taskRepository.save(task);
     }
 

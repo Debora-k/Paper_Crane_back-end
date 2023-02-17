@@ -60,30 +60,21 @@ public class User {
     }
 
     /**
-     * Gets the email registered to the user account.
-     *
-     * @return the email address.
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Gets the password used to sign in to the user account.
-     *
-     * @return the user password.
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
      * Sets the type of user.
      *
      * @param type The type to set for this user.
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * Gets the email registered to the user account.
+     *
+     * @return the email address.
+     */
+    public String getEmail() {
+        return email;
     }
 
     /**
@@ -95,6 +86,14 @@ public class User {
         this.email = email;
     }
 
+    /**
+     * Gets the password used to sign in to the user account.
+     *
+     * @return the user password.
+     */
+    public String getPassword() {
+        return password;
+    }
 
     /**
      * Sets the password for this user.
