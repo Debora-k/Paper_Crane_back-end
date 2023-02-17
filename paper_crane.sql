@@ -1,12 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 15.1
--- Dumped by pg_dump version 15.1
-
--- Started on 2023-01-30 17:15:23
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -119,7 +110,7 @@ ALTER TABLE public.time_off OWNER TO postgres;
 -- Name: user; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."user" (
+CREATE TABLE public.user_account (
     user_id integer NOT NULL,
     type character varying(20) NOT NULL,
     email character varying(100) NOT NULL,
@@ -128,7 +119,7 @@ CREATE TABLE public."user" (
 );
 
 
-ALTER TABLE public."user" OWNER TO postgres;
+ALTER TABLE public.user_account OWNER TO postgres;
 
 --
 -- TOC entry 220 (class 1259 OID 16486)
@@ -211,7 +202,7 @@ ALTER TABLE ONLY public.time_off
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."user"
+ALTER TABLE ONLY public.user_account
     ADD CONSTRAINT user_pkey PRIMARY KEY (user_id);
 
 
@@ -240,11 +231,3 @@ ALTER TABLE ONLY public.time_off
 
 ALTER TABLE ONLY public.task
     ADD CONSTRAINT project_id_fkey FOREIGN KEY (project_id) REFERENCES public.project(project_id) NOT VALID;
-
-
--- Completed on 2023-01-30 17:15:24
-
---
--- PostgreSQL database dump complete
---
-
