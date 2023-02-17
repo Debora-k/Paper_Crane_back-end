@@ -21,42 +21,76 @@ public class AdminService {
     @Autowired
     private final ClientRepository clientRepository;
 
+    /**
+     * Creates a new AdminService.
+     *
+     * @param employeeRepository The employee repository.
+     * @param clientRepository   The client repository.
+     */
     public AdminService(EmployeeRepository employeeRepository, ClientRepository clientRepository) {
         this.employeeRepository = employeeRepository;
         this.clientRepository = clientRepository;
     }
 
-    // Method to create an employee account
+    /**
+     * Creates a new Employee.
+     *
+     * @param email        The employee email.
+     * @param password     The employee password
+     * @param employeeName The employee name.
+     * @param employeeRole The employee role.
+     * @return The newly created employee.
+     */
     public Employee createEmployee(String email, String password,
                                    String employeeName, String employeeRole) {
         return employeeRepository.save(new Employee(email, password, employeeName, employeeRole));
     }
 
-    // Method to update an employee account
-    public void updateEmployee(int userId, String employeeName, String employeeRole) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(userId);
+    /**
+     * Updates an existing employee record within the database.
+     *
+     * @param employee The employee object with the updated data.
+     */
+    public void updateEmployee(Employee employee) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employee.getUserId());
         if (optionalEmployee.isPresent()) {
-            Employee employee = optionalEmployee.get();
-            employee.setEmployeeName(employeeName);
-            employee.setRole(employeeRole);
-            employeeRepository.save(employee);
+            Employee existingEmployee = optionalEmployee.get();
+            existingEmployee.setEmployeeName(employee.getName());
+            existingEmployee.setRole(employee.getEmployeeRole());
+            employeeRepository.save(existingEmployee);
         } else {
-            throw new EntityNotFoundException("Employee not found with user ID: " + userId);
+            throw new EntityNotFoundException("Employee not found with user ID: " + employee.getUserId());
         }
     }
 
-    // Method to delete an employee account
-    public void deleteEmployee(int userId) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(userId);
+    /**
+     * Deletes an employee record from the database.
+     *
+     * @param employeeId The employee id.
+     */
+    public void deleteEmployee(int employeeId) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
         optionalEmployee.ifPresent(employeeRepository::delete);
     }
 
-    // Method to create a client account
-    public void createClientAccount(Client client) {
-        clientRepository.save(client);
+    /**
+     * Creates a new Client.
+     *
+     * @param email      The client email address.
+     * @param password   The client account password.
+     * @param clientName The client name.
+     * @param website    The client website.
+     * @return The newly created client object.
+     */
+    public Client createClient(String email, String password, String clientName, String website) {
+        return clientRepository.save(new Client(email, password, clientName, website));
     }
 
-    // Method to update a client account
+    /**
+     * Updates an existing client record within the database.
+     *
+     * @param client The client object with the updated data.
+     */
     public void updateClientAccount(Client client) {
         Optional<Client> existingClient = clientRepository.findById(client.getUserId());
         if (existingClient.isPresent()) {
@@ -69,13 +103,17 @@ public class AdminService {
         }
     }
 
-    // Method to delete a client account
-    public void deleteClientAccount(int userId) {
-        Optional<Client> existingClient = clientRepository.findById(userId);
+    /**
+     * Deletes a client account record from the database.
+     *
+     * @param client The client account.
+     */
+    public void deleteClientAccount(Client client) {
+        Optional<Client> existingClient = clientRepository.findById(client.getUserId());
         if (existingClient.isPresent()) {
             clientRepository.delete(existingClient.get());
         } else {
-            throw new EntityNotFoundException("Client not found with user ID: " + userId);
+            throw new EntityNotFoundException("Client not found with user ID: " + client.getUserId());
         }
     }
 
