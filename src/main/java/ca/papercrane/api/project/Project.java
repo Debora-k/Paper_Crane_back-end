@@ -1,8 +1,5 @@
 package ca.papercrane.api.project;
 
-import java.util.List;
-
-import ca.papercrane.api.entity.Employee;
 import jakarta.persistence.*;
 
 @Entity
@@ -40,6 +37,12 @@ public final class Project {
         return projectId;
     }
 
+    public void setProjectId(Integer projectId) {
+        // TODO Auto-generated method stub
+        this.projectId = projectId;
+
+    }
+
     //Gets the client id that this project is for.
     public Integer getClientId() {
         return clientId;
@@ -50,12 +53,5 @@ public final class Project {
         return projectLeadId;
     }
 
-	public void setProjectId(Integer projectId) {
-		// TODO Auto-generated method stub
-		this.projectId = projectId;
-		
-	}
-
-	
 
 }

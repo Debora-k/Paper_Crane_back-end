@@ -1,12 +1,11 @@
 package ca.papercrane.api.project.task;
 
+import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.project.Project;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
-
-import ca.papercrane.api.entity.Employee;
-import ca.papercrane.api.project.Project;
 
 /**
  * Represents a task in which is to completed within a Project.
@@ -37,7 +36,7 @@ public final class Task {
 
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
     private Double progressInWorkHours;
-    
+
     @OneToMany
     private List<Employee> employees;
 
@@ -219,25 +218,26 @@ public final class Task {
     public void setCompletedDate(Date newDateCompleted) {
         this.dateCompleted = newDateCompleted;
     }
-    
 
-	public List<Employee> getEmployees() {
-		return employees;
-	}
 
-	public void setEmployees(List<Employee> employees) {
-		this.employees = employees;
-	}
+    public List<Employee> getEmployees() {
+        return employees;
+    }
 
-	public void setProject(Project newProject) {
-		// TODO Auto-generated method stub
-		
-	}
-	 // Method to add an employee to the task
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void setProject(Project newProject) {
+        // TODO Auto-generated method stub
+
+    }
+
+    // Method to add an employee to the task
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
-    
+
     // Method to remove an employee from the task
     public void removeEmployee(Employee employee) {
         employees.remove(employee);
