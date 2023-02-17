@@ -1,5 +1,8 @@
 package ca.papercrane.api.entity;
 
+import java.util.List;
+
+import ca.papercrane.api.project.Project;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -64,5 +67,10 @@ public final class Client extends User {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+	public void setProjects(List<Project> of) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

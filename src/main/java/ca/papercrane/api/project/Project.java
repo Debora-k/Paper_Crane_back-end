@@ -1,5 +1,8 @@
 package ca.papercrane.api.project;
 
+import java.util.List;
+
+import ca.papercrane.api.entity.Employee;
 import jakarta.persistence.*;
 
 @Entity
@@ -46,4 +49,13 @@ public final class Project {
     public Integer getProjectLeadId() {
         return projectLeadId;
     }
+
+	public void setProjectId(Integer projectId) {
+		// TODO Auto-generated method stub
+		this.projectId = projectId;
+		
+	}
+
+	
+
 }

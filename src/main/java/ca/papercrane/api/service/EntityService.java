@@ -43,21 +43,14 @@ public class EntityService {
         return employeeRepository.save(employee);
     }
     
-    public void deleteEmployeeById(Integer userId) {
-        employeeRepository.deleteById(userId);
+    public void deleteEmployee(Employee employee) {
+        employeeRepository.delete(employee);
     }
     
-    public Employee updateEmployeeById(Integer userId, Employee employee) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(userId);
-
-        if (optionalEmployee.isPresent()) {
-            Employee existingEmployee = optionalEmployee.get();
-            existingEmployee.setEmployeeName(employee.getName());
-            return employeeRepository.save(existingEmployee);
-        } else {
-            return null; // needs to add Exception package to handle these staff
-        }
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
+    
 
     // User methods
     public Optional<User> getUserById(Integer userId) {
@@ -111,20 +104,13 @@ public class EntityService {
         return clientRepository.save(client);
     }
     
-    public void deleteClientById(Integer userId) {
-        clientRepository.deleteById(userId);
+    public void deleteClient(Client client) {
+        clientRepository.delete(client);
     }
     
-    public Client updateClientById(Integer userId, Client client) {
-        Optional<Client> optionalClient = clientRepository.findById(userId);
-
-        if (optionalClient.isPresent()) {
-            Client existingClient = optionalClient.get();
-            existingClient.setClientName(client.getClientName());
-            existingClient.setWebsite(client.getWebsite());
-            return clientRepository.save(existingClient);
-        } else {
-            return null; // needs to add Exception package to handle these staff
-        }
+    public Client updateClient(Client client) {
+        return clientRepository.save(client);
     }
 }
+
+
