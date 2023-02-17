@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "project")
 public final class Project {
 
+    //TODO: From Hashem: we might need to add a column for a brief description for the project.
+
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,27 +34,47 @@ public final class Project {
         this.projectLeadId = projectLeadId;
     }
 
-    //Gets the project id value.
+    /**
+     * Gets the project id.
+     *
+     * @return the id.
+     */
     public Integer getProjectId() {
         return projectId;
     }
 
-    //Gets the client id that this project is for.
+    /**
+     * Gets the client id.
+     *
+     * @return The id of the client the project is for.
+     */
     public Integer getClientId() {
         return clientId;
     }
 
-    //Gets the project leaders user id.
-    public Integer getProjectLeadId() {
-        return projectLeadId;
-    }
-
-    //Updates the client id.
+    /**
+     * Sets the client id to a new value.
+     *
+     * @param clientId the new client id value.
+     */
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
-    //Updates the projectLead id.
+    /**
+     * Gets the project leader employee id.
+     *
+     * @return The id of the project leader.
+     */
+    public Integer getProjectLeadId() {
+        return projectLeadId;
+    }
+
+    /**
+     * Sets the project leader id.
+     *
+     * @param projectLeadId The new project leader id.
+     */
     public void setProjectLeadId(Integer projectLeadId) {
         this.projectLeadId = projectLeadId;
     }

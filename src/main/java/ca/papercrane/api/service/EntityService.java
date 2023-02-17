@@ -81,7 +81,6 @@ public class EntityService {
 
     public User updateUserById(Integer userId, User user) {
         Optional<User> optionalUser = userRepository.findById(userId);
-
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             existingUser.setType(user.getType());
@@ -117,6 +116,5 @@ public class EntityService {
     public Client updateClient(Client client) {
         return clientRepository.save(client);
     }
+
 }
-
-

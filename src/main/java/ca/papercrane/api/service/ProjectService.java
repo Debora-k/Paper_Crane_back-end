@@ -39,17 +39,15 @@ public class ProjectService {
      *
      * @param clientId      The id of the client the project is for.
      * @param projectLeadId The id of the project leader employee.
-     * @return the newly created project.
+     * @return the newly created project object.
      */
     public Project createProject(Integer clientId, Integer projectLeadId) {
         //TODO: Validate clientId and projectLeadId
-        return save(new Project(clientId, projectLeadId));
+        return saveProject(new Project(clientId, projectLeadId));
     }
 
     /**
      * Updates a Project.
-     * <p>
-     * TODO: we might need to add a column for a brief description for the project.
      *
      * @param project The project being updated.
      */
@@ -107,7 +105,7 @@ public class ProjectService {
      * @param project The project being saved into the database.
      * @return the project.
      */
-    public Project save(Project project) {
+    public Project saveProject(Project project) {
         //TODO: Check for the following before adding a project to the database.
         //TODO: Validate the project was created correctly.
         //TODO: clientId must not be null, clientId must point to a valid client saved within the database.
