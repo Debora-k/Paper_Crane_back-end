@@ -14,10 +14,13 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public record TaskService(TaskRepository taskRepository) {
+public class TaskService {
 
     @Autowired
-    public TaskService {
+    private final TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     /**

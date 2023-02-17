@@ -37,12 +37,6 @@ public final class Project {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
-        // TODO Auto-generated method stub
-        this.projectId = projectId;
-
-    }
-
     //Gets the client id that this project is for.
     public Integer getClientId() {
         return clientId;
@@ -53,5 +47,14 @@ public final class Project {
         return projectLeadId;
     }
 
+    //Updates the client id.
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    //Updates the projectLead id.
+    public void setProjectLeadId(Integer projectLeadId) {
+        this.projectLeadId = projectLeadId;
+    }
 
 }

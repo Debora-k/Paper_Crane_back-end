@@ -18,13 +18,19 @@ import java.util.Optional;
 public class EntityService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+
+    public EntityService(EmployeeRepository employeeRepository, UserRepository userRepository, ClientRepository clientRepository) {
+        this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
+    }
 
     // Employees methods
     public List<Employee> getAllEmployees() {

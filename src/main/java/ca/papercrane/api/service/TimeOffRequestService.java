@@ -14,10 +14,13 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) {
+public class TimeOffRequestService {
 
     @Autowired
-    public TimeOffRequestService {
+    private final TimeOffRequestRepository timeOffRequestRepository;
+
+    public TimeOffRequestService(TimeOffRequestRepository timeOffRequestRepository) {
+        this.timeOffRequestRepository = timeOffRequestRepository;
     }
 
     /**
@@ -27,7 +30,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
      * @return An Optional containing the found TimeOffRequest, or an empty Optional if no TimeOffRequest is found with the specified timeOffId.
      */
     public Optional<TimeOffRequest> getByTimeOffId(Integer timeOffId) {
-        return timeOffRepository.findByTimeOffId(timeOffId);
+        return timeOffRequestRepository.findByTimeOffId(timeOffId);
     }
 
     /**
@@ -37,7 +40,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
      * @return The List of TimeOffRequest objects for the employee.
      */
     public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) {
-        return timeOffRepository.findByEmployeeId(employeeId);
+        return timeOffRequestRepository.findByEmployeeId(employeeId);
     }
 
     /**
@@ -56,7 +59,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
 
         //TODO: Reason must not be null, Reason must meet length or character requirements if any etc.
 
-        return timeOffRepository.save(timeOffRequest);
+        return timeOffRequestRepository.save(timeOffRequest);
     }
 
     /**
@@ -66,7 +69,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
      */
     public void delete(TimeOffRequest timeOffRequest) {
         //TODO: Checks or validation before deleting.
-        timeOffRepository.delete(timeOffRequest);
+        timeOffRequestRepository.delete(timeOffRequest);
     }
 
     /**
@@ -76,7 +79,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
      */
     public void deleteById(Integer timeOffId) {
         //TODO: Checks or validation before deleting.
-        timeOffRepository.deleteById(timeOffId);
+        timeOffRequestRepository.deleteById(timeOffId);
     }
 
     /**
@@ -85,7 +88,7 @@ public record TimeOffRequestService(TimeOffRequestRepository timeOffRepository) 
      * @return the count.
      */
     public Long totalTimeOffRequestCount() {
-        return timeOffRepository.count();
+        return timeOffRequestRepository.count();
     }
 
 }
