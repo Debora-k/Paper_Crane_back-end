@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "time_off")
-public final class TimeOffRequest {
+public final class PTORequest {
 
     @Id
     @Column(name = "time_off_id")
@@ -28,22 +28,15 @@ public final class TimeOffRequest {
     @Column(name = "reason", length = 500)
     private String reason;
 
-    public TimeOffRequest() {
-        // TODO Auto-generated constructor stub
+    public PTORequest() {
+
     }
 
-    /**
-     * Creates a new TimeOffRequest.
-     *
-     * @param employeeId The id of the employee user that is creating the request.
-     * @param startDate  The requested start date.
-     * @param endDate    The requested end date.
-     * @param reason     The reason as to why the employee has requested time off.
-     */
-    public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
+    public PTORequest(Integer employeeId, Date startDate, Date endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = "O"; //Setting default to "O" not sure what we are using for this.
         this.reason = reason;
     }
 
