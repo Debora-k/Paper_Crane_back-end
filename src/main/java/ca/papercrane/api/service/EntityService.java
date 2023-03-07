@@ -26,47 +26,74 @@ public class EntityService {
     @Autowired
     private final ClientRepository clientRepository;
 
+    /**
+     * Creates a new EntityService.
+     *
+     * @param employeeRepository The employee repository.
+     * @param userRepository     The user repository.
+     * @param clientRepository   The client repository.
+     */
     public EntityService(EmployeeRepository employeeRepository, UserRepository userRepository, ClientRepository clientRepository) {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
     }
 
-    // Employees methods
+    /**
+     * Gets a list of all employees within the database.
+     *
+     * @return the list of employees.
+     */
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(Integer userId) {
-        return employeeRepository.findById(userId);
+    /**
+     * Gets a specific employee from the database by employeeId.
+     *
+     * @param employeeId
+     * @return
+     */
+    public Optional<Employee> getEmployeeById(Integer employeeId) {
+        return employeeRepository.findById(employeeId);
     }
 
+    /**
+     * Gets all the employees with the specified employee name.
+     *
+     * @param employeeName The name of the employee.
+     * @return The found employee.
+     */
     public List<Employee> getByEmployeeName(String employeeName) {
         return employeeRepository.findByName(employeeName);
     }
 
-    public Employee createEmployee(Employee employee) {
-        return employeeRepository.save(employee);
-    }
 
-    public void deleteEmployee(Employee employee) {
-        employeeRepository.delete(employee);
-    }
-
-    public Employee updateEmployee(Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
-
-    // User methods
+    /**
+     * Gets a user by the specified user id.
+     *
+     * @param userId The id of the user.
+     * @return The user.
+     */
     public Optional<User> getUserById(Integer userId) {
         return userRepository.findById(userId);
     }
 
+    /**
+     * Gets a list of all users within the database.
+     *
+     * @return The list.
+     */
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * Gets a list of all users by a specific user type.
+     *
+     * @param type The type of the user.
+     * @return The list of users.
+     */
     public List<User> getUserByType(String type) {
         return userRepository.findByType(type);
     }
@@ -105,16 +132,5 @@ public class EntityService {
         return clientRepository.findByName(clientName);
     }
 
-    public Client createClient(Client client) {
-        return clientRepository.save(client);
-    }
-
-    public void deleteClient(Client client) {
-        clientRepository.delete(client);
-    }
-
-    public Client updateClient(Client client) {
-        return clientRepository.save(client);
-    }
 
 }

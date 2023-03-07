@@ -6,12 +6,12 @@ import jakarta.persistence.*;
  * Represents a standard User account for general use of the application.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user_account")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
