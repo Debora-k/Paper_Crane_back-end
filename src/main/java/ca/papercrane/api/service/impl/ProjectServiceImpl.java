@@ -16,25 +16,30 @@ public final class ProjectServiceImpl implements ProjectService {
     private ProjectRepository projectRepository;
 
     @Override
-    public Project findById(Integer projectId) {
-        return projectRepository.findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found!"));
+    public Project getByProjectId(Integer projectId) {
+        return projectRepository.findByProjectId(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found!"));
     }
 
     @Override
-    public Integer createProject(Integer clientId, Integer projectLeadId, String description) {
+    public List<Project> getAllByClientId(Integer clientId) {
+        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("Projects not found with client id!"));
+    }
+
+    @Override
+    public Integer create(Integer clientId, Integer projectLeadId, String description) {
         final Project createdProject = projectRepository.save(new Project(clientId, projectLeadId, description));
         return createdProject.getProjectId();
     }
 
     @Override
-    public Integer createProject(Project project) {
+    public Integer create(Project project) {
         final Project createdProject = projectRepository.save(project);
         return createdProject.getProjectId();
     }
 
     @Override
-    public void updateProject(Project project) {
-        final Project existingProject = findById(project.getProjectId());
+    public void update(Project project) {
+        final Project existingProject = getByProjectId(project.getProjectId());
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
@@ -53,13 +58,8 @@ public final class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteById(Integer projectId) {
-        final Project project = findById(projectId);
+        final Project project = getByProjectId(projectId);
         projectRepository.delete(project);
-    }
-
-    @Override
-    public List<Project> findByClientId(Integer clientId) {
-        return projectRepository.findAllById(clientId).orElseThrow(() -> new ResourceNotFoundException("Projects not found with clientId"));
     }
 
     @Override

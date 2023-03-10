@@ -28,7 +28,7 @@ public final class ProjectController {
     @GetMapping("id/{id}")
     public ResponseEntity<Project> getProject(@PathVariable Integer id) {
         try {
-            Project project = projectService.findById(id);
+            final Project project = projectService.getByProjectId(id);
             return new ResponseEntity<>(project, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

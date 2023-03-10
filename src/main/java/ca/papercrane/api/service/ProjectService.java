@@ -6,21 +6,21 @@ import java.util.List;
 
 public interface ProjectService {
 
-    Project findById(Integer projectId);
+    Project getByProjectId(Integer projectId);
 
-    Integer createProject(Integer clientId, Integer projectLeadId, String description);
+    List<Project> getAllByClientId(Integer clientId);
 
-    Integer createProject(Project project);
+    Integer create(Integer clientId, Integer projectLeadId, String description);
 
-    void updateProject(Project project);
+    Integer create(Project project);
+
+    void update(Project project);
 
     void save(Project project);
 
     void delete(Project project);
 
     void deleteById(Integer projectId);
-
-    List<Project> findByClientId(Integer clientId);
 
     Long totalCount();
 
