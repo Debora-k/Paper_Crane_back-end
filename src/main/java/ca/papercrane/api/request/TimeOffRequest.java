@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "time_off")
-public final class PTORequest {
+public final class TimeOffRequest {
 
     @Id
     @Column(name = "time_off_id")
@@ -28,11 +28,11 @@ public final class PTORequest {
     @Column(name = "reason", length = 500)
     private String reason;
 
-    public PTORequest() {
+    public TimeOffRequest() {
 
     }
 
-    public PTORequest(Integer employeeId, Date startDate, Date endDate, String reason) {
+    public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
