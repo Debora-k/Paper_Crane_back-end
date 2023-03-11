@@ -22,13 +22,13 @@ public class VideoTrainingController {
     @PostConstruct
     public void init() {
         createFakeVideoTraining();
-        System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/training/id/1");
+        System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/training/1");
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<VideoTraining> getTraining(@PathVariable Integer id) {
         try {
-            VideoTraining videoTraining = trainingService.findById(id);
+            final VideoTraining videoTraining = trainingService.getByVideoId(id);
             return new ResponseEntity<>(videoTraining, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
