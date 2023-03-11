@@ -6,8 +6,11 @@ import java.util.List;
 import ca.papercrane.api.entity.Client;
 import ca.papercrane.api.project.Project;
 import ca.papercrane.api.project.task.Task;
+import ca.papercrane.api.project.ticket.Ticket;
 import ca.papercrane.api.repository.ProjectRepository;
 import ca.papercrane.api.repository.TaskRepository;
+import ca.papercrane.api.repository.TicketRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +27,16 @@ public class ClientServiceImpl {
     private TaskRepository taskRepository;
 
     @Autowired
-    // need to add new table to DB to allow the client to
-    // ■ submit tickets or requests for work and scope changes as specified in Capstone Brief doc
-
-    //private TicketRepository ticketRepository;
+    private TicketRepository ticketRepository;
 
     // Method to view a project
-    public Project viewProject(int projectId) {
+    public Project viewProject(Integer projectId) {
         return projectRepository.findByProjectId(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
     // Method to submit changes to tasks for a project
-    public void submitTaskChanges(int projectId, List<Task> tasks) {
+    public void submitTaskChanges(Integer projectId, List<Task> tasks) {
         Project project = projectRepository.findByProjectId(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found")); 
         for (int i = 0; i < tasks.size(); i++) {
@@ -48,7 +48,7 @@ public class ClientServiceImpl {
     }
 
     // Method to calculate completion percentage for a project
-    public Double calculateCompletionPercentage(int projectId) {
+    public Double calculateCompletionPercentage(Integer projectId) {
         Project project = projectRepository.findByProjectId(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
 
@@ -75,10 +75,10 @@ public class ClientServiceImpl {
 
     // Method to submit a ticket or request for work and scope changes
     // need to create Ticket table in the DB + add Ticket class + TicketRepository
-  /*
-   *  public void submitTicket(int projectId, Ticket ticket) {
-   *  }
-   */
+  
+     public void submitTicket(Integer projectId, Ticket ticket) {
+     }
+   
         
     
 }
