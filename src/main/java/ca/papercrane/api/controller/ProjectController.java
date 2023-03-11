@@ -22,10 +22,10 @@ public final class ProjectController {
     @PostConstruct
     public void init() {
         createFakeProject();
-        System.out.println("Fake project created view at: http://localhost:8080/api/projects/id/1");
+        System.out.println("Fake project created view at: http://localhost:8080/api/projects/1");
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Project> getProject(@PathVariable Integer id) {
         try {
             final Project project = projectService.getByProjectId(id);
