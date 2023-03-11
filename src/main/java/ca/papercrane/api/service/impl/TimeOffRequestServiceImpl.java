@@ -20,7 +20,7 @@ public final class TimeOffRequestServiceImpl implements TimeOffService {
     public List<TimeOffRequest> getAll() throws ResourceNotFoundException {
         final List<TimeOffRequest> timeOffRequests = requestRepository.findAll();
         if (timeOffRequests.isEmpty()) {
-            throw new ResourceNotFoundException("No time off requests found");
+            throw new ResourceNotFoundException("No TimeOffRequests found!");
         }
         return timeOffRequests;
     }
