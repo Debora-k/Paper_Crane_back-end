@@ -22,7 +22,7 @@ public final class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllByClientId(Integer clientId) {
-        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("Projects not found with client id!"));
+        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with client id!"));
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class ProjectServiceImpl implements ProjectService {
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
-        projectRepository.save(existingProject);
+        save(existingProject);
     }
 
     @Override
