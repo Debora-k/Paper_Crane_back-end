@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface VideoTrainingRepository extends JpaRepository<VideoTraining, Integer> {
 
-    Optional<VideoTraining> findById(Integer videoId);
+    Optional<VideoTraining> findByVideoId(Integer videoId);
 
 }
