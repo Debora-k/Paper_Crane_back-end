@@ -24,13 +24,13 @@ public final class TaskController {
     @PostConstruct
     public void init() {
         createFakeTask();
-        System.out.println("Fake task created view at: http://localhost:8080/api/tasks/id/1");
+        System.out.println("Fake task created view at: http://localhost:8080/api/tasks/1");
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Task> getTask(@PathVariable Integer id) {
         try {
-            Task task = taskService.findById(id);
+            final Task task = taskService.getByTaskId(id);
             return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
