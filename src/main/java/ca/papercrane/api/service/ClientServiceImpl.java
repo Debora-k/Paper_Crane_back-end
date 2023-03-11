@@ -69,16 +69,7 @@ public class ClientServiceImpl {
         return (totalProgress / totalExpectedWorkHours) * 100;
     }
 
-    // Method to upload a file for a project.
-    // not sure how to implement the method as the file won't be stored in the DB
-    public void uploadFile(int projectId, File file) {
-    	
-    }
-
-    // Method to get the list of files for a project
-    public List<File> getFiles(int projectId) {
-        return null;
-    }
+   
     
     
 
