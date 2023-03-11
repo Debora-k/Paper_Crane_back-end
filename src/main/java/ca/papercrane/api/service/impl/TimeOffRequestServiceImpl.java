@@ -17,12 +17,21 @@ public final class TimeOffRequestServiceImpl implements TimeOffService {
     private TimeOffRequestRepository requestRepository;
 
     @Override
-    public TimeOffRequest getByTimeOffId(Integer timeOffId) {
+    public List<TimeOffRequest> getAll() throws ResourceNotFoundException {
+        final List<TimeOffRequest> timeOffRequests = requestRepository.findAll();
+        if (timeOffRequests.isEmpty()) {
+            throw new ResourceNotFoundException("No time off requests found");
+        }
+        return timeOffRequests;
+    }
+
+    @Override
+    public TimeOffRequest getByTimeOffId(Integer timeOffId) throws ResourceNotFoundException {
         return requestRepository.findByTimeOffId(timeOffId).orElseThrow(() -> new ResourceNotFoundException("TimeOffRequest not found with id: " + timeOffId));
     }
 
     @Override
-    public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) {
+    public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) throws ResourceNotFoundException {
         return requestRepository.findAllByEmployeeId(employeeId).orElseThrow(() -> new ResourceNotFoundException("No TimeOffRequests found for id: " + employeeId));
     }
 

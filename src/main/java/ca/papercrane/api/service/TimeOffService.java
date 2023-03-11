@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TimeOffService {
 
+    List<TimeOffRequest> getAll();
+
     TimeOffRequest getByTimeOffId(Integer timeOffId);
 
     List<TimeOffRequest> getAllByEmployeeId(Integer userId);
