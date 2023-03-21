@@ -8,8 +8,8 @@
         <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+    <groupId>ca.papercrane.api</groupId>
+    <artifactId>capstone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>CapstoneProj</name>
     <description>Capstone project</description>
