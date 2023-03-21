@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/tasks/")
+@RequestMapping("api/v1/tasks/")
 public final class TaskController {
 
     @Autowired
@@ -24,7 +24,7 @@ public final class TaskController {
     @PostConstruct
     public void init() {
         createFakeTask();
-        System.out.println("Fake task created view at: http://localhost:8080/api/tasks/1");
+        System.out.println("Fake task created view at: http://localhost:8080/api/v1/tasks/1");
     }
 
     @GetMapping("{id}")
