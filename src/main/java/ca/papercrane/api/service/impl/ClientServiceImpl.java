@@ -6,9 +6,13 @@ import ca.papercrane.api.repository.ClientRepository;
 import ca.papercrane.api.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
-public final class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -24,26 +28,35 @@ public final class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Integer create(String email, String password, String clientName, String website) {
-        final Client createdClient = clientRepository.save(new Client(email, password, clientName, website));
-        return createdClient.getUserId();
+    public void addNewClient(Client client) {
+        final Optional<Client> clientOptional = clientRepository.findByEmail(client.getEmail());
+        if (clientOptional.isPresent()) {
+            throw new IllegalArgumentException("Email already taken.");
+        }
+        clientRepository.save(client);
     }
 
     @Override
-    public Integer create(Client client) {
-        final Client createdClient = clientRepository.save(client);
-        return createdClient.getUserId();
-    }
-
-    @Override
-    public void update(Client client) {
-        final Client existingClient = getByUserId(client.getUserId());
-        existingClient.setClientName(client.getClientName());
-        existingClient.setWebsite(client.getWebsite());
-        existingClient.setEmail(client.getEmail());
-        existingClient.setType(client.getType());
-        existingClient.setPassword(client.getPassword());
-        save(existingClient);
+    @Transactional
+    public void updateClient(Integer userId, String name, String website, String email, String password) {
+        final Client client = getByUserId(userId);
+        if (name != null && name.length() > 0 && !Objects.equals(client.getClientName(), name)) {
+            client.setClientName(name);
+        }
+        if (website != null && website.length() > 0 && !Objects.equals(client.getWebsite(), website)) {
+            client.setWebsite(website);
+        }
+        if (email != null && email.length() > 0 && !Objects.equals(client.getEmail(), email)) {
+            final Optional<Client> clientOptional = clientRepository.findByEmail(email);
+            if (clientOptional.isPresent()) {
+                throw new IllegalArgumentException("Email is already taken.");
+            }
+            client.setEmail(email);
+        }
+        if (password != null && password.length() > 0 && !Objects.equals(client.getPassword(), password)) {
+            client.setPassword(password);
+        }
+        save(client);
     }
 
     @Override
@@ -53,12 +66,6 @@ public final class ClientServiceImpl implements ClientService {
 
     @Override
     public void delete(Client client) {
-        clientRepository.delete(client);
-    }
-
-    @Override
-    public void deleteByUserId(Integer userId) {
-        final Client client = getByUserId(userId);
         clientRepository.delete(client);
     }
 

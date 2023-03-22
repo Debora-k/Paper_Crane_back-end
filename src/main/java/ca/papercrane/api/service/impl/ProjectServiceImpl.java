@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public final class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -26,15 +27,12 @@ public final class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer create(Integer clientId, Integer projectLeadId, String description) {
-        final Project createdProject = projectRepository.save(new Project(clientId, projectLeadId, description));
-        return createdProject.getProjectId();
-    }
-
-    @Override
-    public Integer create(Project project) {
-        final Project createdProject = projectRepository.save(project);
-        return createdProject.getProjectId();
+    public void addNewProject(Project project) {
+        final Optional<Project> projectOptional = projectRepository.findByProjectId(project.getProjectId());
+        if (projectOptional.isPresent()) {
+            throw new IllegalArgumentException("Project with id already exists.");
+        }
+        projectRepository.save(project);
     }
 
     @Override
@@ -52,14 +50,12 @@ public final class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Project project) {
-        projectRepository.delete(project);
-    }
-
-    @Override
-    public void deleteById(Integer projectId) {
-        final Project project = getByProjectId(projectId);
-        projectRepository.delete(project);
+    public void delete(Integer projectId) {
+        boolean exists = projectRepository.existsById(projectId);
+        if (!exists) {
+            throw new ResourceNotFoundException("Project with id: " + projectId + " does not exist.");
+        }
+        projectRepository.deleteById(projectId);
     }
 
     @Override

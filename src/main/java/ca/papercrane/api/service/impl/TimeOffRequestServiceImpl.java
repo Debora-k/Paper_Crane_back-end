@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public final class TimeOffRequestServiceImpl implements TimeOffService {
+public class TimeOffRequestServiceImpl implements TimeOffService {
 
     @Autowired
     private TimeOffRequestRepository requestRepository;
@@ -69,8 +69,7 @@ public final class TimeOffRequestServiceImpl implements TimeOffService {
 
     @Override
     public void deleteByTimeOffId(Integer timeOffId) {
-        final TimeOffRequest request = getByTimeOffId(timeOffId);
-        requestRepository.delete(request);
+        requestRepository.deleteById(timeOffId);
     }
 
     @Override

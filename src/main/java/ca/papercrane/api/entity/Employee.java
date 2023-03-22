@@ -11,36 +11,35 @@ import jakarta.persistence.Table;
 public final class Employee extends User {
 
     @Column(name = "employee_name", length = 50, nullable = false)
-    private String employeeName;
+    private String name;
 
     @Column(name = "employee_role", length = 1, nullable = false)
-    private String employeeRole;
+    private char role;
 
     public Employee() {
 
     }
 
-    public Employee(String email, String password,
-                    String employeeName, String employeeRole) {
-        super("Employee", email, password);
-        this.employeeName = employeeName;
-        this.employeeRole = employeeRole;
+    public Employee(String type, String email, String password, String name, char role) {
+        super(type, email, password);
+        this.name = name;
+        this.role = role;
     }
 
     public String getName() {
-        return employeeName;
+        return name;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setName(String employeeName) {
+        this.name = employeeName;
     }
 
-    public String getEmployeeRole() {
-        return employeeRole;
+    public char getRole() {
+        return role;
     }
 
-    public void setRole(String newEmployeeRole) {
-        this.employeeRole = newEmployeeRole;
+    public void setRole(char newRole) {
+        this.role = newRole;
     }
 
 }

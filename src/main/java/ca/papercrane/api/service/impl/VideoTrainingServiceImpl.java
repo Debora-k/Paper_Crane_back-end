@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class VideoTrainingServiceImpl implements VideoTrainingService {
+public class VideoTrainingServiceImpl implements VideoTrainingService {
 
     @Autowired
     private VideoTrainingRepository trainingRepository;
@@ -50,8 +50,7 @@ public final class VideoTrainingServiceImpl implements VideoTrainingService {
 
     @Override
     public void deleteByVideoId(Integer videoId) {
-        final VideoTraining training = getByVideoId(videoId);
-        trainingRepository.delete(training);
+        trainingRepository.deleteById(videoId);
     }
 
     @Override
