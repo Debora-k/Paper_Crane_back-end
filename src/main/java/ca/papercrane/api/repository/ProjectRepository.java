@@ -12,6 +12,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Optional<Project> findByProjectId(Integer projectId);
 
-    List<Project> findByClientId(Integer clientId);
+    Optional<List<Project>> findAllByClientId(Integer clientId);
 
 }

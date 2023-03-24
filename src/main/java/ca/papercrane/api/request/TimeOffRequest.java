@@ -13,37 +13,30 @@ public final class TimeOffRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer timeOffId;
 
-    @Column(name = "employee_id")
+    @Column(name = "employee_id", nullable = false)
     private Integer employeeId;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
 
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "status", length = 1)
+    @Column(name = "status", length = 1, nullable = false)
     private String status;
 
-    @Column(name = "reason", length = 500)
+    @Column(name = "reason", length = 500, nullable = false)
     private String reason;
 
     public TimeOffRequest() {
-        // TODO Auto-generated constructor stub
+
     }
 
-    /**
-     * Creates a new TimeOffRequest.
-     *
-     * @param employeeId The id of the employee user that is creating the request.
-     * @param startDate  The requested start date.
-     * @param endDate    The requested end date.
-     * @param reason     The reason as to why the employee has requested time off.
-     */
     public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = "O";
         this.reason = reason;
     }
 
@@ -51,16 +44,8 @@ public final class TimeOffRequest {
         return timeOffId;
     }
 
-    public void setTimeOffId(Integer timeOffId) {
-        this.timeOffId = timeOffId;
-    }
-
     public Integer getEmployeeId() {
         return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
     }
 
     public Date getStartDate() {
