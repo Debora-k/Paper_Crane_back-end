@@ -7,11 +7,23 @@ import ca.papercrane.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public final class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    public List<User> getAll() throws ResourceNotFoundException {
+        final List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            throw new ResourceNotFoundException("No users found!");
+        }
+        return users;
+    }
 
     @Override
     public User getByUserId(Integer userId) {
@@ -24,15 +36,12 @@ public final class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer create(String type, String email, String password) {
-        final User createdUser = userRepository.save(new User(type, email, password));
-        return createdUser.getUserId();
-    }
-
-    @Override
-    public Integer create(User user) {
-        final User createdUser = userRepository.save(user);
-        return createdUser.getUserId();
+    public void addNewUser(User user) {
+        final Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if (userOptional.isPresent()) {
+            throw new IllegalArgumentException("Email already taken.");
+        }
+        userRepository.save(user);
     }
 
     @Override
@@ -56,8 +65,7 @@ public final class UserServiceImpl implements UserService {
 
     @Override
     public void deleteByUserId(Integer userId) {
-        final User user = getByUserId(userId);
-        userRepository.delete(user);
+        userRepository.deleteById(userId);
     }
 
     @Override

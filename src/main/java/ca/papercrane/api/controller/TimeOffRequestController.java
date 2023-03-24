@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/time_off_requests/")
+@RequestMapping("api/v1/time_off_requests/")
 public final class TimeOffRequestController {
 
     @Autowired
@@ -24,7 +24,7 @@ public final class TimeOffRequestController {
     @PostConstruct
     public void init() {
         createFakeTimeOffRequest();
-        System.out.println("Fake request created view at: http://localhost:8080/api/time_off_requests/1");
+        System.out.println("Fake request created view at: http://localhost:8080/api/v1/time_off_requests/1");
     }
 
     @GetMapping("{id}")

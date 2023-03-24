@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/projects/")
+@RequestMapping("api/v1/projects/")
 public final class ProjectController {
 
     @Autowired
@@ -22,7 +22,7 @@ public final class ProjectController {
     @PostConstruct
     public void init() {
         createFakeProject();
-        System.out.println("Fake project created view at: http://localhost:8080/api/projects/1");
+        System.out.println("Fake project created view at: http://localhost:8080/api/v1/projects/1");
     }
 
     @GetMapping("{id}")

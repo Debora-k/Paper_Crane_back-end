@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/training/")
+@RequestMapping("api/v1/training/")
 public class VideoTrainingController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class VideoTrainingController {
     @PostConstruct
     public void init() {
         createFakeVideoTraining();
-        System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/training/1");
+        System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/v1/training/1");
     }
 
     @GetMapping("{id}")

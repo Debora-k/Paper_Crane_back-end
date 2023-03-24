@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public final class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
@@ -60,8 +60,7 @@ public final class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteByTaskId(Integer taskId) {
-        final Task task = getByTaskId(taskId);
-        taskRepository.delete(task);
+        taskRepository.deleteById(taskId);
     }
 
     @Override

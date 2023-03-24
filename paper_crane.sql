@@ -60,7 +60,7 @@ ALTER TABLE public.task OWNER TO pc;
 CREATE TABLE public.time_off (
     time_off_id integer NOT NULL,
     employee_id integer NOT NULL,
-    start_date date,
+    start_date date NOT NULL,
     end_date date,
     status character(1) NOT NULL,
     reason character varying(500) NOT NULL

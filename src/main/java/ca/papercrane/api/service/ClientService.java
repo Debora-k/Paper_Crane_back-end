@@ -8,17 +8,13 @@ public interface ClientService {
 
     Client getByEmail(String email);
 
-    Integer create(String email, String password, String clientName, String website);
+    void addNewClient(Client client);
 
-    Integer create(Client client);
-
-    void update(Client client);
+    void updateClient(Integer userId, String name, String website, String email, String password);
 
     void save(Client client);
 
     void delete(Client client);
-
-    void deleteByUserId(Integer userId);
 
     Long totalCount();
 

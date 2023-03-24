@@ -10,17 +10,13 @@ public interface ProjectService {
 
     List<Project> getAllByClientId(Integer clientId);
 
-    Integer create(Integer clientId, Integer projectLeadId, String description);
-
-    Integer create(Project project);
+    void addNewProject(Project project);
 
     void update(Project project);
 
     void save(Project project);
 
-    void delete(Project project);
-
-    void deleteById(Integer projectId);
+    void delete(Integer projectId);
 
     Long totalCount();
 
