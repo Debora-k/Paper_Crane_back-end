@@ -14,7 +14,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.client (
     user_id integer NOT NULL,
     client_name character varying(50) NOT NULL,
-    website character varying(300)
+    company_name character varying(50) NOT NULL
 );
 
 ALTER TABLE public.client OWNER TO pc;

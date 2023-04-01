@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "employee")
 @PrimaryKeyJoinColumn(name = "user_id")
-public final class Employee extends User {
+public class Employee extends User {
 
     @Column(name = "employee_name", length = 50, nullable = false)
     private String name;

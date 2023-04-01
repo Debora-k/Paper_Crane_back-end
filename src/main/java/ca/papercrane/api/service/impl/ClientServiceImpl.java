@@ -38,13 +38,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void updateClient(Integer userId, String name, String website, String email, String password) {
+    public void updateClient(Integer userId, String name, String company, String email, String password) {
         final Client client = getByUserId(userId);
         if (name != null && name.length() > 0 && !Objects.equals(client.getClientName(), name)) {
             client.setClientName(name);
         }
-        if (website != null && website.length() > 0 && !Objects.equals(client.getWebsite(), website)) {
-            client.setWebsite(website);
+        if (company != null && company.length() > 0 && !Objects.equals(client.getCompany(), company)) {
+            client.setCompany(company);
         }
         if (email != null && email.length() > 0 && !Objects.equals(client.getEmail(), email)) {
             final Optional<Client> clientOptional = clientRepository.findByEmail(email);

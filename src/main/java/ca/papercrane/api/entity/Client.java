@@ -13,17 +13,17 @@ public final class Client extends User {
     @Column(name = "client_name", length = 50, nullable = false)
     private String clientName;
 
-    @Column(name = "website", length = 300)
-    private String website;
+    @Column(name = "company_name", length = 50, nullable = false)
+    private String companyName;
 
     public Client() {
 
     }
 
-    public Client(String email, String password, String clientName, String website) {
+    public Client(String email, String password, String clientName, String companyName) {
         super("Client", email, password);
         this.clientName = clientName;
-        this.website = website;
+        this.companyName = companyName;
     }
 
     public String getClientName() {
@@ -34,12 +34,12 @@ public final class Client extends User {
         this.clientName = clientName;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getCompany() {
+        return companyName;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setCompany(String companyName) {
+        this.companyName = companyName;
     }
 
 }
