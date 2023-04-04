@@ -60,13 +60,27 @@ ALTER TABLE public.task OWNER TO pc;
 CREATE TABLE public.time_off (
     time_off_id integer NOT NULL,
     employee_id integer NOT NULL,
-    start_date date NOT NULL,
+    start_date date,
     end_date date,
     status character(1) NOT NULL,
     reason character varying(500) NOT NULL
 );
 
 ALTER TABLE public.time_off OWNER TO pc;
+
+CREATE TABLE public.ticket (
+     ticketId INT PRIMARY KEY,
+     projectId INT REFERENCES Project(projectId),
+     title VARCHAR,
+     description VARCHAR,
+     priority CHAR CHECK (priority IN ('H', 'M', 'L')),
+     status CHAR CHECK (status IN ('O', 'P', 'C')),
+     created_at DATE,
+     closed_at DATE
+);
+ALTER TABLE public.ticket OWNER TO pc;
+
+
 
 CREATE TABLE public.user_account (
     user_id integer NOT NULL,
