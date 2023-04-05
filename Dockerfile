@@ -5,7 +5,7 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install curl
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
 RUN apt-get -y install nodejs
-RUN apt-get install -y openjdk-18-jdk
+RUN apt-get install -y openjdk-17-jdk
 COPY . .
 RUN sed -i 's/\r$//' mvnw
 #RUN /bin/sh mvnw dependency:resolve
