@@ -7,6 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
 RUN apt-get -y install nodejs
 RUN apt-get install -y openjdk-18-jdk
 COPY . .
-RUN ./mvnw clean install
-
+RUN sed -i 's/\r$//' mvnw
+#RUN /bin/sh mvnw dependency:resolve
+#RUN ./mvnw clean install
 CMD ./mvnw spring-boot:run
