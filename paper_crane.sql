@@ -39,7 +39,8 @@ ALTER TABLE public.employee_project_bridge OWNER TO pc;
 CREATE TABLE public.project (
     project_id integer NOT NULL,
     client_id integer NOT NULL,
-    project_lead_id integer NOT NULL
+    project_lead_id integer NOT NULL,
+    project_description character varying(500) NOT NULL
 );
 
 
@@ -70,7 +71,7 @@ ALTER TABLE public.time_off OWNER TO pc;
 
 CREATE TABLE public.user_account (
     user_id integer NOT NULL,
-    type character varying(20) NOT NULL,
+    user_role character varying(20) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(100) NOT NULL,
     CONSTRAINT user_email CHECK (((email)::text ~~ '%_@__%.__%'::text))
@@ -80,7 +81,9 @@ ALTER TABLE public.user_account OWNER TO pc;
 
 CREATE TABLE public.video_training (
     video_id integer NOT NULL,
-    video_link character varying(300) NOT NULL
+    video_project_id integer NOT NULL,
+    video_link character varying(300) NOT NULL,
+    video_description character varying(500) NOT NULL
 );
 
 ALTER TABLE public.video_training OWNER TO pc;
