@@ -1,10 +1,12 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.EmployeeRepository;
 import ca.papercrane.api.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +16,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> getAll() throws ResourceNotFoundException {
@@ -29,8 +31,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllWithRole(char role) {
-        return employeeRepository.findAll().stream().filter(e -> e.getRole() == role).collect(Collectors.toList());
+    public List<Employee> getAllWithRole(String role) {
+        val userRole = UserRole.fromString(role);
+        if (userRole.isEmpty()) {
+            throw new IllegalArgumentException("Role: " + role + " does not exist.");
+        }
+        return employeeRepository.findAll().stream().filter(e -> e.getRole().equals(userRole)).collect(Collectors.toList());
     }
 
     @Override
@@ -59,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public void update(Integer userId, String email, String password, String name, char role) {
+    public void update(Integer userId, String email, String password, String firstName, String lastName) {
         final Employee employee = getByUserId(userId);
         if (email != null && email.length() > 0 && !Objects.equals(employee.getEmail(), email)) {
             final Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);
@@ -71,11 +77,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (password != null && password.length() > 0 && !Objects.equals(employee.getPassword(), password)) {
             employee.setPassword(password);
         }
-        if (name != null && name.length() > 0 && !Objects.equals(employee.getName(), name)) {
-            employee.setName(name);
+        if (firstName != null && firstName.length() > 0 && !Objects.equals(employee.getFirstName(), firstName)) {
+            employee.setFirstName(firstName);
         }
-        if (!Objects.equals(employee.getRole(), role)) {
-            employee.setRole(role);
+        if (lastName != null && lastName.length() > 0 && !Objects.equals(employee.getLastName(), lastName)) {
+            employee.setLastName(lastName);
         }
         save(employee);
     }

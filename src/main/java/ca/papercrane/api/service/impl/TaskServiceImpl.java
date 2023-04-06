@@ -4,17 +4,17 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.project.task.Task;
 import ca.papercrane.api.repository.TaskRepository;
 import ca.papercrane.api.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     public Task getByTaskId(Integer taskId) {

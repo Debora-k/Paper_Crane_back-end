@@ -4,21 +4,21 @@ import ca.papercrane.api.entity.User;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.UserRepository;
 import ca.papercrane.api.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<User> getAll() throws ResourceNotFoundException {
-        final List<User> users = userRepository.findAll();
+        val users = userRepository.findAll();
         if (users.isEmpty()) {
             throw new ResourceNotFoundException("No users found!");
         }
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addNewUser(User user) {
-        final Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        val userOptional = userRepository.findByEmail(user.getEmail());
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
@@ -46,9 +46,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-        final User existingUser = getByUserId(user.getUserId());
+        val existingUser = getByUserId(user.getUserId());
         existingUser.setEmail(user.getEmail());
-        existingUser.setType(user.getType());
+        existingUser.setRole(user.getRole());
         existingUser.setPassword(user.getPassword());
         save(existingUser);
     }
@@ -59,13 +59,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void saveById(Integer userId) {
+        val user = getByUserId(userId);
+        save(user);
+    }
+
+    @Override
     public void delete(User user) {
         userRepository.delete(user);
     }
 
     @Override
     public void deleteByUserId(Integer userId) {
-        userRepository.deleteById(userId);
+        val user = getByUserId(userId);
+        userRepository.delete(user);
     }
 
     @Override

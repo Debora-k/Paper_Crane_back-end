@@ -6,7 +6,8 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.AdminRepository;
 import ca.papercrane.api.repository.EmployeeRepository;
 import ca.papercrane.api.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<Admin> getAll() throws ResourceNotFoundException {
@@ -57,8 +57,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void update(Integer userId, String email, String password, String name, char role) {
-        final Admin admin = getByUserId(userId);
+    public void update(Integer userId, String email, String password, String firstName, String lastName) {
+        val admin = getByUserId(userId);
         if (email != null && email.length() > 0 && !Objects.equals(admin.getEmail(), email)) {
             final Optional<Admin> adminOptional = adminRepository.findByEmail(email);
             if (adminOptional.isPresent()) {
@@ -69,11 +69,11 @@ public class AdminServiceImpl implements AdminService {
         if (password != null && password.length() > 0 && !Objects.equals(admin.getPassword(), password)) {
             admin.setPassword(password);
         }
-        if (name != null && name.length() > 0 && !Objects.equals(admin.getName(), name)) {
-            admin.setName(name);
+        if (firstName != null && firstName.length() > 0 && !Objects.equals(admin.getFirstName(), firstName)) {
+            admin.setFirstName(firstName);
         }
-        if (!Objects.equals(admin.getRole(), role)) {
-            admin.setRole(role);
+        if (lastName != null && lastName.length() > 0 && !Objects.equals(admin.getLastName(), lastName)) {
+            admin.setLastName(lastName);
         }
         saveAdmin(admin);
     }

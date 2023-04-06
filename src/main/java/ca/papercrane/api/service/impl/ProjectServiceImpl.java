@@ -4,17 +4,17 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.project.Project;
 import ca.papercrane.api.repository.ProjectRepository;
 import ca.papercrane.api.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public Project getByProjectId(Integer projectId) {

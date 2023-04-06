@@ -4,17 +4,17 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.TimeOffRequestRepository;
 import ca.papercrane.api.request.TimeOffRequest;
 import ca.papercrane.api.service.TimeOffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TimeOffRequestServiceImpl implements TimeOffService {
 
-    @Autowired
-    private TimeOffRequestRepository requestRepository;
+    private final TimeOffRequestRepository requestRepository;
 
     @Override
     public List<TimeOffRequest> getAll() throws ResourceNotFoundException {
