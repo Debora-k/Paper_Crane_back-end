@@ -43,7 +43,6 @@ CREATE TABLE public.project (
     project_description character varying(500) NOT NULL
 );
 
-
 ALTER TABLE public.project OWNER TO pc;
 
 CREATE TABLE public.task (
@@ -53,7 +52,10 @@ CREATE TABLE public.task (
     deadline date NOT NULL,
     start_date date NOT NULL,
     expected_work_hours double precision NOT NULL,
-    progress_in_work_hours double precision DEFAULT 0
+    progress_in_work_hours double precision DEFAULT 0,
+    task_name character varying(50),
+    date_completed date,
+    is_complete boolean DEFAULT false
 );
 
 ALTER TABLE public.task OWNER TO pc;

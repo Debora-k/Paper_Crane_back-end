@@ -37,9 +37,13 @@ public final class Task {
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
     private Double progressInWorkHours;
 
-    //TODO: These variables below do not exist in the database yet, but should probably be added.
+    @Column(name = "taskName", length = 50, nullable = false)
     private String taskName;
+
+    @Column(name = "date_completed", nullable = false)
     private Date dateCompleted;
+
+    @Column(name = "is_complete", nullable = false)
     private boolean isComplete;
 
     public Task(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
