@@ -1,9 +1,15 @@
 package ca.papercrane.api.request;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "time_off")
 public final class TimeOffRequest {
@@ -23,60 +29,16 @@ public final class TimeOffRequest {
     private Date endDate;
 
     @Column(name = "status", length = 1, nullable = false)
-    private String status;
+    private char status;
 
     @Column(name = "reason", length = 500, nullable = false)
     private String reason;
-
-    public TimeOffRequest() {
-
-    }
 
     public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = "O";
-        this.reason = reason;
-    }
-
-    public Integer getTimeOffId() {
-        return timeOffId;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
+        this.status = 'O';
         this.reason = reason;
     }
 
