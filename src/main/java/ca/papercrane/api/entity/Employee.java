@@ -4,42 +4,35 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "employee")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Employee extends User {
 
-    @Column(name = "employee_name", length = 50, nullable = false)
-    private String name;
+    @Column(name = "first_name", length = 50, nullable = false)
+    private String firstName;
 
-    @Column(name = "employee_role", length = 1, nullable = false)
-    private char role;
+    @Column(name = "last_name", length = 50, nullable = false)
+    private String lastName;
 
-    public Employee() {
+    @Column(name = "type", length = 20, nullable = false)
+    private EmployeeType type;
 
-    }
-
-    public Employee(String type, String email, String password, String name, char role) {
-        super(type, email, password);
-        this.name = name;
-        this.role = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String employeeName) {
-        this.name = employeeName;
-    }
-
-    public char getRole() {
-        return role;
-    }
-
-    public void setRole(char newRole) {
-        this.role = newRole;
+    public Employee(String email, String password, String firstName, String lastName, EmployeeType type) {
+        super(email, password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.setRole(UserRole.EMPLOYEE);
     }
 
 }
