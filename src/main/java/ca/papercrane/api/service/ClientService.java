@@ -8,7 +8,7 @@ public interface ClientService {
 
     Client getByEmail(String email);
 
-    void addNewClient(Client client);
+    void addNewClient(String email, String password, String clientName, String companyName);
 
     void updateClient(Integer userId, String name, String website, String email, String password);
 

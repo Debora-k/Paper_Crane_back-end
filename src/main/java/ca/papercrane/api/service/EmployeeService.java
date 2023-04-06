@@ -8,7 +8,7 @@ public interface EmployeeService {
 
     List<Employee> getAll();
 
-    List<Employee> getAllWithRole(char role);
+    List<Employee> getAllWithRole(String role);
 
     List<Employee> getAllWithType(String type);
 
@@ -18,7 +18,7 @@ public interface EmployeeService {
 
     void addNewEmployee(Employee employee);
 
-    void update(Integer userId, String email, String password, String name, char role);
+    void update(Integer userId, String email, String password, String firstName, String lastName);
 
     void save(Employee employee);
 

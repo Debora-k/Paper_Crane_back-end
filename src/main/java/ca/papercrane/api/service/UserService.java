@@ -18,6 +18,8 @@ public interface UserService {
 
     void save(User user);
 
+    void saveById(Integer userId);
+
     void delete(User user);
 
     void deleteByUserId(Integer userId);

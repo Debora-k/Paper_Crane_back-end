@@ -8,13 +8,11 @@ public interface VideoTrainingService {
 
     Integer create(Integer projectId, String videoLink, String description);
 
-    Integer create(VideoTraining training);
-
-    void update(VideoTraining training);
+    void update(Integer videoId, String description, String videoLink);
 
     void save(VideoTraining training);
 
-    void delete(VideoTraining training);
+    void saveByVideoId(Integer videoId);
 
     void deleteByVideoId(Integer videoId);
 

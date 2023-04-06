@@ -15,7 +15,7 @@ public interface AdminService {
 
     void addNewAdmin(Admin admin);
 
-    void update(Integer userId, String email, String password, String name, char role);
+    void update(Integer userId, String email, String password, String firstName, String lastName);
 
     void saveEmployee(Employee employee);
 
