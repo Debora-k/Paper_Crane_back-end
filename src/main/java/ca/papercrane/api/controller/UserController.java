@@ -40,8 +40,8 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Integer id) {
         try {
-            val User = userService.getByUserId(id);
-            return new ResponseEntity<>(User, HttpStatus.OK);
+            val user = userService.getByUserId(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
