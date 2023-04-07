@@ -1,5 +1,6 @@
 package ca.papercrane.api.security.auth;
 
+import ca.papercrane.api.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public final class AuthenticationResponse {
 
+    private Integer id;
+    private String email;
+    private UserRole role;
     private String token;
 
 }
