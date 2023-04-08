@@ -7,7 +7,7 @@ import ca.papercrane.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer create(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
+    public Integer create(Integer projectId, String description, LocalDate startDate, LocalDate deadline, Double expectedWorkHours) {
         final Task createdTask = taskRepository.save(new Task(projectId, description, startDate, deadline, expectedWorkHours));
         return createdTask.getTaskId();
     }

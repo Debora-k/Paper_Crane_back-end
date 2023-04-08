@@ -7,7 +7,7 @@ import ca.papercrane.api.service.TimeOffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,7 +36,7 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public Integer create(Integer employeeId, Date startDate, Date endDate, String reason) {
+    public Integer create(Integer employeeId, LocalDate startDate, LocalDate endDate, String reason) {
         final TimeOffRequest createdRequest = requestRepository.save(new TimeOffRequest(employeeId, startDate, endDate, reason));
         return createdRequest.getTimeOffId();
     }
