@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -23,10 +23,10 @@ public final class TimeOffRequest {
     private Integer employeeId;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "status", length = 1, nullable = false)
     private char status;
@@ -42,7 +42,7 @@ public final class TimeOffRequest {
      * @param endDate    The date in which the employee will return to work.
      * @param reason     The brief reason as to why the time off has been requested.
      */
-    public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
+    public TimeOffRequest(Integer employeeId, LocalDate startDate, LocalDate endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;

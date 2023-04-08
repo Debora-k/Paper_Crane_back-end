@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -40,8 +40,8 @@ public class TimeOffRequestController {
      * Just to test for now.
      */
     public void createFakeTimeOffRequest() {
-        val startDate = new Date(2020, 10, 1);
-        val endDate = new Date(2020, 10, 14);
+        val startDate = LocalDate.of(2020, 10, 1);
+        val endDate = LocalDate.of(2020, 10, 14);
         val request = new TimeOffRequest(1, startDate, endDate, "Vacation");
         requestService.save(request);
     }
