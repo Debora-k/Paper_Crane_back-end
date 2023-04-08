@@ -5,6 +5,7 @@ import ca.papercrane.api.project.Project;
 import ca.papercrane.api.service.impl.ProjectServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,8 @@ public class ProjectController {
     @GetMapping("")
     public ResponseEntity<List<Project>> getAll() {
         try {
-            return new ResponseEntity<>(projectService.getAll(), HttpStatus.OK);
+            val projectList = projectService.getAll();
+            return new ResponseEntity<>(projectList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -37,7 +39,8 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseEntity<Project> getProject(@PathVariable Integer projectId) {
         try {
-            return new ResponseEntity<>(projectService.getByProjectId(projectId), HttpStatus.OK);
+            val project = projectService.getByProjectId(projectId);
+            return new ResponseEntity<>(project, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

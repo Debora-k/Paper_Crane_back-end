@@ -29,7 +29,8 @@ public class ClientController {
     @GetMapping("")
     public ResponseEntity<List<Client>> getAll() {
         try {
-            return new ResponseEntity<>(clientService.getAll(), HttpStatus.OK);
+            val clientList = clientService.getAll();
+            return new ResponseEntity<>(clientList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

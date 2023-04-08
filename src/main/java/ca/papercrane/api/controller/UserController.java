@@ -5,6 +5,7 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.service.impl.UserServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,8 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<List<User>> getAll() {
         try {
-            return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+            val userList = userService.getAll();
+            return new ResponseEntity<>(userList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -37,7 +39,8 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUser(@PathVariable Integer userId) {
         try {
-            return new ResponseEntity<>(userService.getByUserId(userId), HttpStatus.OK);
+            val user = userService.getByUserId(userId);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

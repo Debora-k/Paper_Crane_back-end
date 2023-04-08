@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +24,16 @@ public class VideoTrainingController {
     public void init() {
         createFakeVideoTraining();
         System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/v1/training/1");
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<VideoTraining>> getAll() {
+        try {
+            val trainingList = trainingService.getAll();
+            return new ResponseEntity<>(trainingList, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")

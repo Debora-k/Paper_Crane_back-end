@@ -1,7 +1,7 @@
 package ca.papercrane.api.controller;
 
 import ca.papercrane.api.entity.Admin;
-import ca.papercrane.api.entity.EmployeeType;
+import ca.papercrane.api.entity.role.EmployeeRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.service.impl.AdminServiceImpl;
 import jakarta.annotation.PostConstruct;
@@ -30,7 +30,8 @@ public class AdminController {
     @GetMapping("")
     public ResponseEntity<List<Admin>> getAll() {
         try {
-            return new ResponseEntity<>(adminService.getAll(), HttpStatus.OK);
+            val adminList = adminService.getAll();
+            return new ResponseEntity<>(adminList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -50,14 +51,14 @@ public class AdminController {
      * Just to test for now.
      */
     public void createFakeAdmins() {
-        adminService.addNewAdmin(new Admin("admin1@email.com", "123456", "Admin", "#1", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin2@email.com", "123456", "Admin", "#2", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin3@email.com", "123456", "Admin", "#3", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin4@email.com", "123456", "Admin", "#4", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin5email.com", "123456", "Admin", "#5", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin6@email.com", "123456", "Admin", "#6", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin7@email.com", "123456", "Admin", "#7", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin8@email.com", "123456", "Admin", "#8", EmployeeType.DEVELOPER));
+        adminService.addNewAdmin(new Admin("admin1@email.com", "123456", "Admin", "#1", EmployeeRole.DESIGNER));
+        adminService.addNewAdmin(new Admin("admin2@email.com", "123456", "Admin", "#2", EmployeeRole.DEVELOPER));
+        adminService.addNewAdmin(new Admin("admin3@email.com", "123456", "Admin", "#3", EmployeeRole.DEVELOPER));
+        adminService.addNewAdmin(new Admin("admin4@email.com", "123456", "Admin", "#4", EmployeeRole.DESIGNER));
+        adminService.addNewAdmin(new Admin("admin5email.com", "123456", "Admin", "#5", EmployeeRole.DEVELOPER));
+        adminService.addNewAdmin(new Admin("admin6@email.com", "123456", "Admin", "#6", EmployeeRole.DESIGNER));
+        adminService.addNewAdmin(new Admin("admin7@email.com", "123456", "Admin", "#7", EmployeeRole.DEVELOPER));
+        adminService.addNewAdmin(new Admin("admin8@email.com", "123456", "Admin", "#8", EmployeeRole.DEVELOPER));
     }
 
 }

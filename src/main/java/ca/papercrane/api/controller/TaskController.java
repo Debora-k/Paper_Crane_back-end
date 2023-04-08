@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -31,7 +31,8 @@ public class TaskController {
     @GetMapping("/{projectId}/tasks")
     public ResponseEntity<List<Task>> taskByProjectId(@PathVariable Integer projectId) {
         try {
-            return new ResponseEntity<>(taskService.getAllByProjectId(projectId), HttpStatus.OK);
+            val projectTaskList = taskService.getAllByProjectId(projectId);
+            return new ResponseEntity<>(projectTaskList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -40,7 +41,8 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> taskByTaskId(@PathVariable Integer taskId) {
         try {
-            return new ResponseEntity<>(taskService.getByTaskId(taskId), HttpStatus.OK);
+            val task = taskService.getByTaskId(taskId);
+            return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -51,8 +53,8 @@ public class TaskController {
      * Just to test for now.
      */
     public void createFakeTask() {
-        val startDate = new Date(2020, Calendar.NOVEMBER, 14);
-        val endDate = new Date(2020, Calendar.NOVEMBER, 5);
+        val startDate = LocalDate.of(2020, Calendar.NOVEMBER, 14);
+        val endDate = LocalDate.of(2020, Calendar.NOVEMBER, 5);
         val task = new Task(1, "Test task", startDate, endDate, 40.1);
         taskService.save(task);
     }
