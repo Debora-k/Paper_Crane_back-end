@@ -5,16 +5,13 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.service.impl.UserServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/users")
@@ -28,7 +25,7 @@ public class UserController {
         System.out.println("Fake users created view at: http://localhost:8080/api/v1/users/1");
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<User>> getAll() {
         try {
             return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
@@ -37,11 +34,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Integer id) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable Integer userId) {
         try {
-            val user = userService.getByUserId(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(userService.getByUserId(userId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

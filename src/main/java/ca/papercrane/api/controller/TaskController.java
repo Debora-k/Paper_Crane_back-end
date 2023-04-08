@@ -8,42 +8,51 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/tasks")
-public final class TaskController {
+@RequestMapping("api/v1/projects/tasks")
+public class TaskController {
 
     private final TaskServiceImpl taskService;
 
     @PostConstruct
     public void init() {
         createFakeTask();
-        System.out.println("Fake task created view at: http://localhost:8080/api/v1/tasks/1");
+        System.out.println("Fake task created view at: http://localhost:8080/api/v1/projects/tasks/1");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Integer id) {
+    @GetMapping("/{projectId}/tasks")
+    public ResponseEntity<List<Task>> taskByProjectId(@PathVariable Integer projectId) {
         try {
-            val task = taskService.getByTaskId(id);
-            return new ResponseEntity<>(task, HttpStatus.OK);
+            return new ResponseEntity<>(taskService.getAllByProjectId(projectId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
+    @GetMapping("/{taskId}")
+    public ResponseEntity<Task> taskByTaskId(@PathVariable Integer taskId) {
+        try {
+            return new ResponseEntity<>(taskService.getByTaskId(taskId), HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     /**
      * Just to test for now.
      */
     public void createFakeTask() {
-        val startDate = new Date(2020, 10, 14);
-        val endDate = new Date(2020, 11, 5);
+        val startDate = new Date(2020, Calendar.NOVEMBER, 14);
+        val endDate = new Date(2020, Calendar.NOVEMBER, 5);
         val task = new Task(1, "Test task", startDate, endDate, 40.1);
         taskService.save(task);
     }

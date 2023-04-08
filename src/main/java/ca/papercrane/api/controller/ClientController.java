@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/clients")
@@ -26,10 +26,19 @@ public class ClientController {
         System.out.println("Fake clients created view at: http://localhost:8080/api/v1/clients/1");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Client> getUser(@PathVariable Integer id) {
+    @GetMapping("")
+    public ResponseEntity<List<Client>> getAll() {
         try {
-            val client = clientService.getByUserId(id);
+            return new ResponseEntity<>(clientService.getAll(), HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Client> getUser(@PathVariable Integer userId) {
+        try {
+            val client = clientService.getByUserId(userId);
             return new ResponseEntity<>(client, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

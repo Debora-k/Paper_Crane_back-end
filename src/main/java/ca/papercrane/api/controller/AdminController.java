@@ -9,13 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/admins")
@@ -29,7 +27,7 @@ public class AdminController {
         System.out.println("Fake admins created view at: http://localhost:8080/api/v1/admins/1");
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Admin>> getAll() {
         try {
             return new ResponseEntity<>(adminService.getAll(), HttpStatus.OK);
@@ -38,10 +36,10 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Admin> getUser(@PathVariable Integer id) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<Admin> getUser(@PathVariable Integer userId) {
         try {
-            val admin = adminService.getByUserId(id);
+            val admin = adminService.getByUserId(userId);
             return new ResponseEntity<>(admin, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

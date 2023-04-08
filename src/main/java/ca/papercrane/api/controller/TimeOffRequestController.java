@@ -8,17 +8,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/time_off_requests")
-public final class TimeOffRequestController {
+public class TimeOffRequestController {
 
     private final TimeOffRequestServiceImpl requestService;
 
@@ -28,10 +26,10 @@ public final class TimeOffRequestController {
         System.out.println("Fake request created view at: http://localhost:8080/api/v1/time_off_requests/1");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TimeOffRequest> getRequest(@PathVariable Integer id) {
+    @GetMapping("/{requestId}")
+    public ResponseEntity<TimeOffRequest> getRequest(@PathVariable Integer requestId) {
         try {
-            val request = requestService.getByTimeOffId(id);
+            val request = requestService.getByTimeOffId(requestId);
             return new ResponseEntity<>(request, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -5,18 +5,17 @@ import ca.papercrane.api.project.Project;
 import ca.papercrane.api.service.impl.ProjectServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/projects")
-public final class ProjectController {
+public class ProjectController {
 
     private final ProjectServiceImpl projectService;
 
@@ -26,11 +25,19 @@ public final class ProjectController {
         System.out.println("Fake project created view at: http://localhost:8080/api/v1/projects/1");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Project> getProject(@PathVariable Integer id) {
+    @GetMapping("")
+    public ResponseEntity<List<Project>> getAll() {
         try {
-            val project = projectService.getByProjectId(id);
-            return new ResponseEntity<>(project, HttpStatus.OK);
+            return new ResponseEntity<>(projectService.getAll(), HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Project> getProject(@PathVariable Integer projectId) {
+        try {
+            return new ResponseEntity<>(projectService.getByProjectId(projectId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

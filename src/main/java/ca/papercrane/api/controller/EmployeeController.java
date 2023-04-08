@@ -10,13 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/employees")
@@ -30,19 +28,19 @@ public class EmployeeController {
         System.out.println("Fake employees created view at: http://localhost:8080/api/v1/employees/1");
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Employee>> getAll() {
         try {
-            return new ResponseEntity<>(employeeService.getAllWithRole(UserRole.ADMIN.toString()), HttpStatus.OK);
+            return new ResponseEntity<>(employeeService.getAllWithRole(UserRole.EMPLOYEE.toString()), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Employee> getUser(@PathVariable Integer id) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<Employee> getUser(@PathVariable Integer userId) {
         try {
-            val employee = employeeService.getByUserId(id);
+            val employee = employeeService.getByUserId(userId);
             return new ResponseEntity<>(employee, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
