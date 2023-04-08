@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Token {
+public final class Token {
 
     @Id
     @GeneratedValue
@@ -31,5 +31,13 @@ public class Token {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    /**
+     * Invalidates the token.
+     */
+    public void invalidate() {
+        setRevoked(true);
+        setExpired(true);
+    }
 
 }
