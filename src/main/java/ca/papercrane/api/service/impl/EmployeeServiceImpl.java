@@ -1,7 +1,7 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Employee;
-import ca.papercrane.api.entity.UserRole;
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.EmployeeRepository;
 import ca.papercrane.api.service.EmployeeService;
