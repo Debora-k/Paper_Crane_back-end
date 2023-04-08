@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ProjectService {
 
+    List<Project> getAll();
+
     Project getByProjectId(Integer projectId);
 
     List<Project> getAllByClientId(Integer clientId);

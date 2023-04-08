@@ -2,7 +2,11 @@ package ca.papercrane.api.service;
 
 import ca.papercrane.api.entity.Client;
 
+import java.util.List;
+
 public interface ClientService {
+
+    List<Client> getAll();
 
     Client getByUserId(Integer userId);
 
