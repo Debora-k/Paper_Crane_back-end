@@ -1,6 +1,6 @@
 package ca.papercrane.api.security.auth;
 
-import ca.papercrane.api.entity.UserRole;
+import ca.papercrane.api.entity.role.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,5 +1,7 @@
 package ca.papercrane.api.entity;
 
+import ca.papercrane.api.entity.role.EmployeeRole;
+import ca.papercrane.api.entity.role.UserRole;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +22,7 @@ public final class Admin extends Employee {
      * @param lastName  The last name of the user.
      * @param type      The type of employee category this admin falls under.
      */
-    public Admin(String email, String password, String firstName, String lastName, EmployeeType type) {
+    public Admin(String email, String password, String firstName, String lastName, EmployeeRole type) {
         super(email, password, firstName, lastName, type);
         this.setRole(UserRole.ADMIN);
     }

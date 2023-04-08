@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a Project within the application.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,17 +15,29 @@ import lombok.NoArgsConstructor;
 @Table(name = "project")
 public final class Project {
 
+    /**
+     * The auto-generated project id.
+     */
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer projectId;
 
+    /**
+     * The id of the client user that this project is for.
+     */
     @Column(name = "client_id", nullable = false)
     private Integer clientId;
 
+    /**
+     * The user id of the project leader.
+     */
     @Column(name = "project_lead_id", nullable = false)
     private Integer projectLeadId;
 
+    /**
+     * A brief description of what the project is.
+     */
     @Column(name = "project_description")
     private String projectDescription;
 

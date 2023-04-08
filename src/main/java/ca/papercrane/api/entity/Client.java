@@ -1,5 +1,6 @@
 package ca.papercrane.api.entity;
 
+import ca.papercrane.api.entity.role.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -9,6 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a Client user.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
@@ -18,9 +22,15 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "user_id")
 public final class Client extends User {
 
+    /**
+     * The name of the client.
+     */
     @Column(name = "client_name", length = 50, nullable = false)
     private String clientName;
 
+    /**
+     * The name of the client's company.
+     */
     @Column(name = "company_name", length = 50, nullable = false)
     private String companyName;
 

@@ -1,5 +1,6 @@
 package ca.papercrane.api.entity;
 
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.security.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Represents the base for all user accounts.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,20 +25,35 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
+    /**
+     * The user's auto-generated id.
+     */
     @Id
     @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
+    /**
+     * The users role.
+     */
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    /**
+     * The users email address.
+     */
     @Column(name = "email", unique = true, length = 100, nullable = false)
     private String email;
 
+    /**
+     * The users' password.
+     */
     @Column(name = "password", length = 100, nullable = false)
     private String password;
 
+    /**
+     * The stored authentication tokens for the user.
+     */
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 

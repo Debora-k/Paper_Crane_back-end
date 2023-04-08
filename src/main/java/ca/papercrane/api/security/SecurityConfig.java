@@ -20,17 +20,37 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The application security configuration.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    /**
+     * The filter that authenticates the JWT tokens.
+     */
     private final JwtAuthenticationFilter jwtAuthFilter;
 
+    /**
+     * The provider that performs authentication.
+     */
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * The handler that performs a users logout.
+     */
     private final LogoutHandler logoutHandler;
 
+    /**
+     * Configures the security filter chain for the application.
+     * Sets up authentication and authorization rules, as well as session management and logout handling.
+     *
+     * @param http The HttpSecurity object used to configure the filter chain.
+     * @return The built SecurityFilterChain object.
+     * @throws Exception if an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.
@@ -51,6 +71,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configures the CORS settings for the application.
+     *
+     * @return The registered configuration object.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 

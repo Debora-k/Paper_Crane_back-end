@@ -1,4 +1,4 @@
-package ca.papercrane.api.entity;
+package ca.papercrane.api.entity.role;
 
 import java.util.Arrays;
 import java.util.Optional;
