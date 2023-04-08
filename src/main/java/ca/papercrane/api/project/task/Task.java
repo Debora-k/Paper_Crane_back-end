@@ -37,15 +37,24 @@ public final class Task {
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
     private Double progressInWorkHours;
 
-    @Column(name = "taskName", length = 50, nullable = false)
+    /** @Column(name = "taskName", length = 50, nullable = false)
     private String taskName;
 
-    @Column(name = "date_completed", nullable = false)
-    private Date dateCompleted;
+     @Column(name = "date_completed", nullable = false)
+     private Date dateCompleted;
 
-    @Column(name = "is_complete", nullable = false)
-    private boolean isComplete;
+     @Column(name = "is_complete", nullable = false)
+     private boolean isComplete; **/
 
+    /**
+     * Creates a new Task.
+     *
+     * @param projectId         The id of the project this task is for.
+     * @param description       A brief description of what the task is.
+     * @param startDate         The date in which the task has been started.
+     * @param deadline          The deadline for the task.
+     * @param expectedWorkHours The amount of hours expected to complete the task.
+     */
     public Task(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
         this.projectId = projectId;
         this.description = description;

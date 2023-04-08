@@ -26,6 +26,13 @@ public final class Project {
     @Column(name = "project_description")
     private String projectDescription;
 
+    /**
+     * Creates a new Project.
+     *
+     * @param clientId           The id of the client user that this project is for.
+     * @param projectLeadId      The id of the project leader.
+     * @param projectDescription The brief description of the project.
+     */
     public Project(Integer clientId, Integer projectLeadId, String projectDescription) {
         this.clientId = clientId;
         this.projectLeadId = projectLeadId;
