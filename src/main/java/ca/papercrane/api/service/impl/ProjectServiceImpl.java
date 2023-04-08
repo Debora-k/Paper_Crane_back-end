@@ -5,10 +5,10 @@ import ca.papercrane.api.project.Project;
 import ca.papercrane.api.repository.ProjectRepository;
 import ca.papercrane.api.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAll() throws ResourceNotFoundException {
-        final List<Project> projectList = projectRepository.findAll();
+        val projectList = projectRepository.findAll();
         if (projectList.isEmpty()) {
             throw new ResourceNotFoundException("No projects found!");
         }
@@ -37,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addNewProject(Project project) {
-        final Optional<Project> projectOptional = projectRepository.findByProjectId(project.getProjectId());
+        val projectOptional = projectRepository.findByProjectId(project.getProjectId());
         if (projectOptional.isPresent()) {
             throw new IllegalArgumentException("Project with id already exists.");
         }
@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void update(Project project) {
-        final Project existingProject = getByProjectId(project.getProjectId());
+        val existingProject = getByProjectId(project.getProjectId());
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
@@ -60,7 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void delete(Integer projectId) {
-        boolean exists = projectRepository.existsById(projectId);
+        val exists = projectRepository.existsById(projectId);
         if (!exists) {
             throw new ResourceNotFoundException("Project with id: " + projectId + " does not exist.");
         }

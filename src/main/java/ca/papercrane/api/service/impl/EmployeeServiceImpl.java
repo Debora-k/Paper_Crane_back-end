@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAll() throws ResourceNotFoundException {
-        final List<Employee> employeeList = employeeRepository.findAll();
+        val employeeList = employeeRepository.findAll();
         if (employeeList.isEmpty()) {
             throw new ResourceNotFoundException("No employees found!");
         }
@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addNewEmployee(Employee employee) {
-        final Optional<Employee> employeeOptional = employeeRepository.findByEmail(employee.getEmail());
+        val employeeOptional = employeeRepository.findByEmail(employee.getEmail());
         if (employeeOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public void update(Integer userId, String email, String password, String firstName, String lastName) {
-        final Employee employee = getByUserId(userId);
+        val employee = getByUserId(userId);
         if (email != null && email.length() > 0 && !Objects.equals(employee.getEmail(), email)) {
             final Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);
             if (employeeOptional.isPresent()) {

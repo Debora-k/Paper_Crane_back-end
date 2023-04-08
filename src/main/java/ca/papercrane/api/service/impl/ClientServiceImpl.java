@@ -21,7 +21,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getAll() throws ResourceNotFoundException {
-        final List<Client> clientList = clientRepository.findAll();
+        val clientList = clientRepository.findAll();
         if (clientList.isEmpty()) {
             throw new ResourceNotFoundException("No clients found!");
         }
@@ -40,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void addNewClient(String email, String password, String clientName, String companyName) {
-        final Optional<Client> clientOptional = clientRepository.findByEmail(email);
+        val clientOptional = clientRepository.findByEmail(email);
         if (clientOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
@@ -51,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void updateClient(Integer userId, String email, String password, String clientName, String companyName) {
-        final Client client = getByUserId(userId);
+        val client = getByUserId(userId);
         if (clientName != null && clientName.length() > 0 && !Objects.equals(client.getClientName(), clientName)) {
             client.setClientName(clientName);
         }

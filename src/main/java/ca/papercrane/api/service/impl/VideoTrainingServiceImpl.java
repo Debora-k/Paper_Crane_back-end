@@ -18,7 +18,7 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
 
     @Override
     public List<VideoTraining> getAll() {
-        final List<VideoTraining> trainingList = trainingRepository.findAll();
+        val trainingList = trainingRepository.findAll();
         if (trainingList.isEmpty()) {
             throw new ResourceNotFoundException("No training found.");
         }

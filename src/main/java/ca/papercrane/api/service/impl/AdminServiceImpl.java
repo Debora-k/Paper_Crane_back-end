@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> getAll() throws ResourceNotFoundException {
-        final List<Admin> adminList = adminRepository.findAll();
+        val adminList = adminRepository.findAll();
         if (adminList.isEmpty()) {
             throw new ResourceNotFoundException("No admins found!");
         }
@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addNewEmployee(Employee employee) {
-        final Optional<Employee> employeeOptional = employeeRepository.findByEmail(employee.getEmail());
+        val employeeOptional = employeeRepository.findByEmail(employee.getEmail());
         if (employeeOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addNewAdmin(Admin admin) {
-        final Optional<Admin> adminOptional = adminRepository.findByEmail(admin.getEmail());
+        val adminOptional = adminRepository.findByEmail(admin.getEmail());
         if (adminOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
