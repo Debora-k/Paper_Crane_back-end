@@ -34,6 +34,14 @@ public final class TimeOffRequest {
     @Column(name = "reason", length = 500, nullable = false)
     private String reason;
 
+    /**
+     * Creates a new TimeOffRequest
+     *
+     * @param employeeId The id of the employee requesting time off.
+     * @param startDate  The date in which the time off will begin.
+     * @param endDate    The date in which the employee will return to work.
+     * @param reason     The brief reason as to why the time off has been requested.
+     */
     public TimeOffRequest(Integer employeeId, Date startDate, Date endDate, String reason) {
         this.employeeId = employeeId;
         this.startDate = startDate;

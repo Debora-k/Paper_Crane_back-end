@@ -24,6 +24,14 @@ public final class Client extends User {
     @Column(name = "company_name", length = 50, nullable = false)
     private String companyName;
 
+    /**
+     * Creates a new Client.
+     *
+     * @param email       The email for the user.
+     * @param password    The password for the user.
+     * @param clientName  The clients name.
+     * @param companyName The clients company name.
+     */
     public Client(String email, String password, String clientName, String companyName) {
         super(email, password);
         this.clientName = clientName;

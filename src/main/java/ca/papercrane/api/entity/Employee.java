@@ -27,6 +27,15 @@ public class Employee extends User {
     @Column(name = "type", length = 20, nullable = false)
     private EmployeeType type;
 
+    /**
+     * Creates a new Employee.
+     *
+     * @param email     The email address for the user.
+     * @param password  The password for the user.
+     * @param firstName The employees first name.
+     * @param lastName  The employees last name.
+     * @param type      The type of employee.
+     */
     public Employee(String email, String password, String firstName, String lastName, EmployeeType type) {
         super(email, password);
         this.firstName = firstName;

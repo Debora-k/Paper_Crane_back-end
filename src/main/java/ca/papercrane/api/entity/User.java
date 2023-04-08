@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
+    /**
+     * Creates a new User.
+     *
+     * @param email    The user email address. Used for login.
+     * @param password The user password. Used for login.
+     */
     public User(String email, String password) {
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);

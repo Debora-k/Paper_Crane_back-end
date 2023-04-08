@@ -9,8 +9,17 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Entity
-public class Admin extends Employee {
+public final class Admin extends Employee {
 
+    /**
+     * Creates a new Admin.
+     *
+     * @param email     The email for the user.
+     * @param password  The password for the user.
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @param type      The type of employee category this admin falls under.
+     */
     public Admin(String email, String password, String firstName, String lastName, EmployeeType type) {
         super(email, password, firstName, lastName, type);
         this.setRole(UserRole.ADMIN);

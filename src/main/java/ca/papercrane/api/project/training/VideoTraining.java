@@ -26,6 +26,13 @@ public final class VideoTraining {
     @Column(name = "video_description", nullable = false, length = 500)
     private String description;
 
+    /**
+     * Creates a new VideoTraining.
+     *
+     * @param projectId   The id of the project the training is for.
+     * @param videoLink   The link to the training video.
+     * @param description The brief description of the training video.
+     */
     public VideoTraining(Integer projectId, String videoLink, String description) {
         this.projectId = projectId;
         this.videoLink = videoLink;
