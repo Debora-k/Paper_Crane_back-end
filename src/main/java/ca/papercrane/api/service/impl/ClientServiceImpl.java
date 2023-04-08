@@ -9,6 +9,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -17,6 +18,15 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+
+    @Override
+    public List<Client> getAll() throws ResourceNotFoundException {
+        final List<Client> clientList = clientRepository.findAll();
+        if (clientList.isEmpty()) {
+            throw new ResourceNotFoundException("No clients found!");
+        }
+        return clientList;
+    }
 
     @Override
     public Client getByUserId(Integer userId) {

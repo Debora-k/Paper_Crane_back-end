@@ -8,11 +8,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VideoTrainingServiceImpl implements VideoTrainingService {
 
     private final VideoTrainingRepository trainingRepository;
+
+    @Override
+    public List<VideoTraining> getAll() {
+        final List<VideoTraining> trainingList = trainingRepository.findAll();
+        if (trainingList.isEmpty()) {
+            throw new ResourceNotFoundException("No training found.");
+        }
+        return trainingList;
+    }
 
     @Override
     public VideoTraining getByVideoId(Integer videoId) {

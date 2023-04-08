@@ -17,6 +17,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
 
     @Override
+    public List<Project> getAll() throws ResourceNotFoundException {
+        final List<Project> projectList = projectRepository.findAll();
+        if (projectList.isEmpty()) {
+            throw new ResourceNotFoundException("No projects found!");
+        }
+        return projectList;
+    }
+
+    @Override
     public Project getByProjectId(Integer projectId) {
         return projectRepository.findByProjectId(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found!"));
     }
