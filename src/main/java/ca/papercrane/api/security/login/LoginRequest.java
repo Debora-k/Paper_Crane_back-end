@@ -1,4 +1,4 @@
-package ca.papercrane.api.security.auth;
+package ca.papercrane.api.security.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class LoginRequest {
 
     private String email;
     private String password;

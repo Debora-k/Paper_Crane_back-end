@@ -1,12 +1,14 @@
-package ca.papercrane.api.security.auth;
+package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.User;
 import ca.papercrane.api.exception.ResourceNotFoundException;
+import ca.papercrane.api.repository.TokenRepository;
 import ca.papercrane.api.repository.UserRepository;
-import ca.papercrane.api.security.jwt.JwtService;
+import ca.papercrane.api.security.login.LoginRequest;
+import ca.papercrane.api.security.login.LoginResponse;
 import ca.papercrane.api.security.token.Token;
-import ca.papercrane.api.security.token.TokenRepository;
-import ca.papercrane.api.security.token.TokenType;
+import ca.papercrane.api.service.JwtService;
+import ca.papercrane.api.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class LoginServiceImpl implements LoginService {
 
     private final UserRepository repository;
 
@@ -26,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public LoginResponse authenticateAndBuildResponse(LoginRequest request) {
 
         //authenticate the request.
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -35,33 +37,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         val user = repository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
         //build the authentication token.
-        val token = Token.builder().user(user).token(jwtService.generateToken(user)).tokenType(TokenType.BEARER).expired(false).revoked(false).build();
+        val token = Token.builder().user(user).token(jwtService.generateToken(user)).tokenType(Token.TokenType.BEARER).expired(false).revoked(false).build();
 
         //revokes the authenticated users previous tokens.
-        revokeAllUserTokens(user);
+        invalidateAllTokensForUser(user);
 
         //saves the new token to the database.
-        save(token);
+        tokenRepository.save(token);
 
         //return the built authentication response.
-        return AuthenticationResponse.builder().id(user.getUserId()).email(user.getEmail()).role(user.getRole()).token(token.getToken()).build();
+        return LoginResponse.builder().id(user.getUserId()).email(user.getEmail()).role(user.getRole()).token(token.getToken()).build();
     }
 
     @Override
-    public void save(Token token) {
-        tokenRepository.save(token);
-    }
+    public void invalidateAllTokensForUser(User user) {
 
-    @Override
-    public void revokeAllUserTokens(User user) {
-
-        //create a list of all the users tokens.
+        //find all tokens for the specified user.
         val userTokenList = tokenRepository.findAllValidTokenByUser(user.getUserId());
 
-        //loop through all the users tokens and invalidate them.
+        //invalidate each of their tokens.
         userTokenList.forEach(Token::invalidate);
 
-        //save all the tokens back to the database.
+        //save all the invalidated tokens back to the repository.
         tokenRepository.saveAll(userTokenList);
 
     }

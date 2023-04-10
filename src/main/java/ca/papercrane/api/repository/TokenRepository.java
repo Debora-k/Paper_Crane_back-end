@@ -1,5 +1,6 @@
-package ca.papercrane.api.security.token;
+package ca.papercrane.api.repository;
 
+import ca.papercrane.api.security.token.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

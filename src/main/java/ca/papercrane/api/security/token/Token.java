@@ -53,13 +53,18 @@ public final class Token {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     /**
      * Invalidates the token.
      */
     public void invalidate() {
         setRevoked(true);
         setExpired(true);
+    }
+
+    public enum TokenType {
+
+        BEARER
+
     }
 
 }

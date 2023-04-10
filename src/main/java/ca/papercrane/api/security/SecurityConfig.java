@@ -1,6 +1,5 @@
 package ca.papercrane.api.security;
 
-import ca.papercrane.api.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
@@ -29,15 +28,19 @@ import java.util.List;
 public class SecurityConfig {
 
     /**
+     * A list of end-points in which do not require authorization to access.
+     */
+    private static final List<String> UNAUTHORIZED_ENDPOINTS = List.of(
+            "/api/v1/login/**"
+    );
+    /**
      * The filter that authenticates the JWT tokens.
      */
-    private final JwtAuthenticationFilter jwtAuthFilter;
-
+    private final AuthenticationFilter authenticationFilter;
     /**
      * The provider that performs authentication.
      */
     private final AuthenticationProvider authenticationProvider;
-
     /**
      * The handler that performs a users logout.
      */
@@ -53,21 +56,21 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.
-                cors().configurationSource(corsConfigurationSource())
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl("/api/v1/auth/logout")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+
+        http.csrf().disable();
+
+        http.cors().configurationSource(corsConfigurationSource());
+
+        http.authorizeHttpRequests().requestMatchers(UNAUTHORIZED_ENDPOINTS.toArray(new String[0])).permitAll().anyRequest().authenticated();
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.authenticationProvider(authenticationProvider);
+
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.logout().logoutUrl("/api/v1/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+
         return http.build();
     }
 

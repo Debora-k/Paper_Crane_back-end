@@ -9,18 +9,10 @@ spring:
 
   jpa:
     hibernate:
+      #change to update for production.
       ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show_sql: true
-
-  main:
-    web-application-type: servlet
-
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: src/main/java
-      exclude: WEB-INF/**
