@@ -3,7 +3,6 @@ package ca.papercrane.api.entity;
 import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.security.token.Token;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +18,6 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "user_account")
 @Inheritance(strategy = InheritanceType.JOINED)
