@@ -1,10 +1,12 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.EmployeeRepository;
 import ca.papercrane.api.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +16,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> getAll() throws ResourceNotFoundException {
-        final List<Employee> employeeList = employeeRepository.findAll();
+        val employeeList = employeeRepository.findAll().stream().filter(e -> e.getRole().equals(UserRole.EMPLOYEE)).collect(Collectors.toList());
         if (employeeList.isEmpty()) {
             throw new ResourceNotFoundException("No employees found!");
         }
@@ -29,13 +31,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllWithRole(char role) {
-        return employeeRepository.findAll().stream().filter(e -> e.getRole() == role).collect(Collectors.toList());
+    public List<Employee> getAllWithRole(UserRole role) {
+        val employeeList = employeeRepository.findAll().stream().filter(e -> e.getRole().equals(role)).collect(Collectors.toList());
+        if (employeeList.isEmpty()) {
+            throw new ResourceNotFoundException("No users with role: " + role.toString() + " found!");
+        }
+        return employeeList;
     }
 
     @Override
     public List<Employee> getAllWithType(String type) {
-        return employeeRepository.findAll().stream().filter(e -> e.getType().equals(type)).collect(Collectors.toList());
+        return employeeRepository.findAll().stream().filter(e -> e.getType().toString().equalsIgnoreCase(type)).collect(Collectors.toList());
     }
 
     @Override
@@ -50,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addNewEmployee(Employee employee) {
-        final Optional<Employee> employeeOptional = employeeRepository.findByEmail(employee.getEmail());
+        val employeeOptional = employeeRepository.findByEmail(employee.getEmail());
         if (employeeOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
@@ -59,8 +65,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public void update(Integer userId, String email, String password, String name, char role) {
-        final Employee employee = getByUserId(userId);
+    public void update(Integer userId, String email, String password, String firstName, String lastName) {
+        val employee = getByUserId(userId);
         if (email != null && email.length() > 0 && !Objects.equals(employee.getEmail(), email)) {
             final Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);
             if (employeeOptional.isPresent()) {
@@ -71,11 +77,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (password != null && password.length() > 0 && !Objects.equals(employee.getPassword(), password)) {
             employee.setPassword(password);
         }
-        if (name != null && name.length() > 0 && !Objects.equals(employee.getName(), name)) {
-            employee.setName(name);
+        if (firstName != null && firstName.length() > 0 && !Objects.equals(employee.getFirstName(), firstName)) {
+            employee.setFirstName(firstName);
         }
-        if (!Objects.equals(employee.getRole(), role)) {
-            employee.setRole(role);
+        if (lastName != null && lastName.length() > 0 && !Objects.equals(employee.getLastName(), lastName)) {
+            employee.setLastName(lastName);
         }
         save(employee);
     }

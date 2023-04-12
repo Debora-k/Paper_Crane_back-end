@@ -4,25 +4,26 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.TimeOffRequestRepository;
 import ca.papercrane.api.request.TimeOffRequest;
 import ca.papercrane.api.service.TimeOffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TimeOffRequestServiceImpl implements TimeOffService {
 
-    @Autowired
-    private TimeOffRequestRepository requestRepository;
+    private final TimeOffRequestRepository requestRepository;
 
     @Override
     public List<TimeOffRequest> getAll() throws ResourceNotFoundException {
-        final List<TimeOffRequest> timeOffRequests = requestRepository.findAll();
-        if (timeOffRequests.isEmpty()) {
+        val requestList = requestRepository.findAll();
+        if (requestList.isEmpty()) {
             throw new ResourceNotFoundException("No TimeOffRequests found!");
         }
-        return timeOffRequests;
+        return requestList;
     }
 
     @Override
@@ -36,20 +37,20 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public Integer create(Integer employeeId, Date startDate, Date endDate, String reason) {
-        final TimeOffRequest createdRequest = requestRepository.save(new TimeOffRequest(employeeId, startDate, endDate, reason));
+    public Integer create(Integer employeeId, LocalDate startDate, LocalDate endDate, String reason) {
+        val createdRequest = requestRepository.save(new TimeOffRequest(employeeId, startDate, endDate, reason));
         return createdRequest.getTimeOffId();
     }
 
     @Override
     public Integer create(TimeOffRequest request) {
-        final TimeOffRequest createdRequest = requestRepository.save(request);
+        val createdRequest = requestRepository.save(request);
         return createdRequest.getTimeOffId();
     }
 
     @Override
     public void update(TimeOffRequest request) {
-        final TimeOffRequest existingRequest = getByTimeOffId(request.getTimeOffId());
+        val existingRequest = getByTimeOffId(request.getTimeOffId());
         existingRequest.setReason(request.getReason());
         existingRequest.setStatus(request.getStatus());
         existingRequest.setStartDate(request.getStartDate());

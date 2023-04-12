@@ -14,7 +14,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.client (
     user_id integer NOT NULL,
     client_name character varying(50) NOT NULL,
-    website character varying(300)
+    company_name character varying(50) NOT NULL
 );
 
 ALTER TABLE public.client OWNER TO pc;
@@ -39,9 +39,9 @@ ALTER TABLE public.employee_project_bridge OWNER TO pc;
 CREATE TABLE public.project (
     project_id integer NOT NULL,
     client_id integer NOT NULL,
-    project_lead_id integer NOT NULL
+    project_lead_id integer NOT NULL,
+    project_description character varying(500) NOT NULL
 );
-
 
 ALTER TABLE public.project OWNER TO pc;
 
@@ -52,7 +52,10 @@ CREATE TABLE public.task (
     deadline date NOT NULL,
     start_date date NOT NULL,
     expected_work_hours double precision NOT NULL,
-    progress_in_work_hours double precision DEFAULT 0
+    progress_in_work_hours double precision DEFAULT 0,
+    task_name character varying(50),
+    date_completed date,
+    is_complete boolean DEFAULT false
 );
 
 ALTER TABLE public.task OWNER TO pc;
@@ -70,7 +73,7 @@ ALTER TABLE public.time_off OWNER TO pc;
 
 CREATE TABLE public.user_account (
     user_id integer NOT NULL,
-    type character varying(20) NOT NULL,
+    user_role character varying(20) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(100) NOT NULL,
     CONSTRAINT user_email CHECK (((email)::text ~~ '%_@__%.__%'::text))
@@ -80,7 +83,9 @@ ALTER TABLE public.user_account OWNER TO pc;
 
 CREATE TABLE public.video_training (
     video_id integer NOT NULL,
-    video_link character varying(300) NOT NULL
+    video_project_id integer NOT NULL,
+    video_link character varying(300) NOT NULL,
+    video_description character varying(500) NOT NULL
 );
 
 ALTER TABLE public.video_training OWNER TO pc;

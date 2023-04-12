@@ -2,19 +2,21 @@ package ca.papercrane.api.service;
 
 import ca.papercrane.api.project.training.VideoTraining;
 
+import java.util.List;
+
 public interface VideoTrainingService {
+
+    List<VideoTraining> getAll();
 
     VideoTraining getByVideoId(Integer videoId);
 
     Integer create(Integer projectId, String videoLink, String description);
 
-    Integer create(VideoTraining training);
-
-    void update(VideoTraining training);
+    void update(Integer videoId, String description, String videoLink);
 
     void save(VideoTraining training);
 
-    void delete(VideoTraining training);
+    void saveByVideoId(Integer videoId);
 
     void deleteByVideoId(Integer videoId);
 

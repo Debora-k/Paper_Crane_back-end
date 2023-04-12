@@ -2,7 +2,7 @@ package ca.papercrane.api.service;
 
 import ca.papercrane.api.project.task.Task;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskService {
@@ -11,7 +11,7 @@ public interface TaskService {
 
     List<Task> getAllByProjectId(Integer projectId);
 
-    Integer create(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours);
+    Integer create(Integer projectId, String description, LocalDate startDate, LocalDate deadline, Double expectedWorkHours);
 
     Integer create(Task task);
 

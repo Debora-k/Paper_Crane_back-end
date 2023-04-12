@@ -12,16 +12,6 @@ public interface UserService {
 
     User getByEmail(String email);
 
-    void addNewUser(User user);
-
-    void update(User user);
-
-    void save(User user);
-
-    void delete(User user);
-
-    void deleteByUserId(Integer userId);
-
     Long totalCount();
 
 }

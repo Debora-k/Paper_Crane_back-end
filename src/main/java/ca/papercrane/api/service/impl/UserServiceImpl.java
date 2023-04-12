@@ -1,28 +1,30 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.User;
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.UserRepository;
 import ca.papercrane.api.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<User> getAll() throws ResourceNotFoundException {
-        final List<User> users = userRepository.findAll();
-        if (users.isEmpty()) {
+        val userList = userRepository.findAll().stream().filter(e -> e.getRole().equals(UserRole.USER)).collect(Collectors.toList());
+        if (userList.isEmpty()) {
             throw new ResourceNotFoundException("No users found!");
         }
-        return users;
+        return userList;
     }
 
     @Override
@@ -33,39 +35,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
-    }
-
-    @Override
-    public void addNewUser(User user) {
-        final Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
-        if (userOptional.isPresent()) {
-            throw new IllegalArgumentException("Email already taken.");
-        }
-        userRepository.save(user);
-    }
-
-    @Override
-    public void update(User user) {
-        final User existingUser = getByUserId(user.getUserId());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setType(user.getType());
-        existingUser.setPassword(user.getPassword());
-        save(existingUser);
-    }
-
-    @Override
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
-    }
-
-    @Override
-    public void deleteByUserId(Integer userId) {
-        userRepository.deleteById(userId);
     }
 
     @Override

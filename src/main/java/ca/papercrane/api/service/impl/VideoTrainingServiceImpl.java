@@ -4,14 +4,26 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.project.training.VideoTraining;
 import ca.papercrane.api.repository.VideoTrainingRepository;
 import ca.papercrane.api.service.VideoTrainingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class VideoTrainingServiceImpl implements VideoTrainingService {
 
-    @Autowired
-    private VideoTrainingRepository trainingRepository;
+    private final VideoTrainingRepository trainingRepository;
+
+    @Override
+    public List<VideoTraining> getAll() {
+        val trainingList = trainingRepository.findAll();
+        if (trainingList.isEmpty()) {
+            throw new ResourceNotFoundException("No training found.");
+        }
+        return trainingList;
+    }
 
     @Override
     public VideoTraining getByVideoId(Integer videoId) {
@@ -20,21 +32,16 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
 
     @Override
     public Integer create(Integer projectId, String videoLink, String description) {
-        final VideoTraining createdTraining = trainingRepository.save(new VideoTraining(projectId, videoLink, description));
-        return createdTraining.getVideoId();
+        val newTraining = new VideoTraining(projectId, videoLink, description);
+        val savedTraining = trainingRepository.save(newTraining);
+        return savedTraining.getVideoId();
     }
 
     @Override
-    public Integer create(VideoTraining training) {
-        final VideoTraining createdTraining = trainingRepository.save(training);
-        return createdTraining.getVideoId();
-    }
-
-    @Override
-    public void update(VideoTraining training) {
-        final VideoTraining existingTraining = getByVideoId(training.getVideoId());
-        existingTraining.setDescription(training.getDescription());
-        existingTraining.setVideoLink(training.getVideoLink());
+    public void update(Integer videoId, String description, String videoLink) {
+        val existingTraining = getByVideoId(videoId);
+        existingTraining.setDescription(description);
+        existingTraining.setVideoLink(videoLink);
         save(existingTraining);
     }
 
@@ -44,13 +51,15 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     }
 
     @Override
-    public void delete(VideoTraining training) {
-        trainingRepository.delete(training);
+    public void saveByVideoId(Integer videoId) {
+        val videoTraining = getByVideoId(videoId);
+        save(videoTraining);
     }
 
     @Override
     public void deleteByVideoId(Integer videoId) {
-        trainingRepository.deleteById(videoId);
+        val videoTraining = getByVideoId(videoId);
+        trainingRepository.delete(videoTraining);
     }
 
     @Override

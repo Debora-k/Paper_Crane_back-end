@@ -4,17 +4,18 @@ import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.project.task.Task;
 import ca.papercrane.api.repository.TaskRepository;
 import ca.papercrane.api.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     public Task getByTaskId(Integer taskId) {
@@ -27,20 +28,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer create(Integer projectId, String description, Date startDate, Date deadline, Double expectedWorkHours) {
-        final Task createdTask = taskRepository.save(new Task(projectId, description, startDate, deadline, expectedWorkHours));
+    public Integer create(Integer projectId, String description, LocalDate startDate, LocalDate deadline, Double expectedWorkHours) {
+        val createdTask = taskRepository.save(new Task(projectId, description, startDate, deadline, expectedWorkHours));
         return createdTask.getTaskId();
     }
 
     @Override
     public Integer create(Task task) {
-        final Task createdTask = taskRepository.save(task);
+        val createdTask = taskRepository.save(task);
         return createdTask.getTaskId();
     }
 
     @Override
     public void update(Task task) {
-        final Task existingTask = getByTaskId(task.getTaskId());
+        val existingTask = getByTaskId(task.getTaskId());
         existingTask.setDescription(task.getDescription());
         existingTask.setStartDate(task.getStartDate());
         existingTask.setDeadline(task.getDeadline());

@@ -12,6 +12,6 @@ public interface TimeOffRequestRepository extends JpaRepository<TimeOffRequest, 
 
     Optional<TimeOffRequest> findByTimeOffId(Integer timeOffId);
 
-    Optional<List<TimeOffRequest>> findAllByEmployeeId(Integer employee_id);
+    Optional<List<TimeOffRequest>> findAllByEmployeeId(Integer userId);
 
 }

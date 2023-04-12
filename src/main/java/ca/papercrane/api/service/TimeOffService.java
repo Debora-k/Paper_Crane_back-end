@@ -2,7 +2,7 @@ package ca.papercrane.api.service;
 
 import ca.papercrane.api.request.TimeOffRequest;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TimeOffService {
@@ -13,7 +13,7 @@ public interface TimeOffService {
 
     List<TimeOffRequest> getAllByEmployeeId(Integer userId);
 
-    Integer create(Integer employeeId, Date startDate, Date endDate, String reason);
+    Integer create(Integer employeeId, LocalDate startDate, LocalDate endDate, String reason);
 
     Integer create(TimeOffRequest request);
 
