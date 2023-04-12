@@ -27,7 +27,7 @@ public class ClientController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Client>> getAll() {
+    public ResponseEntity<List<Client>> getAllClients() {
         try {
             val clientList = clientService.getAll();
             return new ResponseEntity<>(clientList, HttpStatus.OK);

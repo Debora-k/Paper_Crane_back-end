@@ -32,25 +32,27 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllByClientId(Integer clientId) {
-        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with client id!"));
+        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with user id!"));
     }
 
     @Override
-    public void addNewProject(Project project) {
+    public Integer addNewProject(Project project) {
         val projectOptional = projectRepository.findByProjectId(project.getProjectId());
         if (projectOptional.isPresent()) {
             throw new IllegalArgumentException("Project with id already exists.");
         }
-        projectRepository.save(project);
+        val savedProject = projectRepository.save(project);
+        return savedProject.getProjectId();
     }
 
     @Override
-    public void update(Project project) {
+    public Integer update(Project project) {
         val existingProject = getByProjectId(project.getProjectId());
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
-        save(existingProject);
+        val savedProject = projectRepository.save(existingProject);
+        return savedProject.getProjectId();
     }
 
     @Override

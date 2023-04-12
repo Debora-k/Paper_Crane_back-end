@@ -55,7 +55,6 @@ public class VideoTrainingController {
         trainingService.create(3, "link", "text");
         trainingService.create(1, "link", "text");
         trainingService.create(1, "link", "text");
-
     }
 
 }

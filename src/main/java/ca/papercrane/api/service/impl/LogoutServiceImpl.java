@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class LogoutServiceImpl implements LogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
         //the request header.
-        val authHeader = request.getHeader("Authorization");
+        val authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         //validate the header.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

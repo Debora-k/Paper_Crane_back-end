@@ -28,19 +28,20 @@ import java.util.List;
 public class SecurityConfig {
 
     /**
-     * A list of end-points in which do not require authorization to access.
+     * A list of end-points in which do not require user authentication to access.
      */
-    private static final List<String> UNAUTHORIZED_ENDPOINTS = List.of(
-            "/api/v1/login/**"
-    );
+    private final List<String> UNAUTHORIZED_ENDPOINTS = List.of("/api/v1/login/**");
+
     /**
      * The filter that authenticates the JWT tokens.
      */
     private final AuthenticationFilter authenticationFilter;
+
     /**
      * The provider that performs authentication.
      */
     private final AuthenticationProvider authenticationProvider;
+
     /**
      * The handler that performs a users logout.
      */

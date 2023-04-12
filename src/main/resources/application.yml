@@ -9,8 +9,8 @@ spring:
 
   jpa:
     hibernate:
-      #change to update for production.
-      ddl-auto: create-drop
+      #change to update for production. #create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

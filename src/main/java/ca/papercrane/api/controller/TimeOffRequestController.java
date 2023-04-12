@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -24,6 +25,16 @@ public class TimeOffRequestController {
     public void init() {
         createFakeTimeOffRequest();
         System.out.println("Fake request created view at: http://localhost:8080/api/v1/time_off_requests/1");
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<TimeOffRequest>> getAll() {
+        try {
+            val requestList = requestService.getAll();
+            return new ResponseEntity<>(requestList, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{requestId}")

@@ -12,9 +12,9 @@ public interface ProjectService {
 
     List<Project> getAllByClientId(Integer clientId);
 
-    void addNewProject(Project project);
+    Integer addNewProject(Project project);
 
-    void update(Project project);
+    Integer update(Project project);
 
     void save(Project project);
 

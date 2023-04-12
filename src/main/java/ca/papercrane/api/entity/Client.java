@@ -41,10 +41,9 @@ public final class Client extends User {
      * @param companyName The clients company name.
      */
     public Client(String email, String password, String clientName, String companyName) {
-        super(email, password);
+        super(email, password, UserRole.CLIENT);
         this.clientName = clientName;
         this.companyName = companyName;
-        this.setRole(UserRole.CLIENT);
     }
 
 }

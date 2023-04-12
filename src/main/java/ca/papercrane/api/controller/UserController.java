@@ -3,7 +3,6 @@ package ca.papercrane.api.controller;
 import ca.papercrane.api.entity.User;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.service.impl.UserServiceImpl;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
@@ -19,12 +18,6 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
-
-    @PostConstruct
-    public void init() {
-        createFakeUsers();
-        System.out.println("Fake users created view at: http://localhost:8080/api/v1/users/1");
-    }
 
     @GetMapping("")
     public ResponseEntity<List<User>> getAll() {
@@ -44,16 +37,6 @@ public class UserController {
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    /**
-     * Just to test for now.
-     */
-    public void createFakeUsers() {
-        userService.addNewUser(new User("user1@email.ca", "123456"));
-        userService.addNewUser(new User("user2@email.ca", "123456"));
-        userService.addNewUser(new User("user3@email.ca", "123456"));
-        userService.addNewUser(new User("user4@email.ca", "123456"));
     }
 
 }

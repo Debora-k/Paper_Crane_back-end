@@ -61,10 +61,10 @@ public class User implements UserDetails {
      * @param email    The user email address. Used for login.
      * @param password The user password. Used for login.
      */
-    public User(String email, String password) {
+    public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
-        this.role = UserRole.USER;
+        this.role = role;
     }
 
     @Override

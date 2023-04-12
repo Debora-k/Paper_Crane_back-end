@@ -1,6 +1,5 @@
 package ca.papercrane.api.security.login;
 
-import ca.papercrane.api.entity.role.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,7 @@ public final class LoginResponse {
 
     private Integer id;
     private String email;
-    private UserRole role;
+    private String role;
     private String token;
 
 }

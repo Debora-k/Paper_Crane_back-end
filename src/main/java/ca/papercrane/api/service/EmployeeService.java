@@ -1,6 +1,7 @@
 package ca.papercrane.api.service;
 
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.role.UserRole;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface EmployeeService {
 
     List<Employee> getAll();
 
-    List<Employee> getAllWithRole(String role);
+    List<Employee> getAllWithRole(UserRole role);
 
     List<Employee> getAllWithType(String type);
 

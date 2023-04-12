@@ -1,6 +1,7 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Client;
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.ClientRepository;
 import ca.papercrane.api.service.ClientService;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getAll() throws ResourceNotFoundException {
-        val clientList = clientRepository.findAll();
+        val clientList = clientRepository.findAll().stream().filter(e -> e.getRole().equals(UserRole.CLIENT)).collect(Collectors.toList());
         if (clientList.isEmpty()) {
             throw new ResourceNotFoundException("No clients found!");
         }

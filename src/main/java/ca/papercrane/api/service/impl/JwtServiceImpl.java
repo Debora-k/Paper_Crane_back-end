@@ -63,14 +63,16 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
 
-        //the amount of hours before a token will expire.
-        val EXPIRATION_HOURS = 24;
-
-        //the calculated expiration time.
-        val EXPIRATION_TIME = 1000 * 60 * EXPIRATION_HOURS;
+        //24 hours in ms.
+        val EXPIRATION_TIME = 86400000;
 
         //the generated token.
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(key, SignatureAlgorithm.HS256).compact();
+        return Jwts.builder().
+                setClaims(extraClaims).
+                setSubject(userDetails.getUsername()).
+                setIssuedAt(new Date(System.currentTimeMillis())).
+                setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).
+                signWith(key, SignatureAlgorithm.HS256).compact();
     }
 
     @Override

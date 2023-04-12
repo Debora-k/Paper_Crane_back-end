@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAll() throws ResourceNotFoundException {
-        val employeeList = employeeRepository.findAll();
+        val employeeList = employeeRepository.findAll().stream().filter(e -> e.getRole().equals(UserRole.EMPLOYEE)).collect(Collectors.toList());
         if (employeeList.isEmpty()) {
             throw new ResourceNotFoundException("No employees found!");
         }
@@ -31,17 +31,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllWithRole(String role) {
-        val userRole = UserRole.fromString(role);
-        if (userRole.isEmpty()) {
-            throw new IllegalArgumentException("Role: " + role + " does not exist.");
+    public List<Employee> getAllWithRole(UserRole role) {
+        val employeeList = employeeRepository.findAll().stream().filter(e -> e.getRole().equals(role)).collect(Collectors.toList());
+        if (employeeList.isEmpty()) {
+            throw new ResourceNotFoundException("No users with role: " + role.toString() + " found!");
         }
-        return employeeRepository.findAll().stream().filter(e -> e.getRole().equals(userRole)).collect(Collectors.toList());
+        return employeeList;
     }
 
     @Override
     public List<Employee> getAllWithType(String type) {
-        return employeeRepository.findAll().stream().filter(e -> e.getType().equals(type)).collect(Collectors.toList());
+        return employeeRepository.findAll().stream().filter(e -> e.getType().toString().equalsIgnoreCase(type)).collect(Collectors.toList());
     }
 
     @Override

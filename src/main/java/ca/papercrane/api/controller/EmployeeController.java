@@ -28,7 +28,7 @@ public class EmployeeController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Employee>> getAll() {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         try {
             val employeeList = employeeService.getAll();
             return new ResponseEntity<>(employeeList, HttpStatus.OK);

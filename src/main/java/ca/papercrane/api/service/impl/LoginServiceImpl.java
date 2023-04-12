@@ -1,9 +1,7 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.User;
-import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.TokenRepository;
-import ca.papercrane.api.repository.UserRepository;
 import ca.papercrane.api.security.login.LoginRequest;
 import ca.papercrane.api.security.login.LoginResponse;
 import ca.papercrane.api.security.token.Token;
@@ -19,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 
-    private final UserRepository repository;
+    private final UserServiceImpl userService;
 
     private final TokenRepository tokenRepository;
 
@@ -34,7 +32,7 @@ public class LoginServiceImpl implements LoginService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         //search for a valid user in the database with the request credentials.
-        val user = repository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+        val user = userService.getByEmail(request.getEmail());
 
         //build the authentication token.
         val token = Token.builder().user(user).token(jwtService.generateToken(user)).tokenType(Token.TokenType.BEARER).expired(false).revoked(false).build();
@@ -46,7 +44,11 @@ public class LoginServiceImpl implements LoginService {
         tokenRepository.save(token);
 
         //return the built authentication response.
-        return LoginResponse.builder().id(user.getUserId()).email(user.getEmail()).role(user.getRole()).token(token.getToken()).build();
+        return LoginResponse.builder().
+                id(user.getUserId()).
+                email(user.getEmail()).
+                role(user.getRole().toString()).
+                token(token.getToken()).build();
     }
 
     @Override

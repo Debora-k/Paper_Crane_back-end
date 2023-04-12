@@ -2,6 +2,7 @@ package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Admin;
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.AdminRepository;
 import ca.papercrane.api.repository.EmployeeRepository;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +27,25 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> getAll() throws ResourceNotFoundException {
-        val adminList = adminRepository.findAll();
+        val adminList = adminRepository.findAll().stream().filter(e -> e.getRole().equals(UserRole.ADMIN)).collect(Collectors.toList());
         if (adminList.isEmpty()) {
             throw new ResourceNotFoundException("No admins found!");
         }
         return adminList;
+    }
+
+    @Override
+    public List<Admin> getAllWithRole(UserRole role) {
+        val adminList = adminRepository.findAll().stream().filter(e -> e.getRole().equals(role)).collect(Collectors.toList());
+        if (adminList.isEmpty()) {
+            throw new ResourceNotFoundException("No admins with role: " + role.toString() + " found!");
+        }
+        return adminList;
+    }
+
+    @Override
+    public List<Admin> getAllWithType(String type) {
+        return adminRepository.findAll().stream().filter(e -> e.getType().toString().equalsIgnoreCase(type)).collect(Collectors.toList());
     }
 
     @Override
