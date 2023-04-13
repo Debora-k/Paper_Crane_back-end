@@ -23,8 +23,8 @@ public class EmployeeController {
 
     @PostConstruct
     public void init() {
-        createFakeEmployees();
-        System.out.println("Fake employees created view at: http://localhost:8080/api/v1/employees/1");
+        employeeService.addNewEmployee(new Employee("employee1@papercrane.ca", "password", "Employee", "#1", EmployeeType.DESIGNER));
+        employeeService.addNewEmployee(new Employee("employee2@papercrane.ca", "password", "Employee", "#2", EmployeeType.DEVELOPER));
     }
 
     /**
@@ -108,20 +108,6 @@ public class EmployeeController {
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    /**
-     * Just to test for now.
-     */
-    public void createFakeEmployees() {
-        employeeService.addNewEmployee(new Employee("employee1@email.com", "123456", "Employee", "#1", EmployeeType.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee2@email.com", "123456", "Employee", "#2", EmployeeType.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee3@email.com", "123456", "Employee", "#3", EmployeeType.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee4@email.com", "123456", "Employee", "#4", EmployeeType.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee5@email.com", "123456", "Employee", "#5", EmployeeType.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee6@email.com", "123456", "Employee", "#6", EmployeeType.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee7@email.com", "123456", "Employee", "#7", EmployeeType.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee8@email.com", "123456", "Employee", "#8", EmployeeType.DESIGNER));
     }
 
 }

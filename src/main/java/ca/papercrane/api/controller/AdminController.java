@@ -23,8 +23,7 @@ public class AdminController {
 
     @PostConstruct
     public void init() {
-        createFakeAdmins();
-        System.out.println("Fake admins created view at: http://localhost:8080/api/v1/admins/1");
+        adminService.addNewAdmin(new Admin("admin@papercrane.ca", "password", "John", "Doe", EmployeeType.DEVELOPER));
     }
 
     /**
@@ -109,20 +108,6 @@ public class AdminController {
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    /**
-     * Just to test for now.
-     */
-    public void createFakeAdmins() {
-        adminService.addNewAdmin(new Admin("admin1@email.com", "123456", "Admin", "#1", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin2@email.com", "123456", "Admin", "#2", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin3@email.com", "123456", "Admin", "#3", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin4@email.com", "123456", "Admin", "#4", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin5email.com", "123456", "Admin", "#5", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin6@email.com", "123456", "Admin", "#6", EmployeeType.DESIGNER));
-        adminService.addNewAdmin(new Admin("admin7@email.com", "123456", "Admin", "#7", EmployeeType.DEVELOPER));
-        adminService.addNewAdmin(new Admin("admin8@email.com", "123456", "Admin", "#8", EmployeeType.DEVELOPER));
     }
 
 }
