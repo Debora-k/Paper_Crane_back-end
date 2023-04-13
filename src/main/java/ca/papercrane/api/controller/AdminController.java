@@ -27,8 +27,13 @@ public class AdminController {
         System.out.println("Fake admins created view at: http://localhost:8080/api/v1/admins/1");
     }
 
+    /**
+     * Gets a list of all Admin employees.
+     *
+     * @return The list of admins.
+     */
     @GetMapping("")
-    public ResponseEntity<List<Admin>> getAll() {
+    public ResponseEntity<List<Admin>> getAllAdmins() {
         try {
             val adminList = adminService.getAll();
             return new ResponseEntity<>(adminList, HttpStatus.OK);
@@ -37,6 +42,64 @@ public class AdminController {
         }
     }
 
+    /**
+     * Creates a new Admin.
+     *
+     * @param admin The new Admin being created.
+     * @return The admins generated user id.
+     */
+    @PostMapping("/new")
+    public ResponseEntity<Integer> createAdmin(@RequestBody Admin admin) {
+        try {
+            val createdAdminId = adminService.addNewAdmin(admin);
+            return new ResponseEntity<>(createdAdminId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes an Admin by their userId value.
+     *
+     * @param userId The admins user id.
+     * @return The response status of the request.
+     */
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<HttpStatus> deleteAdmin(@PathVariable Integer userId) {
+        try {
+            adminService.deleteByUserId(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates an existing Admin.
+     *
+     * @param admin The new admin details.
+     * @return The response status of the request.
+     */
+    @PutMapping("/{userId}")
+    public ResponseEntity<HttpStatus> updateAdmin(@RequestBody Admin admin) {
+        try {
+            adminService.update(admin);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Gets an Admin user by their userId.
+     *
+     * @param userId The user id of the admin being searched for.
+     * @return The admin user data found.
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<Admin> getUser(@PathVariable Integer userId) {
         try {
