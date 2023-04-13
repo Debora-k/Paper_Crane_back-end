@@ -11,13 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
-
-    private final UserServiceImpl userService;
 
     private final TokenRepository tokenRepository;
 
@@ -29,13 +28,23 @@ public class LoginServiceImpl implements LoginService {
     public LoginResponse authenticateAndBuildResponse(LoginRequest request) {
 
         //authenticate the request.
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
-        //search for a valid user in the database with the request credentials.
-        val user = userService.getByEmail(request.getEmail());
+        //get the authenticated user
+        var user = (User) authentication.getPrincipal();
 
         //build the authentication token.
-        val token = Token.builder().user(user).token(jwtService.generateToken(user)).tokenType(Token.TokenType.BEARER).expired(false).revoked(false).build();
+        val token = Token.builder().
+                user(user).
+                token(jwtService.generateToken(user)).
+                tokenType(Token.TokenType.BEARER).
+                expired(false).
+                revoked(false).build();
 
         //revokes the authenticated users previous tokens.
         invalidateAllTokensForUser(user);
