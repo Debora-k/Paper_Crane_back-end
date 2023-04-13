@@ -26,6 +26,11 @@ public class ClientController {
         System.out.println("Fake clients created view at: http://localhost:8080/api/v1/clients/1");
     }
 
+    /**
+     * Gets a list of all Clients.
+     *
+     * @return The list of all found clients.
+     */
     @GetMapping("")
     public ResponseEntity<List<Client>> getAllClients() {
         try {
@@ -36,6 +41,64 @@ public class ClientController {
         }
     }
 
+    /**
+     * Creates a new Client.
+     *
+     * @param client The new Client being created.
+     * @return The new clients generated user id.
+     */
+    @PostMapping("/new")
+    public ResponseEntity<Integer> createClient(@RequestBody Client client) {
+        try {
+            val createdClientId = clientService.addNewClient(client);
+            return new ResponseEntity<>(createdClientId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes a Client by their userId value.
+     *
+     * @param userId The clients user id.
+     * @return The response status of the request.
+     */
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable Integer userId) {
+        try {
+            clientService.deleteByUserId(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates an existing Client.
+     *
+     * @param client The new client details.
+     * @return The response status of the request.
+     */
+    @PutMapping("/{userId}")
+    public ResponseEntity<HttpStatus> updateClient(@RequestBody Client client) {
+        try {
+            clientService.update(client);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Gets a Client user by their userId.
+     *
+     * @param userId The user id of the client being searched for.
+     * @return The client user data found.
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<Client> getUser(@PathVariable Integer userId) {
         try {
@@ -50,10 +113,10 @@ public class ClientController {
      * Just to test for now.
      */
     public void createFakeClients() {
-        clientService.addNewClient("client1@email.com", "123456", "Client Name 1", "Website");
-        clientService.addNewClient("client2@email.com", "123456", "Client Name 2", "Website");
-        clientService.addNewClient("client3@email.com", "123456", "Client Name 3", "Website");
-        clientService.addNewClient("client4@email.com", "123456", "Client Name 4", "Website");
+        clientService.addNewClient(new Client("client1@email.com", "123456", "Client Name 1", "Website"));
+        clientService.addNewClient(new Client("client2@email.com", "123456", "Client Name 2", "Website"));
+        clientService.addNewClient(new Client("client3@email.com", "123456", "Client Name 3", "Website"));
+        clientService.addNewClient(new Client("client4@email.com", "123456", "Client Name 4", "Website"));
     }
 
 }
