@@ -9,5 +9,5 @@ RUN apt-get install -y openjdk-17-jdk
 COPY . .
 RUN sed -i 's/\r$//' mvnw
 #RUN /bin/sh mvnw dependency:resolve
-#RUN ./mvnw clean install
+# RUN ./mvnw clean install
 CMD ./mvnw spring-boot:run
