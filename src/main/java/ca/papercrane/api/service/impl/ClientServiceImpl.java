@@ -80,7 +80,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteByUserId(Integer userId) {
-        clientRepository.findByUserId(userId).ifPresent(clientRepository::delete);
+        clientRepository.findByUserId(userId).ifPresentOrElse(clientRepository::delete, () -> {
+            throw new ResourceNotFoundException("Client not found for ID: " + userId);
+        });
     }
 
     @Override

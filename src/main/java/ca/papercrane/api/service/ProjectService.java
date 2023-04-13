@@ -18,7 +18,7 @@ public interface ProjectService {
 
     void save(Project project);
 
-    void delete(Integer projectId);
+    void deleteById(Integer projectId);
 
     Long totalCount();
 

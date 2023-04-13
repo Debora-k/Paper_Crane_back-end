@@ -59,8 +59,9 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
 
     @Override
     public void deleteByVideoId(Integer videoId) {
-        val videoTraining = getByVideoId(videoId);
-        trainingRepository.delete(videoTraining);
+        trainingRepository.findByVideoId(videoId).ifPresentOrElse(trainingRepository::delete, () -> {
+            throw new ResourceNotFoundException("Training not found for video ID: " + videoId);
+        });
     }
 
     @Override

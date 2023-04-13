@@ -60,12 +60,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Integer projectId) {
-        val exists = projectRepository.existsById(projectId);
-        if (!exists) {
-            throw new ResourceNotFoundException("Project with id: " + projectId + " does not exist.");
-        }
-        projectRepository.deleteById(projectId);
+    public void deleteById(Integer projectId) {
+        projectRepository.findByProjectId(projectId).ifPresentOrElse(projectRepository::delete, () -> {
+            throw new ResourceNotFoundException("Project not found for ID: " + projectId);
+        });
     }
 
     @Override

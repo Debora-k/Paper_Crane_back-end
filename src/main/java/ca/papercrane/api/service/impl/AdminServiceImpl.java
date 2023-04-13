@@ -103,7 +103,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteByUserId(Integer userId) {
-        adminRepository.findByUserId(userId).ifPresent(adminRepository::delete);
+        adminRepository.findByUserId(userId).ifPresentOrElse(adminRepository::delete, () -> {
+            throw new ResourceNotFoundException("Admin not found for ID: " + userId);
+        });
     }
 
 }

@@ -64,13 +64,10 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void delete(TimeOffRequest request) {
-        requestRepository.delete(request);
-    }
-
-    @Override
     public void deleteByTimeOffId(Integer timeOffId) {
-        requestRepository.findByTimeOffId(timeOffId).ifPresent(requestRepository::delete);
+        requestRepository.findByTimeOffId(timeOffId).ifPresentOrElse(requestRepository::delete, () -> {
+            throw new ResourceNotFoundException("Request not found for ID: " + timeOffId);
+        });
     }
 
     @Override

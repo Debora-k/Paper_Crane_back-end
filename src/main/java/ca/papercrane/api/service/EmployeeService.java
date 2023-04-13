@@ -24,8 +24,6 @@ public interface EmployeeService {
 
     void save(Employee employee);
 
-    void delete(Employee employee);
-
     void deleteByUserId(Integer userId);
 
     Long totalCount();

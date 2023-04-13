@@ -21,8 +21,9 @@ public final class Token {
      * The unique identifier of the token.
      */
     @Id
+    @Column(name = "token_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tokenId;
 
     /**
      * The token string.

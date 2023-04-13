@@ -94,13 +94,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void delete(Employee employee) {
-        employeeRepository.delete(employee);
-    }
-
-    @Override
     public void deleteByUserId(Integer userId) {
-        employeeRepository.findByUserId(userId).ifPresent(employeeRepository::delete);
+        employeeRepository.findByUserId(userId).ifPresentOrElse(employeeRepository::delete, () -> {
+            throw new ResourceNotFoundException("Employee not found for ID: " + userId);
+        });
     }
 
     @Override

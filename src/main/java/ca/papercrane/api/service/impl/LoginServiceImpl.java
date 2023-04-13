@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
@@ -28,23 +30,13 @@ public class LoginServiceImpl implements LoginService {
     public LoginResponse authenticateAndBuildResponse(LoginRequest request) {
 
         //authenticate the request.
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         //get the authenticated user
         var user = (User) authentication.getPrincipal();
 
         //build the authentication token.
-        val token = Token.builder().
-                user(user).
-                token(jwtService.generateToken(user)).
-                tokenType(Token.TokenType.BEARER).
-                expired(false).
-                revoked(false).build();
+        val token = Token.builder().user(user).token(jwtService.generateToken(user)).tokenType(Token.TokenType.BEARER).expired(false).revoked(false).build();
 
         //revokes the authenticated users previous tokens.
         invalidateAllTokensForUser(user);
@@ -53,24 +45,23 @@ public class LoginServiceImpl implements LoginService {
         tokenRepository.save(token);
 
         //return the built authentication response.
-        return LoginResponse.builder().
-                id(user.getUserId()).
-                email(user.getEmail()).
-                role(user.getRole().toString()).
-                token(token.getToken()).build();
+        return LoginResponse.builder().id(user.getUserId()).email(user.getEmail()).role(user.getRole().toString()).token(token.getToken()).build();
     }
 
     @Override
     public void invalidateAllTokensForUser(User user) {
 
         //find all tokens for the specified user.
-        val userTokenList = tokenRepository.findAllValidTokenByUser(user.getUserId());
+        val userTokenList = tokenRepository.findAllByUserUserId(user.getUserId());
+
+        //filter the users token list to be only active tokens.
+        val validTokenList = userTokenList.stream().filter(token -> !token.isExpired() && !token.isRevoked()).collect(Collectors.toList());
 
         //invalidate each of their tokens.
-        userTokenList.forEach(Token::invalidate);
+        validTokenList.forEach(Token::invalidate);
 
         //save all the invalidated tokens back to the repository.
-        tokenRepository.saveAll(userTokenList);
+        tokenRepository.saveAll(validTokenList);
 
     }
 

@@ -11,6 +11,17 @@ SET row_security = off;
 SET default_tablespace = '';
 SET default_table_access_method = heap;
 
+CREATE TABLE public.token (
+    token_id SERIAL PRIMARY KEY,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    tokenType VARCHAR(10) NOT NULL,
+    revoked BOOLEAN DEFAULT false,
+    expired BOOLEAN DEFAULT false,
+    user_id integer NOT NULL
+);
+
+ALTER TABLE public.token OWNER TO pc;
+
 CREATE TABLE public.client (
     user_id integer NOT NULL,
     client_name character varying(50) NOT NULL,
@@ -46,15 +57,15 @@ CREATE TABLE public.project (
 ALTER TABLE public.project OWNER TO pc;
 
 CREATE TABLE public.task (
-    project_id integer NOT NULL,
     task_id integer NOT NULL,
+    project_id integer NOT NULL,
+    task_name character varying(25),
     description character varying(500) NOT NULL,
     deadline date NOT NULL,
     start_date date NOT NULL,
+    date_completed date,
     expected_work_hours double precision NOT NULL,
     progress_in_work_hours double precision DEFAULT 0,
-    task_name character varying(50),
-    date_completed date,
     is_complete boolean DEFAULT false
 );
 
@@ -122,3 +133,6 @@ ALTER TABLE ONLY public.time_off
 
 ALTER TABLE ONLY public.task
     ADD CONSTRAINT project_id_fkey FOREIGN KEY (project_id) REFERENCES public.project(project_id) NOT VALID;
+
+ALTER TABLE ONLY public.token
+    ADD CONSTRAINT token_fkey FOREIGN KEY (user_id) REFERENCES public.user_account(user_id) ON DELETE CASCADE;

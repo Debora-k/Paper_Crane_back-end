@@ -21,8 +21,6 @@ public interface TimeOffService {
 
     void save(TimeOffRequest request);
 
-    void delete(TimeOffRequest request);
-
     void deleteByTimeOffId(Integer timeOffId);
 
     Long totalCount();
