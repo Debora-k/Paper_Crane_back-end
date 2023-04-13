@@ -20,7 +20,7 @@ public interface EmployeeService {
 
     Integer addNewEmployee(Employee employee);
 
-    void update(Employee employee);
+    void update(Integer userId, Employee employee);
 
     void save(Employee employee);
 

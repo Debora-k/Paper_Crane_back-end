@@ -52,8 +52,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void update(Client client) {
-        val existingClient = getByUserId(client.getUserId());
+    public void update(Integer userId, Client client) {
+        val existingClient = getByUserId(userId);
         if (client.getClientName() != null && client.getClientName().length() > 0 && !Objects.equals(existingClient.getClientName(), client.getClientName())) {
             existingClient.setClientName(client.getClientName());
         }

@@ -40,8 +40,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void update(Task task) {
-        val existingTask = getByTaskId(task.getTaskId());
+    public void update(Integer taskId, Task task) {
+        val existingTask = getByTaskId(taskId);
         existingTask.setDescription(task.getDescription());
         existingTask.setStartDate(task.getStartDate());
         existingTask.setDeadline(task.getDeadline());

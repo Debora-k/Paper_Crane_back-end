@@ -38,10 +38,11 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     }
 
     @Override
-    public void update(Integer videoId, String description, String videoLink) {
+    public void update(Integer videoId, VideoTraining training) {
         val existingTraining = getByVideoId(videoId);
-        existingTraining.setDescription(description);
-        existingTraining.setVideoLink(videoLink);
+        existingTraining.setProjectId(training.getProjectId());
+        existingTraining.setDescription(training.getDescription());
+        existingTraining.setVideoLink(training.getVideoLink());
         save(existingTraining);
     }
 

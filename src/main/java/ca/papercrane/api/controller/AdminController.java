@@ -48,7 +48,7 @@ public class AdminController {
      * @param admin The new Admin being created.
      * @return The admins generated user id.
      */
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<Integer> createAdmin(@RequestBody Admin admin) {
         try {
             val createdAdminId = adminService.addNewAdmin(admin);
@@ -64,7 +64,7 @@ public class AdminController {
      * @param userId The admins user id.
      * @return The response status of the request.
      */
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<HttpStatus> deleteAdmin(@PathVariable Integer userId) {
         try {
             adminService.deleteByUserId(userId);
@@ -79,13 +79,14 @@ public class AdminController {
     /**
      * Updates an existing Admin.
      *
-     * @param admin The new admin details.
+     * @param userId The id of the existing admin user.
+     * @param admin  The new admin details.
      * @return The response status of the request.
      */
-    @PutMapping("/{userId}")
-    public ResponseEntity<HttpStatus> updateAdmin(@RequestBody Admin admin) {
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<HttpStatus> updateAdmin(@PathVariable Integer userId, @RequestBody Admin admin) {
         try {
-            adminService.update(admin);
+            adminService.update(userId, admin);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

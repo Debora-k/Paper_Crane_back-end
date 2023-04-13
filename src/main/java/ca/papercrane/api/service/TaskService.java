@@ -15,7 +15,7 @@ public interface TaskService {
 
     Integer create(Task task);
 
-    void update(Task task);
+    void update(Integer taskId, Task task);
 
     void save(Task task);
 

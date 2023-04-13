@@ -14,7 +14,7 @@ public interface ClientService {
 
     Integer addNewClient(Client client);
 
-    void update(Client client);
+    void update(Integer userId, Client client);
 
     void save(Client client);
 

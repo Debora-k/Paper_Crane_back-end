@@ -46,13 +46,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer update(Project project) {
-        val existingProject = getByProjectId(project.getProjectId());
+    public void update(Integer projectId, Project project) {
+        val existingProject = getByProjectId(projectId);
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
-        val savedProject = projectRepository.save(existingProject);
-        return savedProject.getProjectId();
+        projectRepository.save(existingProject);
     }
 
     @Override

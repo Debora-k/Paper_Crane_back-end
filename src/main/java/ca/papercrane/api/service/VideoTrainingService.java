@@ -12,7 +12,7 @@ public interface VideoTrainingService {
 
     Integer create(Integer projectId, String videoLink, String description);
 
-    void update(Integer videoId, String description, String videoLink);
+    void update(Integer videoId, VideoTraining training);
 
     void save(VideoTraining training);
 

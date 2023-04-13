@@ -53,14 +53,15 @@ public class ProjectController {
     /**
      * Updates an existing project.
      *
-     * @param project The new projects details.
-     * @return The id of the updated project.
+     * @param projectId The id of the project being updated.
+     * @param project   The new project data.
+     * @return The request response.
      */
-    @PutMapping("/{projectId}")
-    public ResponseEntity<Integer> updateProject(@RequestBody Project project) {
+    @PutMapping("/update/{projectId}")
+    public ResponseEntity<HttpStatus> updateProject(@PathVariable Integer projectId, @RequestBody Project project) {
         try {
-            val updatedProject = projectService.update(project);
-            return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+            projectService.update(projectId, project);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -68,7 +69,7 @@ public class ProjectController {
         }
     }
 
-    @DeleteMapping("/{projectId}")
+    @DeleteMapping("/delete/{projectId}")
     public ResponseEntity<HttpStatus> deleteProject(@PathVariable Integer projectId) {
         try {
             projectService.delete(projectId);

@@ -21,7 +21,7 @@ public interface AdminService {
 
     Integer addNewAdmin(Admin admin);
 
-    void update(Admin Admin);
+    void update(Integer userId, Admin Admin);
 
     void saveAdmin(Admin admin);
 

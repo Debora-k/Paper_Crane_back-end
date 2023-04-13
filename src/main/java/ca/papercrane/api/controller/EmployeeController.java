@@ -48,7 +48,7 @@ public class EmployeeController {
      * @param employee The new employee being created.
      * @return The new employee generated user id.
      */
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<Integer> createEmployee(@RequestBody Employee employee) {
         try {
             val createdEmployeeId = employeeService.addNewEmployee(employee);
@@ -64,7 +64,7 @@ public class EmployeeController {
      * @param userId The employees user id.
      * @return The response status of the request.
      */
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable Integer userId) {
         try {
             employeeService.deleteByUserId(userId);
@@ -82,10 +82,10 @@ public class EmployeeController {
      * @param employee The new employee details.
      * @return The response status of the request.
      */
-    @PutMapping("/{userId}")
-    public ResponseEntity<HttpStatus> updateEmployee(@RequestBody Employee employee) {
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<HttpStatus> updateEmployee(@PathVariable Integer userId, @RequestBody Employee employee) {
         try {
-            employeeService.update(employee);
+            employeeService.update(userId, employee);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

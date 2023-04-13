@@ -76,8 +76,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void update(Admin admin) {
-        val existingAdmin = getByUserId(admin.getUserId());
+    public void update(Integer userId, Admin admin) {
+        val existingAdmin = getByUserId(userId);
         if (admin.getEmail() != null && admin.getEmail().length() > 0 && !Objects.equals(existingAdmin.getEmail(), admin.getEmail())) {
             final Optional<Admin> adminOptional = adminRepository.findByEmail(admin.getEmail());
             if (adminOptional.isPresent()) {

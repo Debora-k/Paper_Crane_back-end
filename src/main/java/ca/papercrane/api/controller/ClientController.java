@@ -47,7 +47,7 @@ public class ClientController {
      * @param client The new Client being created.
      * @return The new clients generated user id.
      */
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<Integer> createClient(@RequestBody Client client) {
         try {
             val createdClientId = clientService.addNewClient(client);
@@ -63,7 +63,7 @@ public class ClientController {
      * @param userId The clients user id.
      * @return The response status of the request.
      */
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<HttpStatus> deleteClient(@PathVariable Integer userId) {
         try {
             clientService.deleteByUserId(userId);
@@ -81,10 +81,10 @@ public class ClientController {
      * @param client The new client details.
      * @return The response status of the request.
      */
-    @PutMapping("/{userId}")
-    public ResponseEntity<HttpStatus> updateClient(@RequestBody Client client) {
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<HttpStatus> updateClient(@PathVariable Integer userId, @RequestBody Client client) {
         try {
-            clientService.update(client);
+            clientService.update(userId, client);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -100,7 +100,7 @@ public class ClientController {
      * @return The client user data found.
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<Client> getUser(@PathVariable Integer userId) {
+    public ResponseEntity<Client> getClient(@PathVariable Integer userId) {
         try {
             val client = clientService.getByUserId(userId);
             return new ResponseEntity<>(client, HttpStatus.OK);

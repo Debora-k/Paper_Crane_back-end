@@ -67,8 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public void update(Employee employee) {
-        val existingEmployee = getByUserId(employee.getUserId());
+    public void update(Integer userId, Employee employee) {
+        val existingEmployee = getByUserId(userId);
         if (employee.getEmail() != null && employee.getEmail().length() > 0 && !Objects.equals(existingEmployee.getEmail(), employee.getEmail())) {
             final Optional<Employee> employeeOptional = employeeRepository.findByEmail(employee.getEmail());
             if (employeeOptional.isPresent()) {

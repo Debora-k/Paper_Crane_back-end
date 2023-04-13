@@ -49,8 +49,8 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void update(TimeOffRequest request) {
-        val existingRequest = getByTimeOffId(request.getTimeOffId());
+    public void update(Integer timeOffId, TimeOffRequest request) {
+        val existingRequest = getByTimeOffId(timeOffId);
         existingRequest.setReason(request.getReason());
         existingRequest.setStatus(request.getStatus());
         existingRequest.setStartDate(request.getStartDate());
