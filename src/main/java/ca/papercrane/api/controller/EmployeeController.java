@@ -1,7 +1,7 @@
 package ca.papercrane.api.controller;
 
 import ca.papercrane.api.entity.Employee;
-import ca.papercrane.api.entity.role.EmployeeRole;
+import ca.papercrane.api.entity.role.EmployeeType;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.service.impl.EmployeeServiceImpl;
 import jakarta.annotation.PostConstruct;
@@ -114,14 +114,14 @@ public class EmployeeController {
      * Just to test for now.
      */
     public void createFakeEmployees() {
-        employeeService.addNewEmployee(new Employee("employee1@email.com", "123456", "Employee", "#1", EmployeeRole.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee2@email.com", "123456", "Employee", "#2", EmployeeRole.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee3@email.com", "123456", "Employee", "#3", EmployeeRole.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee4@email.com", "123456", "Employee", "#4", EmployeeRole.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee5@email.com", "123456", "Employee", "#5", EmployeeRole.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee6@email.com", "123456", "Employee", "#6", EmployeeRole.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee7@email.com", "123456", "Employee", "#7", EmployeeRole.DEVELOPER));
-        employeeService.addNewEmployee(new Employee("employee8@email.com", "123456", "Employee", "#8", EmployeeRole.DESIGNER));
+        employeeService.addNewEmployee(new Employee("employee1@email.com", "123456", "Employee", "#1", EmployeeType.DESIGNER));
+        employeeService.addNewEmployee(new Employee("employee2@email.com", "123456", "Employee", "#2", EmployeeType.DEVELOPER));
+        employeeService.addNewEmployee(new Employee("employee3@email.com", "123456", "Employee", "#3", EmployeeType.DEVELOPER));
+        employeeService.addNewEmployee(new Employee("employee4@email.com", "123456", "Employee", "#4", EmployeeType.DEVELOPER));
+        employeeService.addNewEmployee(new Employee("employee5@email.com", "123456", "Employee", "#5", EmployeeType.DESIGNER));
+        employeeService.addNewEmployee(new Employee("employee6@email.com", "123456", "Employee", "#6", EmployeeType.DESIGNER));
+        employeeService.addNewEmployee(new Employee("employee7@email.com", "123456", "Employee", "#7", EmployeeType.DEVELOPER));
+        employeeService.addNewEmployee(new Employee("employee8@email.com", "123456", "Employee", "#8", EmployeeType.DESIGNER));
     }
 
 }
