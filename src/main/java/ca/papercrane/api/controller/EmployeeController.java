@@ -27,6 +27,11 @@ public class EmployeeController {
         System.out.println("Fake employees created view at: http://localhost:8080/api/v1/employees/1");
     }
 
+    /**
+     * Gets a list of all normal Employee users.
+     *
+     * @return The list of admins.
+     */
     @GetMapping("")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         try {
@@ -34,6 +39,58 @@ public class EmployeeController {
             return new ResponseEntity<>(employeeList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Creates a new Employee.
+     *
+     * @param employee The new employee being created.
+     * @return The new employee generated user id.
+     */
+    @PostMapping("/new")
+    public ResponseEntity<Integer> createClient(@RequestBody Employee employee) {
+        try {
+            val createdEmployeeId = employeeService.addNewEmployee(employee);
+            return new ResponseEntity<>(createdEmployeeId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes an Employee by their userId value.
+     *
+     * @param userId The employees user id.
+     * @return The response status of the request.
+     */
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable Integer userId) {
+        try {
+            employeeService.deleteByUserId(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates an existing Employee.
+     *
+     * @param employee The new employee details.
+     * @return The response status of the request.
+     */
+    @PutMapping("/{userId}")
+    public ResponseEntity<HttpStatus> updateClient(@RequestBody Employee employee) {
+        try {
+            employeeService.update(employee);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
