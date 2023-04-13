@@ -55,35 +55,36 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void addNewEmployee(Employee employee) {
+    public Integer addNewEmployee(Employee employee) {
         val employeeOptional = employeeRepository.findByEmail(employee.getEmail());
         if (employeeOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
-        employeeRepository.save(employee);
+        val savedEmployee = employeeRepository.save(employee);
+        return savedEmployee.getUserId();
     }
 
     @Override
     @Transactional
-    public void update(Integer userId, String email, String password, String firstName, String lastName) {
-        val employee = getByUserId(userId);
-        if (email != null && email.length() > 0 && !Objects.equals(employee.getEmail(), email)) {
-            final Optional<Employee> employeeOptional = employeeRepository.findByEmail(email);
+    public void update(Employee employee) {
+        val existingEmployee = getByUserId(employee.getUserId());
+        if (employee.getEmail() != null && employee.getEmail().length() > 0 && !Objects.equals(existingEmployee.getEmail(), employee.getEmail())) {
+            final Optional<Employee> employeeOptional = employeeRepository.findByEmail(employee.getEmail());
             if (employeeOptional.isPresent()) {
                 throw new IllegalArgumentException("Email is already taken.");
             }
-            employee.setEmail(email);
+            existingEmployee.setEmail(employee.getEmail());
         }
-        if (password != null && password.length() > 0 && !Objects.equals(employee.getPassword(), password)) {
-            employee.setPassword(password);
+        if (employee.getPassword() != null && employee.getPassword().length() > 0 && !Objects.equals(existingEmployee.getPassword(), employee.getPassword())) {
+            existingEmployee.setPassword(employee.getPassword());
         }
-        if (firstName != null && firstName.length() > 0 && !Objects.equals(employee.getFirstName(), firstName)) {
-            employee.setFirstName(firstName);
+        if (employee.getFirstName() != null && employee.getFirstName().length() > 0 && !Objects.equals(existingEmployee.getFirstName(), employee.getFirstName())) {
+            existingEmployee.setFirstName(employee.getFirstName());
         }
-        if (lastName != null && lastName.length() > 0 && !Objects.equals(employee.getLastName(), lastName)) {
-            employee.setLastName(lastName);
+        if (employee.getLastName() != null && employee.getLastName().length() > 0 && !Objects.equals(existingEmployee.getLastName(), employee.getLastName())) {
+            existingEmployee.setLastName(employee.getLastName());
         }
-        save(employee);
+        save(existingEmployee);
     }
 
     @Override

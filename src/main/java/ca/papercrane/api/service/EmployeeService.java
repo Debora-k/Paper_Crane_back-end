@@ -17,9 +17,9 @@ public interface EmployeeService {
 
     Employee getByEmail(String email);
 
-    void addNewEmployee(Employee employee);
+    Integer addNewEmployee(Employee employee);
 
-    void update(Integer userId, String email, String password, String firstName, String lastName);
+    void update(Employee employee);
 
     void save(Employee employee);
 
