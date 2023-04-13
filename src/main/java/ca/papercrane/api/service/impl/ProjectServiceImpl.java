@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllByClientId(Integer clientId) {
-        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with user id!"));
+        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with clientId!"));
     }
 
     @Override

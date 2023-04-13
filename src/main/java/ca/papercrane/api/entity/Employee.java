@@ -46,23 +46,6 @@ public class Employee extends User {
      * @param password  The password for the user.
      * @param firstName The employees first name.
      * @param lastName  The employees last name.
-     * @param userRole  The employees role in the system (Admin, SuperAdmin etc).
-     * @param type      The type of employee.
-     */
-    public Employee(String email, String password, String firstName, String lastName, UserRole userRole, EmployeeRole type) {
-        super(email, password, userRole);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.type = type;
-    }
-
-    /**
-     * Creates a new Employee.
-     *
-     * @param email     The email address for the user.
-     * @param password  The password for the user.
-     * @param firstName The employees first name.
-     * @param lastName  The employees last name.
      * @param type      The type of employee.
      */
     public Employee(String email, String password, String firstName, String lastName, EmployeeRole type) {

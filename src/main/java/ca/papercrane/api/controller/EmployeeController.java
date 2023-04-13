@@ -49,7 +49,7 @@ public class EmployeeController {
      * @return The new employee generated user id.
      */
     @PostMapping("/new")
-    public ResponseEntity<Integer> createClient(@RequestBody Employee employee) {
+    public ResponseEntity<Integer> createEmployee(@RequestBody Employee employee) {
         try {
             val createdEmployeeId = employeeService.addNewEmployee(employee);
             return new ResponseEntity<>(createdEmployeeId, HttpStatus.CREATED);
@@ -65,7 +65,7 @@ public class EmployeeController {
      * @return The response status of the request.
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<HttpStatus> deleteClient(@PathVariable Integer userId) {
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable Integer userId) {
         try {
             employeeService.deleteByUserId(userId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -83,7 +83,7 @@ public class EmployeeController {
      * @return The response status of the request.
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<HttpStatus> updateClient(@RequestBody Employee employee) {
+    public ResponseEntity<HttpStatus> updateEmployee(@RequestBody Employee employee) {
         try {
             employeeService.update(employee);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -94,8 +94,14 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Gets an Employee by their userId.
+     *
+     * @param userId The id of the employee being searched for.
+     * @return The found employee data.
+     */
     @GetMapping("/{userId}")
-    public ResponseEntity<Employee> getUser(@PathVariable Integer userId) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable Integer userId) {
         try {
             val employee = employeeService.getByUserId(userId);
             return new ResponseEntity<>(employee, HttpStatus.OK);

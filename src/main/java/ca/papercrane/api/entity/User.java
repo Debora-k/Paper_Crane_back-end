@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private Integer userId;
 
     /**
-     * The users role.
+     * The users' role.
      */
     @Enumerated(EnumType.STRING)
     private UserRole role;
