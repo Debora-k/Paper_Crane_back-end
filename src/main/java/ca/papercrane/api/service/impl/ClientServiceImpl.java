@@ -41,36 +41,36 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void addNewClient(String email, String password, String clientName, String companyName) {
-        val clientOptional = clientRepository.findByEmail(email);
+    public Integer addNewClient(Client client) {
+        val clientOptional = clientRepository.findByEmail(client.getEmail());
         if (clientOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
-        val client = new Client(email, password, clientName, companyName);
-        clientRepository.save(client);
+        val savedClient = clientRepository.save(client);
+        return savedClient.getUserId();
     }
 
     @Override
     @Transactional
-    public void updateClient(Integer userId, String email, String password, String clientName, String companyName) {
-        val client = getByUserId(userId);
-        if (clientName != null && clientName.length() > 0 && !Objects.equals(client.getClientName(), clientName)) {
-            client.setClientName(clientName);
+    public void update(Client client) {
+        val existingClient = getByUserId(client.getUserId());
+        if (client.getClientName() != null && client.getClientName().length() > 0 && !Objects.equals(existingClient.getClientName(), client.getClientName())) {
+            existingClient.setClientName(client.getClientName());
         }
-        if (companyName != null && companyName.length() > 0 && !Objects.equals(client.getCompanyName(), companyName)) {
-            client.setCompanyName(companyName);
+        if (client.getCompanyName() != null && client.getCompanyName().length() > 0 && !Objects.equals(existingClient.getCompanyName(), client.getCompanyName())) {
+            existingClient.setCompanyName(client.getCompanyName());
         }
-        if (email != null && email.length() > 0 && !Objects.equals(client.getEmail(), email)) {
-            final Optional<Client> clientOptional = clientRepository.findByEmail(email);
+        if (client.getEmail() != null && client.getEmail().length() > 0 && !Objects.equals(existingClient.getEmail(), client.getEmail())) {
+            final Optional<Client> clientOptional = clientRepository.findByEmail(client.getEmail());
             if (clientOptional.isPresent()) {
                 throw new IllegalArgumentException("Email is already taken.");
             }
-            client.setEmail(email);
+            existingClient.setEmail(client.getEmail());
         }
-        if (password != null && password.length() > 0 && !Objects.equals(client.getPassword(), password)) {
-            client.setPassword(password);
+        if (client.getPassword() != null && client.getPassword().length() > 0 && !Objects.equals(existingClient.getPassword(), client.getPassword())) {
+            existingClient.setPassword(client.getPassword());
         }
-        save(client);
+        save(existingClient);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void delete(Client client) {
-        clientRepository.delete(client);
+    public void deleteByUserId(Integer userId) {
+        clientRepository.findByUserId(userId).ifPresent(clientRepository::delete);
     }
 
     @Override

@@ -98,7 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteByUserId(Integer userId) {
-        employeeRepository.deleteById(userId);
+        employeeRepository.findByUserId(userId).ifPresent(employeeRepository::delete);
     }
 
     @Override

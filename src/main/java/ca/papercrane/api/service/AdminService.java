@@ -16,19 +16,13 @@ public interface AdminService {
 
     Admin getByUserId(Integer userId);
 
-    void addNewEmployee(Employee employee);
+    Integer addNewEmployee(Employee employee);
 
-    void addNewAdmin(Admin admin);
+    Integer addNewAdmin(Admin admin);
 
-    void update(Integer userId, String email, String password, String firstName, String lastName);
-
-    void saveEmployee(Employee employee);
+    void update(Admin Admin);
 
     void saveAdmin(Admin admin);
-
-    void deleteEmployee(Employee employee);
-
-    void deleteAdmin(Admin admin);
 
     void deleteByUserId(Integer userId);
 

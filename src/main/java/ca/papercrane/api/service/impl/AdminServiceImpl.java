@@ -54,49 +54,45 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addNewEmployee(Employee employee) {
+    public Integer addNewEmployee(Employee employee) {
         val employeeOptional = employeeRepository.findByEmail(employee.getEmail());
         if (employeeOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
-        employeeRepository.save(employee);
+        val savedEmployee = employeeRepository.save(employee);
+        return savedEmployee.getUserId();
     }
 
     @Override
-    public void addNewAdmin(Admin admin) {
+    public Integer addNewAdmin(Admin admin) {
         val adminOptional = adminRepository.findByEmail(admin.getEmail());
         if (adminOptional.isPresent()) {
             throw new IllegalArgumentException("Email already taken.");
         }
-        adminRepository.save(admin);
+        val savedAdmin = adminRepository.save(admin);
+        return savedAdmin.getUserId();
     }
 
     @Override
     @Transactional
-    public void update(Integer userId, String email, String password, String firstName, String lastName) {
-        val admin = getByUserId(userId);
-        if (email != null && email.length() > 0 && !Objects.equals(admin.getEmail(), email)) {
-            final Optional<Admin> adminOptional = adminRepository.findByEmail(email);
+    public void update(Admin admin) {
+        val existingAdmin = getByUserId(admin.getUserId());
+        if (admin.getEmail() != null && admin.getEmail().length() > 0 && !Objects.equals(existingAdmin.getEmail(), admin.getEmail())) {
+            final Optional<Admin> adminOptional = adminRepository.findByEmail(admin.getEmail());
             if (adminOptional.isPresent()) {
                 throw new IllegalArgumentException("Email is already taken.");
             }
-            admin.setEmail(email);
+            existingAdmin.setEmail(admin.getEmail());
         }
-        if (password != null && password.length() > 0 && !Objects.equals(admin.getPassword(), password)) {
-            admin.setPassword(password);
+        if (admin.getPassword() != null && admin.getPassword().length() > 0 && !Objects.equals(existingAdmin.getPassword(), admin.getPassword())) {
+            existingAdmin.setPassword(admin.getPassword());
         }
-        if (firstName != null && firstName.length() > 0 && !Objects.equals(admin.getFirstName(), firstName)) {
-            admin.setFirstName(firstName);
+        if (admin.getFirstName() != null && admin.getFirstName().length() > 0 && !Objects.equals(existingAdmin.getFirstName(), admin.getFirstName())) {
+            existingAdmin.setFirstName(admin.getFirstName());
         }
-        if (lastName != null && lastName.length() > 0 && !Objects.equals(admin.getLastName(), lastName)) {
-            admin.setLastName(lastName);
+        if (admin.getLastName() != null && admin.getLastName().length() > 0 && !Objects.equals(existingAdmin.getLastName(), admin.getLastName())) {
+            existingAdmin.setLastName(admin.getLastName());
         }
-        saveAdmin(admin);
-    }
-
-    @Override
-    public void saveEmployee(Employee employee) {
-        employeeRepository.save(employee);
     }
 
     @Override
@@ -105,18 +101,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteEmployee(Employee employee) {
-        employeeRepository.delete(employee);
-    }
-
-    @Override
-    public void deleteAdmin(Admin admin) {
-        adminRepository.delete(admin);
-    }
-
-    @Override
     public void deleteByUserId(Integer userId) {
-        adminRepository.deleteById(userId);
+        adminRepository.findByUserId(userId).ifPresent(adminRepository::delete);
     }
 
 }
