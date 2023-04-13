@@ -19,6 +19,11 @@ public class ProjectController {
 
     private final ProjectServiceImpl projectService;
 
+    /**
+     * Gets all the current projects stored in the system.
+     *
+     * @return The list of all existing projects.
+     */
     @GetMapping("")
     public ResponseEntity<List<Project>> getAll() {
         try {
@@ -33,7 +38,7 @@ public class ProjectController {
      * Creates a new Project.
      *
      * @param project The new project being created.
-     * @return The projects generated project ID.
+     * @return The projects generated projectId.
      */
     @PostMapping("/new")
     public ResponseEntity<Integer> createProject(@RequestBody Project project) {
@@ -75,7 +80,12 @@ public class ProjectController {
         }
     }
 
-    //api/v1/projects/5
+    /**
+     * Gets the project by its corresponding projectId.
+     *
+     * @param projectId The id of the project being retrieved.
+     * @return The project data.
+     */
     @GetMapping("/{projectId}")
     public ResponseEntity<Project> getProject(@PathVariable Integer projectId) {
         try {
@@ -86,7 +96,12 @@ public class ProjectController {
         }
     }
 
-    //api/v1/projects/user/1
+    /**
+     * Gets a list of all projects that for the specified clientId.
+     *
+     * @param clientId The id of the client that the project list is for.
+     * @return The list of all projects.
+     */
     @GetMapping("/user/{clientId}")
     public ResponseEntity<List<Project>> getProjectForUserId(@PathVariable Integer clientId) {
         try {

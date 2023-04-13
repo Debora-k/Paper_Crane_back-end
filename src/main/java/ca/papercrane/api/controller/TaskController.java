@@ -28,6 +28,12 @@ public class TaskController {
         System.out.println("Fake task created view at: http://localhost:8080/api/v1/projects/tasks/1");
     }
 
+    /**
+     * Gets a list of every task that belongs to a specific project id.
+     *
+     * @param projectId The id of the project that the list of tasks is for.
+     * @return The list.
+     */
     @GetMapping("/{projectId}/tasks")
     public ResponseEntity<List<Task>> taskByProjectId(@PathVariable Integer projectId) {
         try {
@@ -38,6 +44,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Gets a task by it's id value.
+     *
+     * @param taskId The task id to search for.
+     * @return The found task data.
+     */
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> taskByTaskId(@PathVariable Integer taskId) {
         try {
