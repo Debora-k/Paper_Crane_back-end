@@ -1,6 +1,7 @@
 package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.role.EmployeeType;
 import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.EmployeeRepository;
@@ -40,8 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllWithType(String type) {
-        return employeeRepository.findAll().stream().filter(e -> e.getType().toString().equalsIgnoreCase(type)).collect(Collectors.toList());
+    public List<Employee> getAllWithType(EmployeeType type) {
+        return employeeRepository.findAll().stream().filter(e -> e.getType().equals(type)).collect(Collectors.toList());
     }
 
     @Override

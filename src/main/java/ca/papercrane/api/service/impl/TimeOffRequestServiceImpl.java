@@ -70,7 +70,7 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
 
     @Override
     public void deleteByTimeOffId(Integer timeOffId) {
-        requestRepository.deleteById(timeOffId);
+        requestRepository.findByTimeOffId(timeOffId).ifPresent(requestRepository::delete);
     }
 
     @Override

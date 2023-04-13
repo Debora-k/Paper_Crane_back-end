@@ -2,6 +2,7 @@ package ca.papercrane.api.service.impl;
 
 import ca.papercrane.api.entity.Admin;
 import ca.papercrane.api.entity.Employee;
+import ca.papercrane.api.entity.role.EmployeeType;
 import ca.papercrane.api.entity.role.UserRole;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.repository.AdminRepository;
@@ -44,8 +45,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Admin> getAllWithType(String type) {
-        return adminRepository.findAll().stream().filter(e -> e.getType().toString().equalsIgnoreCase(type)).collect(Collectors.toList());
+    public List<Admin> getAllWithType(EmployeeType type) {
+        return adminRepository.findAll().stream().filter(e -> e.getType().equals(type)).collect(Collectors.toList());
     }
 
     @Override
