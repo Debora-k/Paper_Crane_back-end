@@ -86,6 +86,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public boolean exists(String email) {
+        return clientRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
     public Long totalCount() {
         return clientRepository.count();
     }

@@ -31,9 +31,8 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     }
 
     @Override
-    public Integer create(Integer projectId, String videoLink, String description) {
-        val newTraining = new VideoTraining(projectId, videoLink, description);
-        val savedTraining = trainingRepository.save(newTraining);
+    public Integer addNewTraining(VideoTraining training) {
+        val savedTraining = trainingRepository.save(training);
         return savedTraining.getVideoId();
     }
 
@@ -49,12 +48,6 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     @Override
     public void save(VideoTraining training) {
         trainingRepository.save(training);
-    }
-
-    @Override
-    public void saveByVideoId(Integer videoId) {
-        val videoTraining = getByVideoId(videoId);
-        save(videoTraining);
     }
 
     @Override

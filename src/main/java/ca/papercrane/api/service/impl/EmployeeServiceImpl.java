@@ -101,6 +101,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public boolean exists(String email) {
+        return employeeRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
     public Long totalCount() {
         return employeeRepository.count();
     }

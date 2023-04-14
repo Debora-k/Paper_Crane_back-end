@@ -97,15 +97,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void saveAdmin(Admin admin) {
-        adminRepository.save(admin);
-    }
-
-    @Override
     public void deleteByUserId(Integer userId) {
         adminRepository.findByUserId(userId).ifPresentOrElse(adminRepository::delete, () -> {
             throw new ResourceNotFoundException("Admin not found for ID: " + userId);
         });
+    }
+
+    @Override
+    public boolean exists(String email) {
+        return adminRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public Long totalCount() {
+        return adminRepository.count();
     }
 
 }

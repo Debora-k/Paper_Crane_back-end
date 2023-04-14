@@ -23,8 +23,10 @@ public interface AdminService {
 
     void update(Integer userId, Admin Admin);
 
-    void saveAdmin(Admin admin);
-
     void deleteByUserId(Integer userId);
+
+    boolean exists(String email);
+
+    Long totalCount();
 
 }

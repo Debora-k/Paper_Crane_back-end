@@ -20,6 +20,8 @@ public interface ClientService {
 
     void deleteByUserId(Integer userId);
 
+    boolean exists(String email);
+
     Long totalCount();
 
 }
