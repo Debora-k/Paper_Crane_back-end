@@ -72,7 +72,7 @@ public class ProjectController {
     @DeleteMapping("/delete/{projectId}")
     public ResponseEntity<HttpStatus> deleteProject(@PathVariable Integer projectId) {
         try {
-            projectService.delete(projectId);
+            projectService.deleteById(projectId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
