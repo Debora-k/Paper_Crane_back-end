@@ -27,6 +27,6 @@ public interface TimeOffRequestRepository extends JpaRepository<TimeOffRequest, 
      * @param userId The id of the user that the list of requests will belong to.
      * @return The found optional wrapped request list otherwise empty.
      */
-    Optional<List<TimeOffRequest>> findAllByUserId(Integer userId);
+    Optional<List<TimeOffRequest>> findAllByEmployeeId(Integer userId);
 
 }
