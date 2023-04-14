@@ -17,11 +17,9 @@ public interface TimeOffService {
 
     Integer create(TimeOffRequest request);
 
-    void update(TimeOffRequest request);
+    void update(Integer timeOffId, TimeOffRequest request);
 
     void save(TimeOffRequest request);
-
-    void delete(TimeOffRequest request);
 
     void deleteByTimeOffId(Integer timeOffId);
 

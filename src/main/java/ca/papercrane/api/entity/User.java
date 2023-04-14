@@ -1,7 +1,6 @@
 package ca.papercrane.api.entity;
 
 import ca.papercrane.api.entity.role.UserRole;
-import ca.papercrane.api.security.token.Token;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class User implements UserDetails {
     private Integer userId;
 
     /**
-     * The users role.
+     * The users' role.
      */
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -48,12 +47,6 @@ public class User implements UserDetails {
      */
     @Column(name = "password", length = 100, nullable = false)
     private String password;
-
-    /**
-     * The stored authentication tokens for the user.
-     */
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
     /**
      * Creates a new User.

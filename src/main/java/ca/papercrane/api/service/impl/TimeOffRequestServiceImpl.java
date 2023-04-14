@@ -49,8 +49,8 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void update(TimeOffRequest request) {
-        val existingRequest = getByTimeOffId(request.getTimeOffId());
+    public void update(Integer timeOffId, TimeOffRequest request) {
+        val existingRequest = getByTimeOffId(timeOffId);
         existingRequest.setReason(request.getReason());
         existingRequest.setStatus(request.getStatus());
         existingRequest.setStartDate(request.getStartDate());
@@ -64,13 +64,10 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void delete(TimeOffRequest request) {
-        requestRepository.delete(request);
-    }
-
-    @Override
     public void deleteByTimeOffId(Integer timeOffId) {
-        requestRepository.deleteById(timeOffId);
+        requestRepository.findByTimeOffId(timeOffId).ifPresentOrElse(requestRepository::delete, () -> {
+            throw new ResourceNotFoundException("Request not found for ID: " + timeOffId);
+        });
     }
 
     @Override

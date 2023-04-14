@@ -3,7 +3,6 @@ package ca.papercrane.api.controller;
 import ca.papercrane.api.exception.ResourceNotFoundException;
 import ca.papercrane.api.project.training.VideoTraining;
 import ca.papercrane.api.service.impl.VideoTrainingServiceImpl;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
@@ -20,12 +19,6 @@ public class VideoTrainingController {
 
     private final VideoTrainingServiceImpl trainingService;
 
-    @PostConstruct
-    public void init() {
-        createFakeVideoTraining();
-        System.out.println("Fake VideoTraining created view at: http://localhost:8080/api/v1/training/1");
-    }
-
     @GetMapping("")
     public ResponseEntity<List<VideoTraining>> getAll() {
         try {
@@ -33,6 +26,59 @@ public class VideoTrainingController {
             return new ResponseEntity<>(trainingList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Creates a new VideoTraining.
+     *
+     * @param training The new training being created.
+     * @return The trainings generated video id.
+     */
+    @PostMapping("/create")
+    public ResponseEntity<Integer> createTraining(@RequestBody VideoTraining training) {
+        try {
+            val createdTrainingId = trainingService.addNewTraining(training);
+            return new ResponseEntity<>(createdTrainingId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates an existing Video Training.
+     *
+     * @param videoId  The id of the existing training.
+     * @param training The new training details.
+     * @return The response of the request.
+     */
+    @PutMapping("/update/{requestId}")
+    public ResponseEntity<HttpStatus> updateTraining(@PathVariable Integer videoId, @RequestBody VideoTraining training) {
+        try {
+            trainingService.update(videoId, training);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes a VideoTraining entry by its corresponding videoId.
+     *
+     * @param videoId The id of the training being deleted.
+     * @return The response status.
+     */
+    @DeleteMapping("/delete/{requestId}")
+    public ResponseEntity<HttpStatus> deleteTraining(@PathVariable Integer videoId) {
+        try {
+            trainingService.deleteByVideoId(videoId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -44,17 +90,6 @@ public class VideoTrainingController {
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    /**
-     * Just to test for now.
-     */
-    public void createFakeVideoTraining() {
-        trainingService.create(1, "link", "text");
-        trainingService.create(2, "link", "text");
-        trainingService.create(3, "link", "text");
-        trainingService.create(1, "link", "text");
-        trainingService.create(1, "link", "text");
     }
 
 }

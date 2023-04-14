@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Represents an Employee's request for time off from work.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,23 +17,41 @@ import java.time.LocalDate;
 @Table(name = "time_off")
 public final class TimeOffRequest {
 
+    /**
+     * The time off request id.
+     */
     @Id
     @Column(name = "time_off_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer timeOffId;
 
+    /**
+     * The employeeId of the user that has requested the time off.
+     */
     @Column(name = "employee_id", nullable = false)
     private Integer employeeId;
 
+    /**
+     * The date in which the employee's time off begins.
+     */
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
+    /**
+     * The date in which the time off request ends and the employee returns to work.
+     */
     @Column(name = "end_date")
     private LocalDate endDate;
 
+    /**
+     * The current status of the request.
+     */
     @Column(name = "status", length = 1, nullable = false)
     private char status;
 
+    /**
+     * The reason as to why the request was created.
+     */
     @Column(name = "reason", length = 500, nullable = false)
     private String reason;
 

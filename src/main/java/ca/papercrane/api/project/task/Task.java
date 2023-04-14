@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "task")
 public final class Task {
 
     /**
@@ -30,6 +29,12 @@ public final class Task {
      */
     @Column(name = "project_id", nullable = false)
     private Integer projectId;
+
+    /**
+     * The name of the task.
+     */
+    @Column(name = "taskName", length = 25, nullable = false)
+    private String taskName;
 
     /**
      * A brief description of what the task entails.
@@ -50,6 +55,12 @@ public final class Task {
     private LocalDate startDate;
 
     /**
+     * The date the tak was completed on.
+     */
+    @Column(name = "date_completed")
+    private LocalDate dateCompleted;
+
+    /**
      * The amount of hours that the task is expected to take to reach completion.
      */
     @Column(name = "expected_work_hours", nullable = false)
@@ -59,16 +70,13 @@ public final class Task {
      * The current amount of hours dedicated to the task.
      */
     @Column(name = "progress_in_work_hours", columnDefinition = "double precision default 0")
-    private Double progressInWorkHours;
+    private Double progressInWorkHours = 0.0;
 
-    //@Column(name = "taskName", length = 50, nullable = false)
-    //private String taskName;
-
-    //@Column(name = "date_completed", nullable = false)
-    //private Date dateCompleted;
-
-    //@Column(name = "is_complete", nullable = false)
-    //private boolean isComplete;
+    /**
+     * Represents if the task has been completed yet or not.
+     */
+    @Column(name = "is_complete")
+    private boolean isComplete = false;
 
     /**
      * Creates a new Task.
@@ -79,12 +87,15 @@ public final class Task {
      * @param deadline          The deadline for the task.
      * @param expectedWorkHours The amount of hours expected to complete the task.
      */
-    public Task(Integer projectId, String description, LocalDate startDate, LocalDate deadline, Double expectedWorkHours) {
+    public Task(Integer projectId, String taskName, String description, LocalDate deadline, LocalDate startDate, Double expectedWorkHours) {
         this.projectId = projectId;
+        this.taskName = taskName;
         this.description = description;
         this.startDate = startDate;
         this.deadline = deadline;
         this.expectedWorkHours = expectedWorkHours;
+        this.progressInWorkHours = 0.0;
+        this.isComplete = false;
     }
 
 }

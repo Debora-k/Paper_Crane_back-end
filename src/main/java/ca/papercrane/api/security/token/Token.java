@@ -21,36 +21,40 @@ public final class Token {
      * The unique identifier of the token.
      */
     @Id
-    @GeneratedValue
-    private Integer id;
+    @Column(name = "token_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long tokenId;
 
     /**
      * The token string.
      */
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String token;
 
     /**
      * The type of the token.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TokenType tokenType;
 
     /**
      * Has the token been revoked.
      */
+    @Column(nullable = false)
     private boolean revoked;
 
     /**
      * Has the token has expired.
      */
+    @Column(nullable = false)
     private boolean expired;
 
     /**
      * The user associated with the token.
      */
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     /**
@@ -61,6 +65,9 @@ public final class Token {
         setExpired(true);
     }
 
+    /**
+     * The different types of tokens.
+     */
     public enum TokenType {
 
         BEARER

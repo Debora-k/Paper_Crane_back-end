@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,20 +27,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer create(Integer projectId, String description, LocalDate startDate, LocalDate deadline, Double expectedWorkHours) {
-        val createdTask = taskRepository.save(new Task(projectId, description, startDate, deadline, expectedWorkHours));
-        return createdTask.getTaskId();
-    }
-
-    @Override
-    public Integer create(Task task) {
+    public Integer addNewTask(Task task) {
         val createdTask = taskRepository.save(task);
         return createdTask.getTaskId();
     }
 
     @Override
-    public void update(Task task) {
-        val existingTask = getByTaskId(task.getTaskId());
+    public void update(Integer taskId, Task task) {
+        val existingTask = getByTaskId(taskId);
         existingTask.setDescription(task.getDescription());
         existingTask.setStartDate(task.getStartDate());
         existingTask.setDeadline(task.getDeadline());
@@ -55,13 +48,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void delete(Task task) {
-        taskRepository.delete(task);
-    }
-
-    @Override
     public void deleteByTaskId(Integer taskId) {
-        taskRepository.deleteById(taskId);
+        taskRepository.findByTaskId(taskId).ifPresentOrElse(taskRepository::delete, () -> {
+            throw new ResourceNotFoundException("Task not found for ID: " + taskId);
+        });
     }
 
     @Override

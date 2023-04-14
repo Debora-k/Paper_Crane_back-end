@@ -14,11 +14,11 @@ public interface ProjectService {
 
     Integer addNewProject(Project project);
 
-    Integer update(Project project);
+    void update(Integer projectId, Project project);
 
     void save(Project project);
 
-    void delete(Integer projectId);
+    void deleteById(Integer projectId);
 
     Long totalCount();
 
