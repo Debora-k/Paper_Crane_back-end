@@ -29,6 +29,59 @@ public class VideoTrainingController {
         }
     }
 
+    /**
+     * Creates a new VideoTraining.
+     *
+     * @param training The new training being created.
+     * @return The trainings generated video id.
+     */
+    @PostMapping("/create")
+    public ResponseEntity<Integer> createTraining(@RequestBody VideoTraining training) {
+        try {
+            val createdTrainingId = trainingService.addNewTraining(training);
+            return new ResponseEntity<>(createdTrainingId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates an existing Video Training.
+     *
+     * @param videoId  The id of the existing training.
+     * @param training The new training details.
+     * @return The response of the request.
+     */
+    @PutMapping("/update/{requestId}")
+    public ResponseEntity<HttpStatus> updateTraining(@PathVariable Integer videoId, @RequestBody VideoTraining training) {
+        try {
+            trainingService.update(videoId, training);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes a VideoTraining entry by its corresponding videoId.
+     *
+     * @param videoId The id of the training being deleted.
+     * @return The response status.
+     */
+    @DeleteMapping("/delete/{requestId}")
+    public ResponseEntity<HttpStatus> deleteTraining(@PathVariable Integer videoId) {
+        try {
+            trainingService.deleteByVideoId(videoId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<VideoTraining> getTraining(@PathVariable Integer id) {
         try {
