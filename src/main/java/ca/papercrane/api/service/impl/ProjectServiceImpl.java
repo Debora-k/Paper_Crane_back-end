@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllByClientId(Integer clientId) {
-        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with user id!"));
+        return projectRepository.findAllByClientId(clientId).orElseThrow(() -> new ResourceNotFoundException("No projects found with clientId!"));
     }
 
     @Override
@@ -46,13 +46,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer update(Project project) {
-        val existingProject = getByProjectId(project.getProjectId());
+    public void update(Integer projectId, Project project) {
+        val existingProject = getByProjectId(projectId);
         existingProject.setClientId(project.getClientId());
         existingProject.setProjectLeadId(project.getProjectLeadId());
         existingProject.setProjectDescription(project.getProjectDescription());
-        val savedProject = projectRepository.save(existingProject);
-        return savedProject.getProjectId();
+        projectRepository.save(existingProject);
     }
 
     @Override
@@ -61,12 +60,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Integer projectId) {
-        val exists = projectRepository.existsById(projectId);
-        if (!exists) {
-            throw new ResourceNotFoundException("Project with id: " + projectId + " does not exist.");
-        }
-        projectRepository.deleteById(projectId);
+    public void deleteById(Integer projectId) {
+        projectRepository.findByProjectId(projectId).ifPresentOrElse(projectRepository::delete, () -> {
+            throw new ResourceNotFoundException("Project not found for ID: " + projectId);
+        });
     }
 
     @Override

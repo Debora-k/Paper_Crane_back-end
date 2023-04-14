@@ -31,17 +31,17 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     }
 
     @Override
-    public Integer create(Integer projectId, String videoLink, String description) {
-        val newTraining = new VideoTraining(projectId, videoLink, description);
-        val savedTraining = trainingRepository.save(newTraining);
+    public Integer addNewTraining(VideoTraining training) {
+        val savedTraining = trainingRepository.save(training);
         return savedTraining.getVideoId();
     }
 
     @Override
-    public void update(Integer videoId, String description, String videoLink) {
+    public void update(Integer videoId, VideoTraining training) {
         val existingTraining = getByVideoId(videoId);
-        existingTraining.setDescription(description);
-        existingTraining.setVideoLink(videoLink);
+        existingTraining.setProjectId(training.getProjectId());
+        existingTraining.setDescription(training.getDescription());
+        existingTraining.setVideoLink(training.getVideoLink());
         save(existingTraining);
     }
 
@@ -51,15 +51,10 @@ public class VideoTrainingServiceImpl implements VideoTrainingService {
     }
 
     @Override
-    public void saveByVideoId(Integer videoId) {
-        val videoTraining = getByVideoId(videoId);
-        save(videoTraining);
-    }
-
-    @Override
     public void deleteByVideoId(Integer videoId) {
-        val videoTraining = getByVideoId(videoId);
-        trainingRepository.delete(videoTraining);
+        trainingRepository.findByVideoId(videoId).ifPresentOrElse(trainingRepository::delete, () -> {
+            throw new ResourceNotFoundException("Training not found for video ID: " + videoId);
+        });
     }
 
     @Override

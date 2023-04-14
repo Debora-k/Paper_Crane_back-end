@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents video training that may be required by certain projects.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,17 +15,29 @@ import lombok.NoArgsConstructor;
 @Table(name = "video_training")
 public final class VideoTraining {
 
+    /**
+     * The id of the video training.
+     */
     @Id
     @Column(name = "video_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer videoId;
 
+    /**
+     * The project id that the video training is for.
+     */
     @Column(name = "video_project_id", nullable = false)
     private Integer projectId;
 
+    /**
+     * The URL to view the video at.
+     */
     @Column(name = "video_link", nullable = false, length = 300)
     private String videoLink;
 
+    /**
+     * The brief description of what the training is for.
+     */
     @Column(name = "video_description", nullable = false, length = 500)
     private String description;
 

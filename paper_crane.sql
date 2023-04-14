@@ -14,6 +14,18 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 
+CREATE TABLE public.token (
+    token_id SERIAL PRIMARY KEY,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    tokenType VARCHAR(10) NOT NULL,
+    revoked BOOLEAN DEFAULT false,
+    expired BOOLEAN DEFAULT false,
+    user_id integer NOT NULL
+);
+
+ALTER TABLE public.token OWNER TO pc;
+
+
 CREATE TABLE public.client (
     user_id integer NOT NULL,
     client_name character varying(50) NOT NULL,
@@ -115,15 +127,15 @@ ALTER TABLE public.repository ALTER COLUMN repo_id ADD GENERATED ALWAYS AS IDENT
 
 
 CREATE TABLE public.task (
-    project_id integer NOT NULL,
     task_id integer NOT NULL,
+    project_id integer NOT NULL,
+    task_name character varying(25),
     description character varying(500) NOT NULL,
     deadline date NOT NULL,
     start_date date NOT NULL,
+    date_completed date,
     expected_work_hours double precision NOT NULL,
     progress_in_work_hours double precision DEFAULT 0,
-    task_name character varying(50),
-    date_completed date,
     is_complete boolean DEFAULT false
 );
 
@@ -273,3 +285,6 @@ ALTER TABLE ONLY public.proposals
 
 ALTER TABLE ONLY public.worked_hours
     ADD CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES public.employee(user_id);
+
+ALTER TABLE ONLY public.token
+    ADD CONSTRAINT token_fkey FOREIGN KEY (user_id) REFERENCES public.user_account(user_id) ON DELETE CASCADE;

@@ -1,8 +1,8 @@
 package ca.papercrane.api.entity.role;
 
-import java.util.Arrays;
-import java.util.Optional;
-
+/**
+ * Represents a users role within the system.
+ */
 public enum UserRole {
 
     USER,
@@ -13,10 +13,6 @@ public enum UserRole {
 
     ADMIN,
 
-    SUPER_ADMIN;
-
-    public static Optional<UserRole> fromString(String str) {
-        return Arrays.stream(values()).filter(role -> role.name().equalsIgnoreCase(str)).findFirst();
-    }
+    SUPER_ADMIN
 
 }

@@ -1,6 +1,6 @@
 package ca.papercrane.api.entity;
 
-import ca.papercrane.api.entity.role.EmployeeRole;
+import ca.papercrane.api.entity.role.EmployeeType;
 import ca.papercrane.api.entity.role.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,24 +37,7 @@ public class Employee extends User {
      * The role of the employee.
      */
     @Column(name = "type", length = 20, nullable = false)
-    private EmployeeRole type;
-
-    /**
-     * Creates a new Employee.
-     *
-     * @param email     The email address for the user.
-     * @param password  The password for the user.
-     * @param firstName The employees first name.
-     * @param lastName  The employees last name.
-     * @param userRole  The employees role in the system (Admin, SuperAdmin etc).
-     * @param type      The type of employee.
-     */
-    public Employee(String email, String password, String firstName, String lastName, UserRole userRole, EmployeeRole type) {
-        super(email, password, userRole);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.type = type;
-    }
+    private EmployeeType type;
 
     /**
      * Creates a new Employee.
@@ -65,7 +48,7 @@ public class Employee extends User {
      * @param lastName  The employees last name.
      * @param type      The type of employee.
      */
-    public Employee(String email, String password, String firstName, String lastName, EmployeeRole type) {
+    public Employee(String email, String password, String firstName, String lastName, EmployeeType type) {
         super(email, password, UserRole.EMPLOYEE);
         this.firstName = firstName;
         this.lastName = lastName;
