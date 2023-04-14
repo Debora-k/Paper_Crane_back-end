@@ -33,7 +33,7 @@ public class TimeOffRequestServiceImpl implements TimeOffService {
 
     @Override
     public List<TimeOffRequest> getAllByEmployeeId(Integer employeeId) throws ResourceNotFoundException {
-        return requestRepository.findAllByEmployeeId(employeeId).orElseThrow(() -> new ResourceNotFoundException("No TimeOffRequests found for id: " + employeeId));
+        return requestRepository.findAllByUserId(employeeId).orElseThrow(() -> new ResourceNotFoundException("No TimeOffRequests found for id: " + employeeId));
     }
 
     @Override
