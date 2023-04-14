@@ -27,4 +27,19 @@ public final class Admin extends Employee {
         this.setRole(UserRole.ADMIN);
     }
 
+    /**
+     * Creates a new Admin.
+     *
+     * @param userRole  The users role within the system.
+     * @param email     The email for the user.
+     * @param password  The password for the user.
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @param type      The type of employee category this admin falls under.
+     */
+    public Admin(UserRole userRole, String email, String password, String firstName, String lastName, EmployeeType type) {
+        super(email, password, firstName, lastName, type);
+        this.setRole(userRole);
+    }
+
 }
