@@ -23,8 +23,12 @@ public class EmployeeController {
 
     @PostConstruct
     public void init() {
-        employeeService.addNewEmployee(new Employee("employee1@papercrane.ca", "password", "Employee", "#1", EmployeeType.DESIGNER));
-        employeeService.addNewEmployee(new Employee("employee2@papercrane.ca", "password", "Employee", "#2", EmployeeType.DEVELOPER));
+        if (!employeeService.exists("employee1@papercrane.ca")) {
+            employeeService.addNewEmployee(new Employee("employee1@papercrane.ca", "password", "Employee", "#1", EmployeeType.DESIGNER));
+        }
+        if (!employeeService.exists("employee2@papercrane.ca")) {
+            employeeService.addNewEmployee(new Employee("employee2@papercrane.ca", "password", "Employee", "#2", EmployeeType.DEVELOPER));
+        }
     }
 
     /**

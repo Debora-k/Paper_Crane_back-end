@@ -22,7 +22,9 @@ public class ClientController {
 
     @PostConstruct
     public void init() {
-        clientService.addNewClient(new Client("client@papercrane.ca", "password", "Client", "Google"));
+        if (!clientService.exists("client@papercrane.ca")) {
+            clientService.addNewClient(new Client("client@papercrane.ca", "password", "Client", "Google"));
+        }
     }
 
     /**

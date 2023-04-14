@@ -23,7 +23,9 @@ public class AdminController {
 
     @PostConstruct
     public void init() {
-        adminService.addNewAdmin(new Admin("admin@papercrane.ca", "password", "John", "Doe", EmployeeType.DEVELOPER));
+        if (!adminService.exists("admin@papercrane.ca")) {
+            adminService.addNewAdmin(new Admin("admin@papercrane.ca", "password", "John", "Doe", EmployeeType.DEVELOPER));
+        }
     }
 
     /**
