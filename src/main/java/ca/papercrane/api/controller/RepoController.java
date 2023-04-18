@@ -73,7 +73,7 @@ public class RepoController {
      * Creates a new folder to disk
      *
      * @param folderName The name of the new folder, by default if name is not provided it defaults to "New Folder"
-     * @param folderPath The path of the folder
+     * @param folderPath The path of the folder ex: Project/{folder name}
      */
     @PostMapping("/api/createFolder")
     public void createFolder(@RequestParam(value = "name", defaultValue = "New Folder") String folderName, @RequestParam("folderPath") String folderPath) {
